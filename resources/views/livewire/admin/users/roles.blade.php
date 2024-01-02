@@ -1,0 +1,48 @@
+<x-app-table name=" List of Roles ">
+
+  <x-slot name="header">
+  
+<x-table-button icon="fa-solid fa-circle-plus" target="addRoleModal" />
+  </x-slot>
+  
+  <x-slot name="head">
+    
+    <th class="col-3">ID</th>
+    <th class="col-4"> Name</th>
+    <th class="col-4"> guard name </th>
+    <th class="col-3"> Actions </th>
+  </x-slot>
+  
+  <x-slot name="body">
+    @foreach($roles as $role)
+                          <tr>
+                          <td>{{$role->id}}</td>
+                          <td>{{$role->name}}</td>
+                          <td>{{$role->guard_name}}</td>
+                  
+                          <td> 
+                            <div>
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Actions
+                              </button>
+                              <div class="dropdown-menu">
+                              <li> <a data-bs-toggle="modal" data-bs-target="#editRoleModal" type="button" wire:click='edit({{$role->id}})' class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Edit Role</a> </li> 
+                               <li> <a data-bs-toggle="modal" data-bs-target="#deleteRoleModel" type="button"   class="dropdown-item" wire:click='deleteID({{$role->id}})'> <i class="fa-solid fa-trash danger"></i> Remove Role</a></li>       
+                               <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#assignPermission" type="button" wire:click='RoleID({{$role->id}})' >  <i class="fa-solid fa-user-lock"></i> Assign Permissions </a></li>
+                               <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#removeRole" type="button" wire:click='RoleID({{$role->id}})' >  <i class="fa-solid fa-trash danger"></i> Remove Roles </a></li>
+                              </div>
+                            </div>
+  
+                          </td>  
+                            </tr> 
+                        @endforeach  
+  </x-slot>
+  
+  <x-slot name="footer">
+    @include('livewire.admin.users.rolesModal')
+    {{ $roles->links() }} 
+  
+  </x-slot>
+  </x-app-table>
+  
+

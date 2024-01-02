@@ -1,0 +1,1 @@
+<img src="{{asset('assets/dist/img/log.png')}}" alt="logo">

@@ -5,8 +5,6 @@
 <script src="{{asset('assets/dist/js/adminlte.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
 @livewireScripts
-@livewireCalendarScripts
-
 <script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script> 
 <script src="{{asset('assets/dist/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/dist/bootstrap-5.3.0-dist/js/bootstrap.min.js')}}"></script>

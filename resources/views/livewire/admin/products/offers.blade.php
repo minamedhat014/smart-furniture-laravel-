@@ -62,7 +62,6 @@
                 Actions
               </button>
               <div class="dropdown-menu">
-                <li><a href="{{route('offerDetails',['id'=>$row->id])}}" class="dropdown-item" type="button" target="_blank"> <i class="fa-solid fa-add"></i> add offer Details </a></li>
                 <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editoffersModel" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
                 <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#deleteoffersModel" wire:click="deleteID({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
                 <li><a data-bs-toggle="modal" class="dropdown-item" wire:click="launch({{$row->id}})" type="button"  ><i class="fa-solid fa-play"></i> activate offer </a> </li>

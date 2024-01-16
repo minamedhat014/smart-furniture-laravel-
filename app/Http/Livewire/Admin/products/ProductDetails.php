@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Rules\Uppercase;
 use Livewire\WithPagination;
 use App\Models\productDetail;
+use Livewire\WithFileUploads;
 use App\Models\ProductComponent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class productDetails extends Component
 {
 
     use WithPagination;
+    use WithFileUploads;
     protected $paginationTheme = 'bootstrap';
 
 public $search;
@@ -35,11 +37,12 @@ public $item_color;
 public $item_material;
 public $item_hieght;
 public $item_width;
+public $item_length;
 public $item_out_depth;
 public $item_inner_depth;
 public $component_name;
 public $remarks;
-public $quantity;
+public $quantity =1;
 public $product_detail_id;
 public $name;
 public $selected =[];
@@ -52,6 +55,9 @@ public $dealler_margin;
 public $special_discount_entered;
 public $special_discount;
 public $end_after_discount;
+public $photos=[];
+public $status;
+public $available_date;
 
 
  public function mount(){
@@ -72,8 +78,10 @@ protected function rules()
             'component_name' => 'required',
             'quantity'=>'required|int|max:6',
             'item_color' => 'required',
+            'available_date' => 'date',
             'item_hieght'=>'required|numeric|max:350',
             'item_width'=>'required|numeric|max:400',
+            'item_length'=>'required|numeric|max:400',
             'item_out_depth'=>'required|numeric|max:250',
             'item_inner_depth'=>'required|numeric|max:250',
             'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
@@ -83,6 +91,7 @@ protected function rules()
             'special_discount' => 'required|numeric|between:0,99.99',
             'end_after_discount'=>'required',
             'dealler_margin'=>'required|numeric|between:0,99.99',   
+            'photos.*' => 'nullable|image|mimes:jpeg,png,pdf|max:1024', // 1MB Max
                     ];
 }
 
@@ -98,6 +107,28 @@ public function closeModal()
         $this->reset('dealler_margin','end_after_discount','special_discount','normal_discount','product_detail_id','end_before_discount','dealler_price','item_code','descripation','component_name','item_color','quantity','item_hieght','item_width','item_out_depth','item_inner_depth','remarks');
     }
 
+     
+public function save()
+{
+try {
+    foreach ($this->photos as $photo) {
+        $photo->store('products');
+}} catch (\Exception $e) {
+    session()->flash('error',$e);
+      };
+}
+
+public function removePhoto($index)
+{
+    // Remove the photo at the specified index
+    unset($this->photos[$index]);
+
+    // Optionally, you might want to re-index the array
+    $this->photos = array_values($this->photos);
+}
+
+
+
 public function store(){
     DB::beginTransaction();
     try{
@@ -111,12 +142,16 @@ public function store(){
      'quantity'=>$validatedData['quantity'],
      'item_hieght'=>$validatedData['item_hieght'],
      'item_width'=>$validatedData['item_width'],
+     'item_length'=>$validatedData['item_length'],
+     'available_date'=>$validatedData['available_date'],
      'item_out_depth'=>$validatedData['item_out_depth'],
      'item_inner_depth'=>$validatedData['item_inner_depth'],
      'remarks'=>$validatedData['remarks'],
      'created_by'=> $this->user,
         ]);
-
+        foreach($this->photos as $photo){
+            $item->addMedia($photo)->toMediaCollection('productItems'); 
+     }
     $this->product_detail_id =$item->id;
 
      Price::create([
@@ -132,7 +167,7 @@ public function store(){
 
         session()->flash('success','Done sucessfully' ); 
         $this->emit('closeModal');
-        $this->reset('dealler_margin','end_after_discount','special_discount','normal_discount','product_detail_id','end_before_discount','dealler_price','item_code','descripation','component_name','item_color','quantity','item_hieght','item_width','item_out_depth','item_inner_depth','remarks');
+        $this->reset('dealler_margin','end_after_discount','special_discount','normal_discount','product_detail_id','end_before_discount','dealler_price','item_code','descripation','component_name','item_color','quantity','item_hieght','item_width','item_out_depth','item_inner_depth','remarks','available_date');
         $this->emit('closeModal');
       DB::commit();
     }catch(\Exception $e){
@@ -155,9 +190,11 @@ public function store(){
      $this->item_color =$edit->item_color;
      $this->item_hieght =$edit->item_hieght;
      $this->item_width =$edit->item_width;
+     $this->item_length =$edit->item_length;
      $this->item_out_depth =$edit->item_out_depth;
      $this->item_inner_depth =$edit->item_inner_depth;
      $this->remarks =$edit->remarks;
+     $this->available_date=$edit->available_date;
      $this->dealler_price =$edit->price->dealler_price;
      $this->end_before_discount =$edit->price->end_before_discount;
      $this->special_discount =$edit->price->special_discount;
@@ -181,12 +218,19 @@ public function update(){
          'item_color'=>$validatedData['item_color'],
          'quantity'=>$validatedData['quantity'],
          'item_hieght'=>$validatedData['item_hieght'],
+         'item_length'=>$validatedData['item_length'],
          'item_width'=>$validatedData['item_width'],
+         'available_date'=>$validatedData['available_date'],
          'item_out_depth'=>$validatedData['item_out_depth'],
          'item_inner_depth'=>$validatedData['item_inner_depth'],
          'remarks'=>$validatedData['remarks'],
          'updated_by'=> $this->user,
       ]);
+      if(count($this->photos) > 0){
+        $item->clearMediaCollection('productItems');
+        foreach($this->photos as $photo){
+            $item->addMedia($photo)->toMediaCollection('productItems'); 
+        };}
 
       $price=Price::where('product_detail_id',$this-> product_detail_id)->first();
       $price->update([
@@ -205,7 +249,12 @@ public function update(){
            if($product->status==2){
            Notification::send($user, new ProductPriceNotification($product));
            }
-           $this->reset('dealler_margin','end_after_discount','special_discount','normal_discount','product_detail_id','end_before_discount','dealler_price','item_code','descripation','component_name','item_color','quantity','item_hieght','item_width','item_out_depth','item_inner_depth','remarks');
+           $this->reset('dealler_margin','end_after_discount','special_discount',
+           'normal_discount','product_detail_id','end_before_discount','dealler_price',
+           'item_code','descripation','component_name','item_color','quantity','item_hieght',
+           'item_width','item_out_depth','item_inner_depth','remarks','photos','available_date'
+        
+        );
       session()->flash('success','done successfully');
       $this->emit('closeModal');
       DB::commit();  
@@ -215,9 +264,6 @@ public function update(){
      }  
      }
  
-      
- 
-
  public function deleteID(int $id){
     $this->product_detail_id= $id;
     }

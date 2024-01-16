@@ -7,7 +7,7 @@
     <x-form-select  value="id"  display="name" :options="$sources" fname="Product source" bname="source_id" icon="fa-brands fa-sourcetree" />
     <x-form-multi-select  value="name"  display="name" :options="$Materials" fname="Materials" bname="item_material" icon="fa-solid fa-cubes-stacked" />
     <x-form-input  type="text" fname="Descripation" bname="descripation" icon="fa-solid fa-pen" /> 
-    <x-form-input  type="date" fname="Available date" bname="available_date" icon="fa-solid fa-calendar-days" />
+   
 
     @if($type_id ==1 || $type_id ==5 || $type_id ==6)
     <div class="row justify-content-around col-12" >

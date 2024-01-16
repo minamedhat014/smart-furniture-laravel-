@@ -72,7 +72,6 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
         Route::get('product_update',[productUpdateController::class,'index'])->name('productUpdate.index');
         Route::get('update_documents/{id}',[productUpdateController::class,'images'])->name('productUpdate.docs');
         Route::get('offers',[offersController::class,'index'])->name('offers.index');
-        Route::get('offersDetails/{id}',[OfferDetailsController::class,'index'])->name('offerDetails');
         Route::get('installments',[InstallmentDetailsController::class,'index'])->name('installments.index');
         Route::get('installmentsDetails/{id}',[InstallmentDetailsController::class,'details'])->name('installmentDetails');
       

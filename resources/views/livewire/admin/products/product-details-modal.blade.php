@@ -9,15 +9,18 @@
     <x-form-input  type="text" fname="Item Color" bname="item_color" icon="fa-solid fa-brush" />
     <x-form-input  type="text" fname="Quantity" bname="quantity" icon="fa-solid fa-boxes-stacked" />
     <x-form-input  type="text" fname="Item Width" bname="item_width" icon="fa-solid fa-left-right" />
+    <x-form-input  type="text" fname="Item Length" bname="item_length" icon="fa-solid fa-up-long" />
     <x-form-input  type="text" fname="Item Hieght" bname="item_hieght" icon="fa-solid fa-up-down" />
     <x-form-input  type="text" fname="Item outer Depth" bname="item_out_depth" icon="fa-solid fa-up-long" />
     <x-form-input  type="text" fname="Item inner Depth" bname="item_inner_depth" icon="fa-solid fa-up-long" />
     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
+    <x-form-input  type="date" fname="Available date" bname="available_date" icon="fa-solid fa-calendar-days" />
     <x-form-input  type="text" fname="Dealler Price" bname="dealler_price" icon="fa-solid fa-money-bill-wave" /> 
     <x-form-input  type="text" fname="Dealler margin" bname="entered_margin" icon="fa-solid fa-percent" /> 
     <x-form-input  type="text" fname="Enduser price before Discount" bname="end_before_discount" icon="fa-solid fa-money-bill-wave" />
     <x-form-input  type="text" fname="Special discount" bname="special_discount_entered" icon="fa-solid fa-percent" />
     <x-form-input  type="text" fname="Enduser price" bname="end_after_discount" icon="fa-solid fa-tag" />
+
   </x-slot>
 </x-app-modal>
 
@@ -32,15 +35,29 @@
     <x-form-input  type="text" fname="Item Color" bname="item_color" icon="fa-solid fa-brush" />
     <x-form-input  type="text" fname="Quantity" bname="quantity" icon="fa-solid fa-boxes-stacked" />
     <x-form-input  type="text" fname="Item Width" bname="item_width" icon="fa-solid fa-left-right" />
+    <x-form-input  type="text" fname="Item Length" bname="item_length" icon="fa-solid fa-up-long" />
     <x-form-input  type="text" fname="Item Hieght" bname="item_hieght" icon="fa-solid fa-up-down" />
     <x-form-input  type="text" fname="Item outer Depth" bname="item_out_depth" icon="fa-solid fa-up-long" />
     <x-form-input  type="text" fname="Item inner Depth" bname="item_inner_depth" icon="fa-solid fa-up-long" />
     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
+    <x-form-input  type="date" fname="Available date" bname="available_date" icon="fa-solid fa-calendar-days" />
     <x-form-input  type="text" fname="Dealler Price" bname="dealler_price" icon="fa-solid fa-money-bill-wave" /> 
     <x-form-input  type="text" fname="Dealler Margin " bname="entered_margin" icon="fa-solid fa-percent" /> 
     <x-form-input  type="text" fname="Enduser price before Discount" bname="end_before_discount" icon="fa-solid fa-money-bill-wave" />
     <x-form-input  type="text" fname="Special discount" bname="special_discount_entered" icon="fa-solid fa-percent" />
     <x-form-input  type="text" fname="Enduser price" bname="end_after_discount" icon="fa-solid fa-tag" />
+
+    {{-- <x-form-photo fname="Images"  bname="photos">
+      <x-slot name="preview">
+        @if ($photos)
+        @foreach($photos as  $photo)
+        <img src="{{ $photo->temporaryUrl() }}" width="100px" height="100px">
+        <button wire:click="removePhoto({{ $loop->index }})" class="btn btn-outline-light"><i class="fa-solid fa-circle-xmark" style="color: #a80505;"></i></button>
+        @endforeach
+       @endif
+      </x-slot>
+      </x-form-photo> --}}
+      
   </x-slot>
 </x-app-modal>
 

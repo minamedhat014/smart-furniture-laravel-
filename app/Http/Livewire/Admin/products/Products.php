@@ -49,8 +49,7 @@ class Products extends Component
     ,$type_id
     ,$source_id,
     $descripation,
-    $available_date
-    ,$divisablity ,
+    $divisablity ,
     $edit_id ,$delete_id,
     $product_id;
     public $Standard_ability;
@@ -59,14 +58,14 @@ class Products extends Component
     public $sponge ;
     public $sponge_thickness;
     public $photos =[];
-   public $types ;
-   public $sources ;
-   public $Materials;
-   public $startDate;
-   public $endDate;   
-   public $chair_added;   
-   public $coshin_number;      
-   public $coshin_color;  
+    public $types ;
+    public $sources ;
+    public $Materials;
+    public $startDate;
+    public $endDate;   
+    public $chair_added;   
+    public $coshin_number;      
+    public $coshin_color;  
   
   
 
@@ -112,7 +111,6 @@ protected function rules()
         'type_id' => 'required',
         'source_id' => 'required',
         'descripation'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
-        'available_date'=>'date',
         'divisablity'=>'required',
         'item_material'=>'required:max:250',
         'fabric'=>'nullable|max:250|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
@@ -162,7 +160,6 @@ public function removePhoto($index)
   'source_id'=>$validatedData['source_id'],
   'descripation'=>$validatedData['descripation'],
   'item_material'=>$validatedData['item_material'],
-  'available_date'=>$validatedData['available_date'],
   'chair_added'=>$validatedData['chair_added'],
   'divisablity'=>$validatedData['divisablity'],
   'Standard_ability'=>$validatedData['Standard_ability'],
@@ -177,7 +174,7 @@ public function removePhoto($index)
             $product->addMedia($photo)->toMediaCollection('products'); 
      }
      DB::commit();
-    $this->reset(['name','type_id','source_id','descripation','item_material','available_date',
+    $this->reset(['name','type_id','source_id','descripation','item_material',
      'divisablity','fabric','sponge','sponge_thickness','photos','Standard_ability','chair_added','coshin_color','coshin_number',
   ]);
   $this->emit('closeModal');
@@ -199,7 +196,6 @@ public function removePhoto($index)
   $this->descripation =$edit->descripation ;
   $this->item_material = $edit->item_material;
   $this->chair_added = $edit->chair_added;
-  $this->available_date =$edit->available_date;
   $this->divisablity =$edit->divisablity;
   $this->fabric =$edit->fabric;
   $this->sponge =$edit->sponge;
@@ -224,7 +220,6 @@ public function removePhoto($index)
      'source_id'=>$validatedData['source_id'],
      'descripation'=>$validatedData['descripation'],
      'item_material'=>$validatedData['item_material'],
-     'available_date'=>$validatedData['available_date'],
      'divisablity'=>$validatedData['divisablity'],
      'Standard_ability'=>$validatedData['Standard_ability'],
      'chair_added'=>$validatedData['chair_added'],
@@ -240,7 +235,7 @@ public function removePhoto($index)
         foreach($this->photos as $photo){
             $product->addMedia($photo)->toMediaCollection('products'); 
         };}
-     $this->reset(['name','type_id','source_id','descripation','item_material','available_date',
+     $this->reset(['name','type_id','source_id','descripation','item_material',
      'divisablity','fabric','sponge','sponge_thickness','photos','Standard_ability','chair_added','coshin_number','coshin_color',
   ]);
   $this->emit('closeModal');

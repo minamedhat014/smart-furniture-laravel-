@@ -14,7 +14,7 @@ class offertypeSeeder extends Seeder
     public function run(): void
     {
         DB::table('offers_type')->delete();
-        $data =['extra discount','cash back','outleet', 'discount on collection' ,'extra product','gift','special discount','extra service','get points','sale','special day'];
+        $data =['extra discount','cash back','outlet','extra product','gift','extra service','get points','special day'];
      foreach ($data as $row){
    DB::table('offers_type')->insert(['name'=> $row]);}
     }

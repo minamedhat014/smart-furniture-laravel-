@@ -18,8 +18,6 @@
     <th scope='col'> Source</th>
     <th scope='col-2'> image </th>
     <th scope='col-2'> product Materials</th>
-    <th scope='col-2'> Available Date</th>
-    <th scope='col'> availability </th>
     <th scope='col-2'> Poduct status</th>
     <th scope='col'> Created by</th>
     <th scope='col-2'> Actions </th>
@@ -50,12 +48,6 @@
     </span>
     @endforeach
     </td>
-    <td>{{$row->available_date}}</td>
-    @if($row->available_date > date('Y-m-d') )
-    <td> NO </td>
-    @else
-    <td> Yes </td>
-    @endif
     <td>
     @if($row->status == 3)
     <span class="badge bg-danger"> Cancelled</span>
@@ -76,7 +68,6 @@
         <div class="dropdown-menu">
           <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editProductsModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
           <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#deleteProductsModel" type="button"  wire:click='deleteID({{$row->id}})'> <i class="fa-solid fa-trash danger"></i> Remove</a></li>
-          <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#ProductDetailsAddModel" wire:click="$emit('gettingProductID',{{$row->id}},'{{$row->type->id}}')" type="button"  target="_blank"> <i class="fa-solid fa-file-circle-plus"></i> Add item </a></li>
           <li><a href="{{route('itemsDetails',['id'=>$row->id,'type'=>$row->type->id])}}" wire:navigate  class="dropdown-item" type="button" > <i class="fa-solid fa-circle-plus"></i> Product items </a></li>
           <li><a class="dropdown-item" href="{{route('productReview',['id'=>$row->id])}}" type="button" > <i class="fa-solid fa-star"></i> Rate this product</a></li>
           <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#ProductDomModel"type="button"wire:click="$emit('getProductId',{{$row->id}})" > <i class="fa-solid fa-eye"></i> product details </a></li>

@@ -11,16 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offers', function (Blueprint $table) {
+        Schema::create('discountables', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->foreignId('type_id')->constrained('offers_type')->onDelete('cascade')->onDelete('cascade');
-            $table->text('product_types');
-            $table->decimal('discount_percentage')->nullable();
-            $table->tinyInteger('status')->default(1);
-            $table->string('requirments')->nullable();
+            $table->morphs('model');
+            $table->decimal('discount'); 
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offers');
+        Schema::dropIfExists('discountables');
     }
 };

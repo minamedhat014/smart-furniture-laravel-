@@ -7,9 +7,10 @@ use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class productDetail extends Model implements HasMedia
 {
@@ -30,7 +31,19 @@ class productDetail extends Model implements HasMedia
     {
         return $this->HasOne(Price::class,'product_detail_id');
     }
-
+    
+    public function registerMediaCollections(): void
+    {
+            $this
+            ->addMediaCollection('productItems')
+            ->registerMediaConversions(function (Media $media) {
+                $this
+                    ->addMediaConversion('thumb')
+                    ->width(100)
+                    ->height(100);
+            });
+    
+    }
     
 
 }

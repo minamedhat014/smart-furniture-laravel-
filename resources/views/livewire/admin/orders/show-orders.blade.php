@@ -63,7 +63,7 @@
      @endif
      <td>
           <div>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
            Actions
             </button>
             <div class="dropdown-menu">

@@ -3,23 +3,32 @@
 
 <x-app-modal id="addRoleModal" type="store" title=" Add Roles ">
   <x-slot name="inputs">
-    <x-form-input type="text" fname=" Role Name"  bname="name" icon="fa-solid fa-circle-user"/>
+    <x-form-input type="text" fname=" Role Name" class="req"  bname="name" icon="fa-solid fa-circle-user"/>
   </x-slot>
 </x-app-modal>
 
 <!--  Edit Modal -->
 <x-app-modal id="editRoleModal" type="update" title=" Edit Roles ">
   <x-slot name="inputs">
-    <x-form-input type="text" fname=" Role Name"  bname="name" icon="fa-solid fa-circle-user"/>
+    <x-form-input type="text" fname=" Role Name" class="req"   bname="name" icon="fa-solid fa-circle-user"/>
   </x-slot>
 </x-app-modal>
 
 <!--  assign Modal -->
-<x-app-modal id="assignPermission" type="assignPermissions" title="Assign Roles  ">
+<x-app-modal id="assignPermission" type="assignPermissions" title="Assign permissions to this Role">
   <x-slot name="inputs">
-    <x-form-multi-select  display="name"  :options="$permissions" fname="Permissions" value="name" bname="assigned_Permissions" icon="fa-solid fa-user-lockr"/>
+    <x-form-checkbox  :options="$permissions"  class="req" display="name" fname="Permissions" icon="fa-solid fa-user-lockr"/>
   </x-slot>
 </x-app-modal>
+
+
+<!--  assign Modal -->
+<x-app-modal id="syncPermission" type="syncPermissions" title="sync permissions to this Role">
+  <x-slot name="inputs">
+    <x-form-checkbox  :options="$permissions"  class="req" display="name" fname="Permissions" icon="fa-solid fa-user-lockr"/>
+  </x-slot>
+</x-app-modal>
+
 
 
 <!--  remove permissions  Modal -->

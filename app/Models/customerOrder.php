@@ -16,7 +16,7 @@ class customerOrder extends Model  implements HasMedia
 {
     use HasFactory,LogsActivity,InteractsWithMedia;
     protected $table = 'customer_orders';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
 
     public function store () :BelongsTo{

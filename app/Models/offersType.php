@@ -10,7 +10,7 @@ class offersType extends Model
 {
     use HasFactory;
     protected $table='offers_type';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
     public function offer(): BelongsTo
     {

@@ -10,5 +10,5 @@ class MediaActivity extends Model
     use HasFactory;
 
     protected $table='media_activities';
-    protected  $guarded= [];
+    protected $guarded =['id'];
 }

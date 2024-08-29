@@ -11,7 +11,7 @@ class showroomProduct extends Model
     use HasFactory;
 
     protected $table='showroom_products';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
     
     public function product(): BelongsTo

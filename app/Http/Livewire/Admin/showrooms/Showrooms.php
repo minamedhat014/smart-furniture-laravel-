@@ -6,6 +6,7 @@ use toastr;
 use App\Models\Company;
 use Livewire\Component;
 use App\Models\showroom;
+use App\Traits\HasTable;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +15,8 @@ class Showrooms extends Component
 {
 
 
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
+use HasTable;
 
-
-    public $search;
-    public $perpage =5;
-    public $sortfilter ='desc';
     public $name;
     public $working_from;
     public $working_to;
@@ -30,20 +26,21 @@ class Showrooms extends Component
     public $status;
     public $created_by;
     public $updated_by;
-    public $user;
     public $edit_id;
     public $delete_id;
     public $showroom_id;
-    public $user_company_id;
-  
-  
-   
+    protected $write_permission="write showroom";
+    public $dists;
   
 
      public function mount()
      {
-         $this->user= Auth::user()->name;  
-         $this->user_company_id= Auth::user()->company_id;    
+         $this->check_permission('view showrooms');
+         if(userFactory()){
+            $this->dists = Company::all();
+        }else{
+            $this->dists = Company::where('id',authedCompany())->get();
+        } 
      }
       
 
@@ -66,22 +63,13 @@ protected function rules()
 }
 
  
-public function updated($feilds)
-{
-     $this->validateOnly($feilds); }
 
-public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-    
-
-     protected $queryString = ['search'];
 
  public function store(){
-  
-             $validatedData = $this->validate();
       try{
+        
+        $this->check_permission($this->write_permission);
+        $validatedData = $this->validate();
         showroom::create([
   'name'=>$validatedData['name'],
   'working_from'=>$validatedData['working_from'],
@@ -89,15 +77,12 @@ public function updatingSearch()
   'location'=>$validatedData['location'],
   'phone'=>$validatedData['phone'],
   'company_id'=>$validatedData['company_id'],
-  'created_by'=> $this->user,
+  'created_by'=> authName(),
          ]);
-
-         $this->reset(['name','working_from','working_to','location','phone','company_id']);
-       session()->flash('success', 'Done sucessfully'); 
-       $this->emit('closeModal');
+      $this->success();
         }catch (\Exception $e) {
 
-            session()->flash('error', $e); 
+            errorMessage($e);
        };   
 }
 
@@ -120,8 +105,8 @@ public function updatingSearch()
  }
 
  public function update(){
-
     try{
+        $this->check_permission($this->write_permission);
      $validatedData = $this->validate();
      $showrooms=showroom::FindOrFail($this->edit_id);
      $showrooms->update([
@@ -131,13 +116,11 @@ public function updatingSearch()
      'location'=>$validatedData['location'],
      'phone'=>$validatedData['phone'],
      'company_id'=>$validatedData['company_id'],
-     'updated_by'=>$this->user,
+     'updated_by'=>authName(),
      ]);
-     $this->reset(['name','working_from','working_to','location','phone','company_id']);
-     $this->emit('closeModal');
-     session()->flash('success', 'Done sucessfully');  
+    $this->success();
     }catch(\Exception $e){
-        session()->flash('error', $e); 
+       errorMessage($e);
     }
 
  }
@@ -150,13 +133,14 @@ public function getshow_id(int $id){
 
   public function close(){ 
      try{
+        $this->check_permission($this->write_permission);
       showroom::where('id', $this->showroom_id)->update([
       'status'=> 0,
-      'updated_by'=>$this->user,
+      'updated_by'=>authName(),
       ]);
-      session()->flash('success', 'Done sucessfully'); 
+      successMessage();
      }catch(\Exception $e){
-        session()->flash('error', $e); 
+       errorMessage($e);
      }  
      }
 
@@ -171,10 +155,11 @@ public function getshow_id(int $id){
 
   public function delete(){
     try {
+        $this->check_permission($this->write_permission);
     showroom::FindOrFail($this->delete_id)->delete();
-    session()->flash('success', 'Done sucessfully'); 
+   successMessage();
     }catch (\Exception $e){
-        session()->flash('error', $e); 
+       errorMessage($e);
    }
 }
 
@@ -183,20 +168,14 @@ public function getshow_id(int $id){
 
     public function render()
     {
-        if($this->user_company_id ===1){
-            $dists = Company::all();
-        }else{
-            $dists = Company::where('id','=',$this->user_company_id)->get();
-        }
-
-
-    if($this->user_company_id ===1){
+        
+    if(userFactory()){
     $data =showroom::with('company')->where('name', 'like', '%'.$this->search.'%')->orderBy('id', $this->sortfilter)->paginate($this->perpage);
     }else{
         $data =showroom::with('company')
-        ->where('company_id',$this->user_company_id)
+        ->where('company_id',authedCompany())
         ->where('name', 'like', '%'.$this->search.'%')->orderBy('id', $this->sortfilter)->paginate($this->perpage);  
     }
-        return view('livewire.admin.showrooms.showrooms',compact('data','dists'));
+        return view('livewire.admin.showrooms.showrooms',compact('data'));
     }
 }

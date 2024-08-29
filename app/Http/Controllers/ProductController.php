@@ -21,16 +21,11 @@ class ProductController extends Controller
 
 
 
-
-    public function form(){
-        return view('admin.products.productForm');
-    }
-
     public function pdf($id){   
     $products =Product::FindOrFail($id);
     $selected= productDetail::where('product_id',$id)->where('set',1)->get();
     $data= productDetail::where('product_id',$id)->get();    
-   return view('admin.products.product_pdf',compact('products','data','selected'));
+   return view('admin.systemlayouts.productLayout',compact('products','data','selected'));
     }
 
     public function show($id){
@@ -38,7 +33,7 @@ class ProductController extends Controller
         $selected= productDetail::where('product_id',$id)->where('set',1)->get();
         $data= productDetail::where('product_id',$id)->get();
          DB::table('notifications')->where('notifiable_id',Auth::user()->id)->update(['read_at'=>now()]);
-       return view('admin.products.product_pdf',compact('products','data','selected'));
+       return view('admin.systemlayouts.productLayout',compact('products','data','selected'));
     }
     
 

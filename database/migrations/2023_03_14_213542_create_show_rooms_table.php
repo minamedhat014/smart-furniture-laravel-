@@ -17,9 +17,9 @@ return new class extends Migration
             $table->time('working_from')->nullable();
             $table->time('working_to')->nullable();
             $table->string('location')->nullable();
-            $table->string('phone')->nullable();
+            $table->char('phone')->nullable();
             $table->tinyInteger('status')->default(1);
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_id')->constrained('companies') ->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

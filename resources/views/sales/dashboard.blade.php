@@ -1,3 +1,0 @@
-@extends('sales.layouts.master')
-
-

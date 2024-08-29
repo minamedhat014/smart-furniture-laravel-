@@ -14,9 +14,8 @@ products
 
 @section('content')
 
-@livewire('admin.products.products')
-@livewire('admin.products.product-details-modal')
-@livewire('admin.products.product-document')
+@livewire('admin.products.Products')
+@livewire('admin.products.product-document') 
 
 @endsection
 

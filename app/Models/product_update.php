@@ -15,7 +15,7 @@ class product_update extends Model implements HasMedia
 
     use HasFactory,InteractsWithMedia;
     protected  $table ='product_updates';
-    protected $guarded = [];
+    protected $guarded =['id'];
 
 
     protected $casts =[

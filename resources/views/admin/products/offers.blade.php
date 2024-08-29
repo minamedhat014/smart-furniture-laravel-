@@ -11,8 +11,8 @@ offers
 @endsection
 
 @section('content')
-@livewire('admin.products.offers')
 
+@livewire('admin.products.offers')
 
 @endsection
 

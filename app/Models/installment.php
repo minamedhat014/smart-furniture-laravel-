@@ -11,13 +11,9 @@ class installment extends Model
 {
     use HasFactory;
     protected $table ='installments';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
 
-    public function installments(): HasOne
-    {
-        return $this->HasOne(installmentDetails::class,'intallment_id');
-    }
 
     public function updates()
     {

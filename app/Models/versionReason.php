@@ -9,5 +9,5 @@ class versionReason extends Model
 {
     use HasFactory;
     protected $table ='version_reason';
-    protected $guarded =[];
+    protected $guarded =['id'];
 }

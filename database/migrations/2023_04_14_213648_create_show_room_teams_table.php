@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('sales_name');
             $table->integer('title')->default(0);
             $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->char('phone')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

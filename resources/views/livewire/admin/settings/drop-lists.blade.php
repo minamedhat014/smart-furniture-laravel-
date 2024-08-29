@@ -16,16 +16,7 @@
        @endforeach    
         </select>
         @error('selected_list') <span class="feild span" >{{ $message }}</span> @enderror
-      </div>   
-      <div class="col-3 mt-5">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          Actions
-        </button>
-        <div class="dropdown-menu">
-          <li><a wire:click="selected()" type="button" class="dropdown-item"><i class="fa-solid fa-eye"></i> Show this list </a> </li>
-          <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addDropdownMoadel" type="button" ><i class="fa-solid fa-plus"></i> Add new dropdown list </a> </li>
-         
-        </div>
+        
       </div>
       
 
@@ -37,8 +28,8 @@
 
 
 
-<h6 class="ml-5"> {{$name}}</h6>
-
+<h6 class=""> {{$name}}</h6>
+@endif
       <div class="row col-6 ml-5">
       <table id="example1" class="table-light table-hover table-sm table-bordered ml-5" >
         <thead class="custom-table-header" >
@@ -57,17 +48,22 @@
           <td>{{$row->name}}</td>
           <td>{{$row->created_at}}</td>
           <td>
-            @if($selected_list)
+          @if($selected_list)
+            
+      
             <div>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
                 Actions
               </button>
               <div class="dropdown-menu">
-                <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addModel" type="button" ><i class="fa-solid fa-plus"></i> Add this list </a> </li>
+               @can('write system list')
+                <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addModel" type="button" ><i class="fa-solid fa-plus"></i> Add this list </a> </li> 
                 <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
                 <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#deleteModel" type="button"  wire:click='deleteID({{$row->id}})'> <i class="fa-solid fa-trash danger"></i> Remove</a></li>
+                @endcan
               </div>
             </div>
+            
             @endif
           </td> 
         </tr>
@@ -78,7 +74,7 @@
           </tfoot>
         </table>
         </div>
-        @endif
+       
 
     
     </div>

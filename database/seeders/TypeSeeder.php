@@ -16,7 +16,7 @@ class TypeSeeder extends Seeder
     {
     
             DB::table('product_types')->delete();
-            $data =['living','bed room','dinning room', 'cash and carry','mattress','out door','kitchen'];
+            $data =['living','bed room','dinning room', 'cash and carry','mattress','out door','kitchen','lights','accessories'];
          foreach ($data as $row){
     
         productType::create([

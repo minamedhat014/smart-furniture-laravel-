@@ -1,4 +1,4 @@
-
+<div>
 <x-app-table name=" List of showroom products ">
 
     <x-slot name="header">
@@ -38,7 +38,7 @@
         {{ $data->links() }}
       </x-slot>
       </x-app-table>
-      
+    </div> 
       
       
   

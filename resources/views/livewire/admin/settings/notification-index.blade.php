@@ -1,9 +1,10 @@
-<li class="nav-item dropdown" wire:poll.15000ms >
+<div>
+<li class="nav-item dropdown" wire:poll.10000ms >
     <a class="nav-link " data-toggle="dropdown" href="#" >
       <i class="far fa-bell fa-lg"></i>
       <span class="badge badge-danger navbar-badge">{{Auth::user()->unreadNotifications->count()}}</span>
     </a>
-    <div class="dropdown-menu dropdown-menu-2xl dropdown-menu-right" style="max-height:700px; overflow:scroll;" >
+    <div class="dropdown-menu dropdown-menu-2xl dropdown-menu-right" style="max-height:500px; overflow:scroll;" >
         {{-- search bar  --}}
         <div class="navbar-search-block">
 
@@ -60,3 +61,5 @@
      <a href="{{route('notifications.index')}}" class="btn btn-outline-secoandry col-12"  wire:click="readAll"> <i class="fa-solid fa-eye"></i> view all </a>
     </div>
   </li>
+
+</div>

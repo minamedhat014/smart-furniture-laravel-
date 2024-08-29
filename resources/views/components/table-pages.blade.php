@@ -1,5 +1,5 @@
 
-    <select name="" id=""  class="table-select" style="width:5%;"  wire:model='perpage'> 
+    <select name="" id=""  class="table-select" wire:model.live='perpage'> 
       <option value="5"> 5</option>
       <option value="10"> 10</option>
       <option value="20"> 20</option>
@@ -9,3 +9,5 @@
       <option value="150"> 150 </option>
       <option value="200"> 200 </option>
     </select>
+
+

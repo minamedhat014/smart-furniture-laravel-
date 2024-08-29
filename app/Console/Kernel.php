@@ -12,9 +12,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('activitylog:clean')->monthly();
+        $schedule->command('offer:expire')->everyMinute();
     }
 
+
+    protected $commands = [
+        \App\Console\Commands\OfferExpire::class,
+    ];
+    
     /**
      * Register the commands for the application.
      */

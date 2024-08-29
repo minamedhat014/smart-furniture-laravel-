@@ -27,23 +27,23 @@
                              </div>
                         
                                  <div class="survey-rate">
-                                 <input  hidden type="radio" id="reviewprice1"  value="1"  wire:model.live="price_scale" />
+                                 <input  hidden type="radio" id="reviewprice1"  value="1"  wire:model="price_scale" />
                                  <label for="reviewprice1"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
                            
-                                 <input hidden type="radio" id="reviewprice2"  value="2"  wire:model.live="price_scale"/>
+                                 <input hidden type="radio" id="reviewprice2"  value="2"  wire:model="price_scale"/>
                                  <label for="reviewprice2"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
                         
-                                 <input hidden type="radio" id="reviewprice3"  value="3"  wire:model.live="price_scale"/>
+                                 <input hidden type="radio" id="reviewprice3"  value="3"  wire:model="price_scale"/>
                                  <label for="reviewprice3"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
                         
-                                 <input hidden type="radio" id="reviewprice4"  value="4"  wire:model.live="price_scale"/>
+                                 <input hidden type="radio" id="reviewprice4"  value="4"  wire:model="price_scale"/>
                                  <label for="reviewprice4"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
                         
-                                 <input hidden type="radio" id="reviewprice5"  value="5"  wire:model.live="price_scale"/>
+                                 <input hidden type="radio" id="reviewprice5"  value="5"  wire:model="price_scale"/>
                                  <label for="reviewprice5"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>    
                                  </div>
                              
-                                <input type="text" class="rate-input" placeholder=" Add comment" wire:model.live="price_recomendation" >
+                                <input type="text" class="rate-input" placeholder=" Add comment" wire:model="price_recomendation" >
                                 @error('price_recomendation') <span class="feild span" >{{ $message }}</span> @enderror                   
                                 </div>
           
@@ -62,23 +62,23 @@
                                </div>
                           
                                    <div class="survey-rate">
-                                   <input  hidden type="radio" id="reviewmaterial1"  value="1"  wire:model.live="material_scale" />
+                                   <input  hidden type="radio" id="reviewmaterial1"  value="1"  wire:model="material_scale" />
                                    <label for="reviewmaterial1"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
                              
-                                   <input hidden type="radio" id="reviewmaterial2"  value="2"  wire:model.live="material_scale"/>
+                                   <input hidden type="radio" id="reviewmaterial2"  value="2"  wire:model="material_scale"/>
                                    <label for="reviewmaterial2"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
                           
-                                   <input hidden type="radio" id="reviewmaterial3"  value="3"  wire:model.live="material_scale"/>
+                                   <input hidden type="radio" id="reviewmaterial3"  value="3"  wire:model="material_scale"/>
                                    <label for="reviewmaterial3"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
                           
-                                   <input hidden type="radio" id="reviewmaterial4"  value="4"  wire:model.live="material_scale"/>
+                                   <input hidden type="radio" id="reviewmaterial4"  value="4"  wire:model="material_scale"/>
                                    <label for="reviewmaterial4"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
                           
-                                   <input hidden type="radio" id="reviewmaterial5"  value="5"  wire:model.live="material_scale"/>
+                                   <input hidden type="radio" id="reviewmaterial5"  value="5"  wire:model="material_scale"/>
                                    <label for="reviewmaterial5"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>    
                                    </div>
                                
-                                  <input type="text" class="rate-input" placeholder=" Add comment" wire:model.live="material_recomendation" >
+                                  <input type="text" class="rate-input" placeholder=" Add comment" wire:model="material_recomendation" >
                                   @error('material_recomendation') <span class="feild span" >{{ $message }}</span> @enderror                   
                                   </div>
             
@@ -97,23 +97,23 @@
            </div>
           
                <div class="survey-rate">
-               <input  hidden type="radio" id="reviewcolor1"  value="1"  wire:model.live="colors_scale" />
+               <input  hidden type="radio" id="reviewcolor1"  value="1"  wire:model="colors_scale" />
                <label for="reviewcolor1"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
           
-               <input hidden type="radio" id="reviewcolor2"  value="2"  wire:model.live="colors_scale"/>
+               <input hidden type="radio" id="reviewcolor2"  value="2"  wire:model="colors_scale"/>
                <label for="reviewcolor2"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
           
-               <input hidden type="radio" id="reviewcolor3"  value="3"  wire:model.live="colors_scale"/>
+               <input hidden type="radio" id="reviewcolor3"  value="3"  wire:model="colors_scale"/>
                <label for="reviewcolor3"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
           
-               <input hidden type="radio" id="reviewcolor4"  value="4"  wire:model.live="colors_scale"/>
+               <input hidden type="radio" id="reviewcolor4"  value="4"  wire:model="colors_scale"/>
                <label for="reviewcolor4"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
           
-               <input hidden type="radio" id="reviewcolor5"  value="5"  wire:model.live="colors_scale"/>
+               <input hidden type="radio" id="reviewcolor5"  value="5"  wire:model="colors_scale"/>
                <label for="reviewcolor5"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>    
                </div>
            
-              <input type="text" class="rate-input" placeholder=" Add comment" wire:model.live="colors_recomendation" >
+              <input type="text" class="rate-input" placeholder=" Add comment" wire:model="colors_recomendation" >
               @error('colors_recomendation') <span class="feild span" >{{ $message }}</span> @enderror                   
               </div>
       
@@ -132,23 +132,23 @@
              </div>
             
                  <div class="survey-rate">
-                 <input  hidden type="radio" id="reviewdesign1"  value="1"  wire:model.live="design_scale" />
+                 <input  hidden type="radio" id="reviewdesign1"  value="1"  wire:model="design_scale" />
                  <label for="reviewdesign1"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewdesign2"  value="2"  wire:model.live="design_scale"/>
+                 <input hidden type="radio" id="reviewdesign2"  value="2"  wire:model="design_scale"/>
                  <label for="reviewdesign2"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
             
                  <input hidden type="radio" id="reviewdesign3"  value="3"  wire:model.live="design_scale"/>
                  <label for="reviewdesign3"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewdesign4"  value="4"  wire:model.live="design_scale"/>
+                 <input hidden type="radio" id="reviewdesign4"  value="4"  wire:model="design_scale"/>
                  <label for="reviewdesign4"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewdesign5"  value="5"  wire:model.live="design_scale"/>
+                 <input hidden type="radio" id="reviewdesign5"  value="5"  wire:model="design_scale"/>
                  <label for="reviewdesign5"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>    
                  </div>
              
-                <input type="text" class="rate-input" placeholder=" Add comment" wire:model.live="design_recomendation" >
+                <input type="text" class="rate-input" placeholder=" Add comment" wire:model="design_recomendation" >
                 @error('design_recomendation') <span class="feild span" >{{ $message }}</span> @enderror                   
                 </div>
           
@@ -167,19 +167,19 @@
              </div>
             
                  <div class="survey-rate">
-                 <input  hidden type="radio" id="reviewgeneral1"  value="1"  wire:model.live="general_scale" />
+                 <input  hidden type="radio" id="reviewgeneral1"  value="1"  wire:model="general_scale" />
                  <label for="reviewgeneral1"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewgeneral2"  value="2"  wire:model.live="general_scale"/>
+                 <input hidden type="radio" id="reviewgeneral2"  value="2"  wire:model="general_scale"/>
                  <label for="reviewgeneral2"><i class="fas fa-star  fa-2x rate-star " id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewgeneral3"  value="3"  wire:model.live="general_scale"/>
+                 <input hidden type="radio" id="reviewgeneral3"  value="3"  wire:model="general_scale"/>
                  <label for="reviewgeneral3"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewgeneral4"  value="4"  wire:model.live="general_scale"/>
+                 <input hidden type="radio" id="reviewgeneral4"  value="4"  wire:model="general_scale"/>
                  <label for="reviewgeneral4"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>
             
-                 <input hidden type="radio" id="reviewgeneral5"  value="5"  wire:model.live="general_scale"/>
+                 <input hidden type="radio" id="reviewgeneral5"  value="5"  wire:model="general_scale"/>
                  <label for="reviewgeneral5"><i class="fas fa-star  fa-2x rate-star" id="reviewStars1"></i></label>    
                  </div>
                 <button class="rate-input bg-success" type="submit" data-bs-dismiss="modal"> submit </button>

@@ -1,11 +1,11 @@
-
-
+<div>
     <x-app-table name="Details related to  order no. {{$order_id}} ">
         <x-slot name="header">
-      
-        @if($status == 1)
+
+      @if($status ==1)
         <x-table-button icon="fa-solid fa-circle-plus" target="addDetails" />
-        @endif  
+     @endif
+
         </x-slot> 
         <x-slot name="head">  
           <th class="col-1"> Serial </th>
@@ -79,4 +79,4 @@
         </x-slot>
         </x-app-table>
                  
-
+      </div>

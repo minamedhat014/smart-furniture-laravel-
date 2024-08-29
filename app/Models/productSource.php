@@ -10,7 +10,7 @@ class productSource extends Model
     use HasFactory;
 
  protected $table='product_sources';
- protected $guarded=[ ];
+ protected $guarded =['id'];
 
 
  

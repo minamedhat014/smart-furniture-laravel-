@@ -5,61 +5,47 @@ namespace App\http\Livewire\Admin\showrooms;
 
 use session;
 use App\Models\Company;
+use App\Traits\HasTable;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
 class Distributor extends Component
 {
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-
-
-    public $search;
-    public $perpage =5;
-    public $sortfilter ='desc';
-    public $name,$dist_id;
-
+  use HasTable;
+    public $name;
+   public $dist_id;
+  protected $write_permission ="write distributor";
 
     public function closeModal()
     {
         $this->reset('name');
     }
 
- protected $rules = [
-    'name' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u|min:4|unique:companies',
-  
-];
-
-
-
-public function updated($feilds)
-{
-    $this->validateOnly($feilds);
-}
-
-
-
-public function updatingSearch()
+    protected function rules()
     {
-        $this->resetPage();
-    }
+         return
+         
+         [ 'name' => 'required|min:3|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:companies,name,'.$this ->dist_id,
+                     ];
+ 
+                    
+ }
+ 
+ 
 
  public function store(){
-
-    {
         try{
+         $this->check_permission($this->write_permission);
         $validatedData = $this->validate();
- 
-        Company::create($validatedData);
-        $this->reset('name');
-        $this->emit('closeModal');
-        session()->flash('success', 'Done sucessfully'); 
+        Company::create([
+            'name'=>$validatedData['name'],
+        ]);
+       $this->success();
         }catch(\Exception $e){
-        session()->flash('error', $e);
+        errorMessage($e);
     }
  }
- }
+ 
 
  public function editDist(int $dist_id){
  $dist= Company::findOrFail($dist_id);
@@ -77,20 +63,18 @@ public function updatingSearch()
 
 
  public function update(){
-
     {
         try{
+    $this->check_permission($this->write_permission);
      $validatedData = $this->validate();
      Company::where('id',$this->dist_id)->update([
      'name'=>$validatedData['name']
      ]);
-     $this->reset('name');
-     $this->emit('closeModal');
-     session()->flash('success', 'Done sucessfully'); 
+    $this->success();
     }
     catch(\Exception $e){
      DB::rollBack();
-     session()->flash('error', $e);
+    errorMessage($e);
     }
  }
 }
@@ -106,11 +90,12 @@ public function updatingSearch()
 
     {
         try{
+            $this->check_permission($this->write_permission);
      Company::FindOrFail($this->dist_id)->delete();
-     session()->flash('success', 'Done sucessfully'); 
+      successMessage();
         }catch(\Exception $e){
             DB::rollBack();
-            session()->flash('error', $e);
+            errorMessage($e);
         }
     }
 }
@@ -119,7 +104,7 @@ public function updatingSearch()
     public function render()
     {
 
-        $data =Company::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'desc')->paginate(5);
+        $data =Company::where('name', 'like', '%'.$this->search.'%')->orderBy('id', $this->sortfilter)->paginate($this->perpage);
         return view('livewire.Admin.showrooms.distributor',compact('data'));
         
     }

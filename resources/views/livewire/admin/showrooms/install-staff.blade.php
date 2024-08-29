@@ -1,9 +1,13 @@
+<div>
 <x-app-table name=" List of installations staff ">
 
     <x-slot name="header">
-      @if($user_company_id !== 1)
+      @if(authedCompany() > 1)
 
+      @can('showroom staff')
       <x-table-button icon="fa-solid fa-circle-plus" target="AddInstallModal" />
+      @endcan
+
       @endif
       </x-slot>
       <x-slot name="head">
@@ -13,10 +17,10 @@
         <th class="col-2"> email </th>
         <th class="col-2"> Phone </th>
         <th class="col-1"> company </th>
-        @if($user_company_id !== 1)
+       
+      @can('showroom staff')
         <th class="col-2"> actions </th>
-        @endif
-
+      @endcan
       </x-slot>
       
       <x-slot name="body">
@@ -27,11 +31,12 @@
            <td> {{$row->name}}</td>
             <td> {{$row->email}} </td>
             <td> {{$row->phone}} </td>
-            <td> {{$row->company->name}} </td>
-              @if($user_company_id !== 1)
+            <td> {{$row->company?->name}} </td>
+           
+            @can('showroom staff')
               <td>
               <div>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
                   Actions
                 </button>
                 <div class="dropdown-menu">
@@ -40,7 +45,8 @@
                 </div>
               </div>
           </td> 
-          @endif
+        @endcan
+
         </tr>
          @endforeach
         </x-slot>
@@ -51,5 +57,5 @@
         </x-slot>
         </x-app-table>
         
-  
+        </div>
   

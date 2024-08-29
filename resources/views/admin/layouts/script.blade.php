@@ -1,35 +1,66 @@
 <!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@yield('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"  ></script> 
+
 <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('assets/dist/js/adminlte.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+
 @livewireScripts
+@stack('js-scripts')
 <script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script> 
 <script src="{{asset('assets/dist/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/dist/bootstrap-5.3.0-dist/js/bootstrap.min.js')}}"></script>
-@yield('script')
-{{-- select2 pheronic secrpit --}}
 <script src="{{ asset('vendor/pharaonic/pharaonic.select2.min.js') }}"></script>
-{{-- <script>
-
-     $(document).ready(function()
- { 
-        $(document).bind("contextmenu",function(e){
-               return false;
-        }); 
- }
- )
+<script src="{{asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+<!-- Bootstrap slider -->
+<script src="{{asset('assets/plugins/bootstrap-slider/bootstrap-slider.min.js') }}"></script>
+<script src="{{ asset('vendor/pharaonic/pharaonic.tagify.min.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
 
 
-</script>  --}}
+
+
+
+
+
+
+
+
+
+
+{{-- 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('contextmenu', function(e) {
+            e.preventDefault(); // Prevents the default context menu from appearing
+        });
+    });
+    
+    window.onload = function() {
+        document.body.onkeydown = function(event) {
+            if (event.ctrlKey && event.keyCode !== 80) { // 80 corresponds to the 'P' key
+                event.stopPropagation();
+                event.preventDefault();
+                return false;
+            }
+            return true; // Allow Ctrl+P to proceed, let other Ctrl key combinations bubble.
+        };
+    };  
+    </script>  
+ --}}
+
+
 
 
 <script>
-    
- Livewire.on('closeModal', () => {
+    document.addEventListener('livewire:init', () => {
+       Livewire.on('closeModal', (event) => {
         $('.modal #modalBtnClose').click(); 
-})
+       });
+    });
 </script>
 
 
@@ -70,7 +101,7 @@ function upDateRating2(index){
       );
       emojiElemt2.forEach(
          (emoj)=>{
-             emoj.style.transform=`translateY(-${index*35}px)`
+             emoj.style.transform=`translateY(-${index*36}px)`
              emoj.style.color=colorsArray[index];
          }
      );
@@ -100,7 +131,7 @@ function upDateRating2(index){
           );
           emojiElemt3.forEach(
              (emoj)=>{
-                 emoj.style.transform=`translateY(-${index*35}px)`
+                 emoj.style.transform=`translateY(-${index*36}px)`
                  emoj.style.color=colorsArray[index];
              }
          );
@@ -130,7 +161,7 @@ function upDateRating4(index){
       );
       emojiElemt4.forEach(
          (emoj)=>{
-             emoj.style.transform=`translateY(-${index*35}px)`
+             emoj.style.transform=`translateY(-${index*36}px)`
              emoj.style.color=colorsArray[index];
          }
      );
@@ -159,7 +190,7 @@ function upDateRating5(index){
       );
       emojiElemt5.forEach(
          (emoj)=>{
-             emoj.style.transform=`translateY(-${index*35}px)`
+             emoj.style.transform=`translateY(-${index*36}px)`
              emoj.style.color=colorsArray[index];
          }
      );
@@ -191,7 +222,7 @@ function upDateRating6(index){
       );
       emojiElemt6.forEach(
          (emoj)=>{
-             emoj.style.transform=`translateY(-${index*35}px)`
+             emoj.style.transform=`translateY(-${index*36}px)`
              emoj.style.color=colorsArray[index];
          }
      );

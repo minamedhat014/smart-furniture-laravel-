@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-products
+product items
 @endsection
 @section('css')
 
@@ -12,9 +12,7 @@ products
 @endsection
 
 @section('content')
-@livewire('admin.products.product-details',['productID'=>$id,'type'=>$type])
-@livewire('admin.products.product-details-modal',['productID'=>$id,'type'=>$type])
-
+@livewire('admin.products.product-details',['product_id'=>$id,'type_id'=>$type])
 @endsection
 
 

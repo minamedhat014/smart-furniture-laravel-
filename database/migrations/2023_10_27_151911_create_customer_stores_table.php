@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_stores', function (Blueprint $table) {
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('CASCADE');
-            $table->foreignId('store_id')->constrained('show_rooms')->onDelete('CASCADE');
+            $table->foreignId('customer_id')->constrained('customers')->constrained('customers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('store_id')->constrained('show_rooms')->constrained('customers')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_store');
+        Schema::dropIfExists('customer_stores');
     }
 };

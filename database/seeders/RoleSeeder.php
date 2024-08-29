@@ -18,10 +18,9 @@ class RoleSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $arrayOfRolesNames  =[
-            'super admin' ,'super sales factory','sales factory' ,'super cs',
-            'cs','super qulaity','quality','admin','managers','sales ','area manager','branch manager',
-            'cs tech' , ' installation tech','production sw','production sai','purchase', 'accountant'
-  
+            'super admin','admin' ,'super sales factory','sales factory' ,'super cs',
+            'cs','super qulaity','quality','factory managers','sales','area manager','branch manager',
+            'cs tech' , 'installation tech','production sw','production sai','purchase', 'accountant'
         ];
 
         $roles = collect($arrayOfRolesNames)->map(function ($roles) {

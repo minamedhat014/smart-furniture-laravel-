@@ -1,12 +1,12 @@
-<aside class="main-sidebar sidebar-light-light elevation-4 custom-theme " >
+<aside class="main-sidebar sidebar-light-light  elevation-4 custom-theme col-lg-3" >
     
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 ml-3 pb-1 mb-3 d-flex" >
-        <img src="{{Auth::user()->getFirstMediaUrl('profile')}}" alt="" class=" mr-3 profile" > 
-        <div class="info">
+        <img src="{{Auth::user()->getFirstMediaUrl('profile')}}" alt="" class="profile" > 
+        <div class="info mt-2">
           <a style=" color:rgb(0, 0, 100)"> {{ucfirst(Auth::user()->name)}}</a> 
         
         </div>
@@ -14,7 +14,7 @@
      
 
       <!-- Sidebar Menu -->
-      <nav class="mt-1" >
+      <nav class="mt-2" >
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -42,7 +42,16 @@
             </li>
 
             <li>
-              @can('view system list ')
+              @can('view import center')
+                <a href="{{route('settings.importCenter')}}" class="nav-link">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <p> Data import center </p>
+                </a>
+                @endcan 
+              </li>
+
+            <li>
+              @can('view system list')
                 <a href="{{route('dropdown.index')}}" class="nav-link">
                   <i class="fa-solid fa-circle-chevron-down"></i>
                   <p> dropdown lists</p>
@@ -52,8 +61,8 @@
  </ul>
 
  <li class="nav-item has-treeview menu-close">
-  @can('general settings')
-  <a href="" class="nav-link active">
+  @can('view users')
+  <a class="nav-link active">
     <i class="fa-solid fa-users-gear"></i>
     <p>
       users
@@ -62,94 +71,100 @@
   </a>
   @endcan
   <ul class="nav nav-treeview">
+            @can('view users')
+            
               <li class="nav-item">
-                @can('view users')
                 <a href="{{route('user.index')}}" class="nav-link">
                   <i class="fa-regular fa-id-card"></i>
                   <p> Users </p>
                 </a>
-                @endcan
               </li>
-           
-
-     
+            
               <li class="nav-item">
-                @can('view roles')
                 <a href="{{route('roles.index')}}" class="nav-link">
                   <i class="fa-solid fa-circle-user"></i>
                   <p> Roles </p>
                 </a>
-                @endcan
               </li>
     
-
-
-       
-              <li class="nav-item">
-                @can('view permissions')
+              <li class="nav-item">     
                 <a href="{{route('permissions.index')}}" class="nav-link">
                   <i class="fa-solid fa-unlock-keyhole"></i>
                   <p> Permissions </p>
                 </a>
-                @endcan
               </li>
+
+              @endCan
             </ul>
           </li>
 
 
           
           <li class="nav-item has-treeview menu-close">
+            @can('view products')
             <a href="" class="nav-link active">
               <i class="fa-solid fa-couch"></i>
               <p>
-                 product info
+               Product Module
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            @endcan
             <ul class="nav nav-treeview">
+
+              @can('view products')
               <li class="nav-item">
                 <a href="{{route('products.index')}}" class="nav-link">
                   <i class="fa-brands fa-product-hunt"></i>
                   <p> Product List </p>
                 </a>
               </li>
+           @endcan
 
+            @can('view available items')  
               <li class="nav-item">
-                <a href="{{route('productDetails')}}" target="_blank" class="nav-link">
+                <a href="{{route('avilableItems')}}" target="_blank" class="nav-link">
                   <i class="fa-solid fa-circle-info"></i>
-                  <p> Price List </p>
+                  <p>Available items </p>
                 </a>
               </li>
+              @endcan
 
+              @can('view products versions')
               <li class="nav-item">
                 <a href="{{route('productUpdate.index')}}" class="nav-link">
                   <i class="fa-solid fa-wrench"></i>
                   <p> Product Updates </p>
                 </a>
               </li>
-
+            @endCan
              
+            @can('view offers')
               <li class="nav-item">
                 <a href="{{route('offers.index')}}" class="nav-link">
                   <i class="fa-solid fa-tags"></i>
                   <p> offers List </p>
                 </a>
               </li>
+            
+
               <li class="nav-item">
                 <a href="{{route('installments.index')}}" class="nav-link">
                   <i class="fa-solid fa-wallet"></i>
                   <p> installments List </p>
                 </a>
               </li>
+              @endCan
             </ul>
           </li>
           
           
           <li class="nav-item has-treeview menu-close">
+            
             <a href="" class="nav-link active">
               <i class="fa-solid fa-store"></i>
               <p>
-              Branches 
+               distributors and  Branches 
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -196,7 +211,7 @@
             <a href="" class="nav-link active">
               <i class="fa-solid fa-address-card"></i>
               <p>
-             Customers
+             Customer Module
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -204,14 +219,21 @@
               <li class="nav-item">             
               <a href="{{route('customers.index')}}" class="nav-link">
                   <i class="fa-solid fa-user"></i>
-                  <p>customers List </p>
+                  <p> customers </p>
+                </a>
+              </li>
+              
+              <li class="nav-item">             
+                <a href="{{route('customerDetails.index')}}" class="nav-link">
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  <p> customer Master Data </p>
                 </a>
               </li>
               
                 <li class="nav-item">             
                   <a href="{{route('customers.myIndex')}}" class="nav-link">
                     <i class="fa-solid fa-user "></i>
-                      <p> My customers List</p>
+                      <p> My Customers List</p>
                     </a>
                   </li>
         </ul>
@@ -227,12 +249,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">             
-              <a href="{{route('customerOrder.index')}}" class="nav-link">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <p> orders per customer </p>
-              </a>
-            </li>
+
 
             <li class="nav-item">
               <a href="{{route('customerOrder.show')}}" class="nav-link">
@@ -243,7 +260,7 @@
       </ul>
         </li>  
 
-        <li class="nav-item has-treeview menu-close">
+        {{-- <li class="nav-item has-treeview menu-close">
           <a href="" class="nav-link active">
             <i class="fa-solid fa-calendar-day"></i>
             <p>
@@ -257,12 +274,255 @@
                 <i class="fa-solid fa-calendar-day"></i>
                 <p> delivery  </p>
               </a>
-            </li>
-
-            
+            </li>      
       </ul>
-    </li> 
-              
+      </li> 
+          
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+ --}}
+
+      {{-- <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+      <li class="nav-item has-treeview menu-close">
+        <a href="" class="nav-link active">
+          <i class="fa-solid fa-tags"></i>
+          <p>
+        sales
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">             
+            <a href="{{route('customerOrder.index')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders per customer </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('customerOrder.show')}}" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p> orders </p>
+            </a>
+          </li> 
+    </ul>
+      </li>  
+       --}}
+    
 
       </nav>
       <!-- /.sidebar-menu -->

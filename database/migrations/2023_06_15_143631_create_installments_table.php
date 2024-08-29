@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('installments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('bank_name');
+            $table->tinyInteger('max_months_installments');
+            $table->tinyInteger('months_without_intrest');
+            $table->tinyInteger('percentage_of_admin_fees');
+            $table->tinyInteger('factory_intrest');
+            $table->tinyInteger('branch_intrest');
             $table->date('start_from');
             $table->date('ends_at')->nullable();
             $table->tinyInteger('status')->default(1);

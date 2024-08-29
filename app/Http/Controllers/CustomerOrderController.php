@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class CustomerOrderController extends Controller
 {
     public function index(){
-        return view('admin.orders.order-index');
+        return view('admin.customers.customer-details');
     }
 
     public function show(){

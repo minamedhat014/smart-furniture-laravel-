@@ -6,16 +6,13 @@ use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\showroomProduct;
+use App\Traits\HasTable;
 use Illuminate\Support\Facades\Auth;
 
 class ShowroomProducts extends Component
 {
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-    
-    public $search;
-    public $perpage =5;
-    public $sortfilter ='desc';
+ 
+    use HasTable;
     public $showRoom_id;
     public $product_id;
     public $quantity ;
@@ -23,30 +20,19 @@ class ShowroomProducts extends Component
     public $remarks;
     public $created_by;
     public $updated_by;
-    public $user;
     public $edit_id;
     public $delete_id;
+    public $products;
+    protected $write_permission="showroom products";
 
 
    
 
 
-    public function updated($feilds)
-    {
-        $this->validateOnly($feilds);
-    }
-    
-    
-    
-    public function updatingSearch()
-        {
-            $this->reset();
-        }
-    
 
     public function mount()
     {
-        $this->user= Auth::user()->name;         
+        $this->products=Product::all('id','name');
     }
      
 
@@ -56,7 +42,7 @@ protected function rules()
       'showRoom_id'=>'required|numeric',
         'product_id' => 'required|integer',
        'quantity' => 'required|integer|max:50',
-       'special_offer'=>'',
+       'special_offer'=>'nullable|numeric',
        'remarks'=>'',
 
                    ];
@@ -69,25 +55,24 @@ public function closeModal()
         $this->reset(['product_id','quantity','special_offer','remarks']);
     }
 
+
 public function store(){
- 
- $validatedData = $this->validate();
      try{
+        $this->check_permission($this->write_permission);
+        $validatedData = $this->validate();
        showroomProduct::create([
 'showRoom_id' => $validatedData['showRoom_id'],
  'product_id'=>$validatedData['product_id'],
  'quantity'=>$validatedData['quantity'],
  'special_offer'=>$validatedData['special_offer'],
  'remarks'=>$validatedData['remarks'],
- 'created_by'=> $this->user,
+ 'created_by'=> authName(),
         ]);
 
-        $this->reset(['product_id','quantity','special_offer','remarks']);
-      session()->flash('success', 'Done sucessfully'); 
-      $this->emit('closeModal');
+      $this->success();
        }catch (\Exception $e) {
 
-        session()->flash('error',$e); 
+      errorMessage($e);
       };   
 }
 
@@ -109,6 +94,7 @@ if($edit){
 public function update(){
 
    try{
+    $this->check_permission($this->write_permission);
     $validatedData = $this->validate();
     $showrooms=showroomProduct::FindOrFail($this->edit_id);
     $showrooms->update([
@@ -116,11 +102,9 @@ public function update(){
     'quantity'=>$validatedData['quantity'],
     'special_offer'=>$validatedData['special_offer'],
     'remarks'=>$validatedData['remarks'],
-    'updated_by'=>$this->user,
+    'updated_by'=>authName(),
     ]);
-    $this->reset(['product_id','quantity','special_offer','remarks']);
-    $this->emit('closeModal');
-    session()->flash('success', 'Done sucessfully');    
+    $this->success();  
    }catch(\Exception $e){
     session()->flash('error', $e); 
    }
@@ -137,20 +121,21 @@ public function deleteID(int $delete_id){
 
   public function delete(){
     try {
+     $this->check_permission($this->write_permission);
     showroomProduct::FindOrFail($this->delete_id)->delete();
-    session()->flash('success', 'Done sucessfully'); 
+   successMessage();
     }catch (\Exception $e){
-        session()->flash('error', $e); 
+        errorMessage($e);
    }
 }
 
     public function render()
     {
-        $products=Product::all();
+  
         $data=showroomProduct::with('showroom','product')->where('showRoom_id',$this->showRoom_id)
         ->WhereHas('product', function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%');})
-        ->orderBy('id', 'desc')->paginate(5);
-        return view('livewire.admin.showrooms.showroom-products',compact('data','products'));
+        ->orderBy('id', $this->sortfilter)->paginate($this->perpage);
+        return view('livewire.admin.showrooms.showroom-products',compact('data'));
     }
 }

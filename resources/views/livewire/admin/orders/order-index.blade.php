@@ -1,10 +1,9 @@
-<div> 
+<div>  
+  @if($customer)
 
 <x-app-table name=" List of orders related to  {{$customer->name ?? ''}} ">
     <x-slot name="header">
-      @if($customer)
-  <x-table-button icon="fa-solid fa-circle-plus" target="addorderModal" />
-      @endif
+    <x-table-button icon="fa-solid fa-circle-plus" target="addorderModal" />
     </x-slot> 
     <x-slot name="head">  
      <th class="col-1"> order number </th>
@@ -13,7 +12,7 @@
       <th class="col-1"> Branch </th>
       <th class="col-1"> Sales name </th>
       <th class="col-1"> Delivery address </th>
-      <th class="col-1"> Delivery Date </th>
+      <th class="col-1"> Remarks</th>
       <th class="col-1"> Status </th> 
       <th class="col-1"> Actions </th>
 
@@ -21,23 +20,23 @@
     
     <x-slot name="body" wire:poll.750ms>
 
-     @foreach($data as $key => $row)
+     @foreach($this->orders as $key => $row)
       <tr>
         <td> {{$row->id}}</td>
         <td> {{$row->created_at}}</td>
-        <td> {{$row->customer->name}}</td>
+        <td> {{$row->customer?->name}}</td>
         <td>
           <span class="badge bg-warning"> 
-          {{$row->store->name}}
+          {{$row->store?->name}}
         </span>
         </td>
         <td> {{$row->sales_name}}</td>
         <td>
           <span class="badge bg-primary"> 
-           {{$row->address->city}} - {{$row->address->address}}
+           {{$row->address?->city}} - {{$row->address->address}}
           </span>
           </td>
-        <td> {{$row->delivery_date}}</td>
+        <td> {{$row->remarks}}</td>
         <td>
           @if($row->status_id === 1)
           <span class="badge bg-success"> 
@@ -65,15 +64,16 @@
 
      <td>
           <div>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
            Actions
             </button>
             <div class="dropdown-menu">
               <li><a href="{{route('orderDetails.index',$row->id)}}" class="dropdown-item"  type="button"  ><i class="fa-solid fa-circle-info"></i> order details </a> </li>
+              <li> <a data-bs-toggle="modal"class="dropdown-item" data-bs-target="#orderDocumentDisplay" wire:click='orderDocument({{$row->id}})' type="button"> <i class="fa-solid fa-image"></i> View order documents </a></li>
               @if($row->status_id ===1)
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editorderModal" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
-              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteOrderModel" wire:click="getId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
-              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sendOrderModel" wire:click="getId({{$row->id}})" type="button"  ><i class="fa-solid fa-share-from-square"></i> Send to factory </a> </li>
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteOrderModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sendOrderModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-share-from-square"></i> Send to factory </a> </li>
               @endif
              
             </div>
@@ -85,12 +85,11 @@
     
     <x-slot name="footer">
       @include('livewire.admin.orders.orderModal')
-    
+
     </x-slot>
     </x-app-table>
+    @endif
     
-    
-
     </div>
     
   

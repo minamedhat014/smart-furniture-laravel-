@@ -1,3 +1,4 @@
+<div>
 @php
   $name=App\Models\showroom::where('id',$showRoom_id)->first()->name;
 @endphp 
@@ -5,8 +6,9 @@
 <x-app-table name=" List of {{$name}} products ">
 
   <x-slot name="header">
+    @can('showroom products')
   <x-table-button icon="fa-solid fa-circle-plus" target="AddshowProductModal" />
-  
+   @endcan
     </x-slot>
     <x-slot name="head">
       
@@ -16,7 +18,9 @@
       <th class="col-2"> Quantity </th>
       <th class="col-2"> Special offer </th>
       <th class="col-2"> remarks </th>
+      @can('showroom products')
       <th class="col-2"> Actions </th>
+      @endcan
 
     </x-slot>
     
@@ -25,14 +29,14 @@
                     <tr>
                        <td> {{$row->id}}</td>
                        <td> {{$row->created_at}}</td>
-                       <td> {{$row->product->name}}</td>
+                       <td> {{$row->product?->name}}</td>
                         <td> {{$row->quantity}} </td>
                         <td> {{$row->special_offer}} </td>
                         <td> {{$row->remarks}} </td>
                         <td>
-
+                          @can('showroom products')
                           <div>
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
                               Actions
                             </button>
                             <div class="dropdown-menu">
@@ -41,6 +45,8 @@
                             </div>
                           </div>
                       </td> 
+                      @endcan
+
                     </tr>
                      @endforeach
     
@@ -52,7 +58,7 @@
     </x-slot>
     </x-app-table>
     
-    
+    </div>
     
 
 

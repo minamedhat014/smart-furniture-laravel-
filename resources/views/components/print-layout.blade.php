@@ -203,6 +203,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+window.onload = function() {
+    document.body.onkeydown = function(event) {
+        if (event.ctrlKey && event.keyCode !== 80) { // 80 corresponds to the 'P' key
+            event.stopPropagation();
+            event.preventDefault();
+            return false;
+        }
+        return true; // Allow Ctrl+P to proceed, let other Ctrl key combinations bubble.
+    };
+};
+
+
+
 </script> 
 
 </html>

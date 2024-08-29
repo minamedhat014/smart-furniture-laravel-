@@ -1,6 +1,9 @@
+<div>
 <x-app-table name=" List of  my customers ">
   <x-slot name="header">
-<x-table-button icon="fa-solid fa-circle-plus" target="addModal" />
+    @can('write customer')
+   <x-table-button icon="fa-solid fa-circle-plus" target="addModal" />
+   @endcan
   </x-slot>
   
   <x-slot name="head">
@@ -13,8 +16,9 @@
     <th class="col-1"> Phones </th>
     <th class="col-1"> Type </th>
     <th class="col-2"> Address </th>
+    @can('write customer')
     <th class="col-1"> Actions </th>
-
+    @endcan
   </x-slot>
   
   <x-slot name="body">
@@ -49,27 +53,29 @@
   <button type="button" class="badge bg-primary dropdown-toggle col-10" data-toggle="dropdown" style="border: none;  outline:none">
  {{$add->city}} - {{$add->address}}
   </button>
+  @can('write customer')
   <div class="dropdown-menu">
-
     <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#editAddress" wire:click="editAddresses({{$add->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
     <li><a data-bs-toggle="modal" class="dropdown-item"  wire:click="deleteAddress({{$add->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
-
   </div>
+  @endcan
 @endforeach
       </td>
+      @can('write customer')
             <td>
               <div>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
                Actions
                 </button>
                 <div class="dropdown-menu">
               
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editCustomerModel" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
-                  <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addAddress" wire:click="getId({{$row->id}})" type="button"  ><i class="fa-solid fa-location-dot"></i> Add another address </a> </li>
-                  <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteCustomerModel" wire:click="getId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
+                  <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addAddress" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-location-dot"></i> Add another address </a> </li>
+                  <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteCustomerModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
               
                 </div>
             </td> 
+        @endcan
     </tr>
     @endforeach
 
@@ -81,6 +87,7 @@
   </x-slot>
   </x-app-table>
   
+  </div>
   
   
 

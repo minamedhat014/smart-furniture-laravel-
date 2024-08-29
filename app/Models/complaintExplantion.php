@@ -9,5 +9,5 @@ class complaintExplantion extends Model
 {
     use HasFactory;
     protected $table='complaint_explantions';
-    protected $guarded=[];
+    protected $guarded =['id'];
 }

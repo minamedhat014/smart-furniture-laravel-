@@ -13,48 +13,26 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 class ProductDetailsExport implements FromQuery, WithHeadings ,WithMapping 
 {
 
-    private $soureExcel;
-    private $statusExcel;
+
     private $startDate;
     private $endDate ;  
-    public function __construct($soureExcel,$statusExcel,$startDate,$endDate)
+    public function __construct($startDate,$endDate)
     {
-        $this->soureExcel = $soureExcel;
-        $this->statusExcel =$statusExcel ;
         $this->startDate=$startDate;    
-        $this->endDate= $endDate;   
+        $this->endDate= $endDate;  
     }
 
 
     public function query()
-    {
-       if($this->soureExcel && $this->statusExcel && $this->startDate && $this->endDate){ 
-  
-        return productDetail::query()->with('product','price')
-        ->whereHas('product',function ($query){
-            $query->where('source_id',$this->soureExcel)
-            ->where('status',$this->statusExcel); })
-            ->wherebetween('created_at',[$this->startDate ,$this->endDate]);
-        }
-    elseif( $this->startDate && $this->endDate){
-            return productDetail::query()->with('product','price')
+    { 
+
+    if( $this->startDate && $this->endDate){
+         return  
+         productDetail::query()->with('product','price')
         ->whereHas('product',function ($query){
            $query ->wherebetween('created_at',[$this->startDate ,$this->endDate]);});
         }
-      elseif($this->statusExcel){
-     
-        return productDetail::query()->with('product','price')
-        ->whereHas('product',function ($query){
-            $query->where('status',$this->statusExcel);
-        });
-      }
-      elseif($this->soureExcel){
-     
-        return productDetail::query()->with('product','price')
-        ->whereHas('product',function ($query){
-            $query->where('source_id',$this->soureExcel);
-        });
-      }
+    
       else{
         return productDetail::query()->with('product','price');
       }
@@ -64,8 +42,9 @@ class ProductDetailsExport implements FromQuery, WithHeadings ,WithMapping
     public function headings(): array
     {
         return [
-            '#',
+            'serial',
             'Name',
+            'SKU',
             'type',
             'source',
             'descripation',
@@ -73,7 +52,6 @@ class ProductDetailsExport implements FromQuery, WithHeadings ,WithMapping
             'fabric',
             'sponge',
             'sponge thickness',
-            'available date',
             'divisablity',
             'staus',
             'item code',
@@ -85,11 +63,9 @@ class ProductDetailsExport implements FromQuery, WithHeadings ,WithMapping
             'item hight',
             'item width',
             'item depth',
-            'dealler price',
-            'enduser before discounnt',
-            'normal discout',
-            'special discout',
-            'enduser after discounnt',
+            'factory price',
+            'final enduser price',
+            'discounts',
             'created by',
             'updated by',
             'created at',
@@ -100,19 +76,29 @@ class ProductDetailsExport implements FromQuery, WithHeadings ,WithMapping
 
     public function map($productDetail): array
     {
+
+        $materials = [];
+        $discounts =[];
+    foreach ($productDetail->product->materials()->get() as $material) {
+        $materials[] = $material->name;
+    }
+
+    foreach($productDetail->price->discounts as $discount){
+        $discounts []= $discount->discount_percentage;
+    }
         return [
             $productDetail->id,
-            $productDetail->product->name,
-            $productDetail->product->type->name,
-            $productDetail->product->source->source_name,
-            $productDetail->product->descripation,
-            $productDetail->product->item_material,
-            $productDetail->product->fabric,
-            $productDetail->product->sponge,
-            $productDetail->product->sponge_thickness,
-            $productDetail->product->available_date,
-            $productDetail->product->divisablity,
-            $productDetail->product->status,
+            $productDetail->product?->name,
+            $productDetail->product?->sku,
+            $productDetail->product?->type->name,
+            $productDetail->product?->source->name,
+            $productDetail->product?->descripation,
+            $materials,
+            $productDetail->product?->fabric,
+            $productDetail->product?->sponge,
+            $productDetail->product?->sponge_thickness,
+            $productDetail->product?->divisablity,
+            $productDetail->product?->status,
             $productDetail->item_code,
             $productDetail->descripation,
             $productDetail->set,
@@ -121,12 +107,10 @@ class ProductDetailsExport implements FromQuery, WithHeadings ,WithMapping
             $productDetail->item_color,
             $productDetail->item_hieght,
             $productDetail->item_width,
-            $productDetail->item_depth,
-            $productDetail->price->dealler_price,
-            $productDetail->price->end_before_discount,
-            $productDetail->price->normal_discount,
-            $productDetail->price->special_discount,
-            $productDetail->price->end_after_discount,
+            $productDetail->item_out_depth,
+            $productDetail->price?->original_price,
+            $productDetail->price?->final_price,
+            $discounts,
             $productDetail->created_by,
             $productDetail->updated_by,
             $productDetail->created_at,

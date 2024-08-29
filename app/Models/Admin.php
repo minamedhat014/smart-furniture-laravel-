@@ -4,23 +4,23 @@ namespace App\Models;
 
 
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Models\Role;
 
 class Admin extends Authenticatable implements HasMedia
 {
     use HasFactory, Notifiable;
     use HasRoles;
     use InteractsWithMedia;
+    use LogsActivity;
+    
     
   
 
@@ -30,6 +30,7 @@ class Admin extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $guard ="admin";
+
     protected $fillable = [
         'name',
         'email',
@@ -39,6 +40,14 @@ class Admin extends Authenticatable implements HasMedia
         'phone',
 
     ];
+
+    public function getActivitylogOptions(): LogOptions
+{
+    return LogOptions::defaults()
+    ->logOnly(['*']);
+    // Chain fluent methods for configuration options
+}
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -82,7 +91,10 @@ class Admin extends Authenticatable implements HasMedia
    public function  company(){
     return $this->belongsTo(Company::class,'company_id');
    }
-
-
    
+   public function routeNotificationForMail($notification)
+   {
+
+    return $this->email_address;
+     }
 }

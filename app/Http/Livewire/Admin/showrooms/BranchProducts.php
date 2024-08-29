@@ -3,27 +3,16 @@
 namespace App\Http\Livewire\Admin\Showrooms;
 
 use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\showroomProduct;
+use App\Traits\HasTable;
 
 class BranchProducts extends Component
 {
 
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-    
-    public $search;
-    public $perpage =5;
-    public $sortfilter ='desc';
+ use HasTable;
 
 
 
-public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
-protected $queryString = ['search'];
 
     public function render()
     {

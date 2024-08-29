@@ -1,4 +1,4 @@
-
+<div>
 <x-app-table name=" List of Notifications ">
   <x-slot name="header">
 
@@ -38,7 +38,7 @@
   </x-slot>
   </x-app-table>
   
-  
+  </div>
   
 
 

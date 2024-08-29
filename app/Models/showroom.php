@@ -13,7 +13,7 @@ class showRoom extends Model
 {
     use HasFactory;
     protected $table ='show_rooms';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
 
     public function company(): BelongsTo

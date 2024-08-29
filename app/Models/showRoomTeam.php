@@ -10,7 +10,7 @@ class showRoomTeam extends Model
 {
     use HasFactory;
     protected $table='show_room_teams';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
     public function branch () :BelongsTo {
      return $this->belongsTo(showroom::class,'showRoom_id');

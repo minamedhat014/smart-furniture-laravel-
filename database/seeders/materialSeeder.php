@@ -15,7 +15,7 @@ class materialSeeder extends Seeder
     public function run(): void
     {
         DB::table('materials')->delete();
-        $data=['MDF','chipboard','beech ','pine ','beech pine','plywood','metal','steal','metal mechanism'];
+        $data=['MDF','chipboard','beech زان','pine عزيزي ','beech pine  موسكي','oak wood ارو','plywood  كونتر ','metal','steal','metal mechanism'];
         foreach ($data as $row) {
             Material::create([
                   'name'=> $row

@@ -2,30 +2,32 @@
 
 namespace App\Models;
 
-use App\Models\productDetail;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Price extends Model
 {
     use HasFactory;
     use LogsActivity;
     protected $table='prices';
-    protected $guarded = [];
+    protected $guarded =['id'];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['dealler_price', 'end_after_discount','special_discount']);
+        ->logOnly(['*']);
         // Chain fluent methods for configuration options
     }
 
-    public function item (): BelongsTo
+    public function pricable()
     {
-        return $this->belongsTo(productDetail::class,'product_detail_id');
+        return $this->morphTo();
     }
 
+    public function discounts()
+    {
+        return $this->morphMany(Discount::class, 'discountable');
+    }
 }

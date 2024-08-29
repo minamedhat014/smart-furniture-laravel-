@@ -17,13 +17,14 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->foreignId('type_id')->constrained('offers_type')->onDelete('cascade')->onDelete('cascade');
-            $table->text('product_types');
-            $table->decimal('discount_percentage')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->string('requirments')->nullable();
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+
+
+
             $table->timestamps();
         });
     }

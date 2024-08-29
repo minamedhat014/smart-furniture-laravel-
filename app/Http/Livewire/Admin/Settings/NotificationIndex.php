@@ -2,6 +2,7 @@
 
 namespace App\http\Livewire\Admin\Settings;
 
+use App\Traits\HasTable;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
@@ -10,20 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class NotificationIndex extends Component
 {
 
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-
-
-public $search;
-public $user;
-
-
-
-    public function updatingSearch()
-        {
-            $this->resetPage();
-        }
-        
+ use HasTable;
+       
     public function readAll(){
         $user = Auth::user();
         $user->unreadNotifications->markAsRead();
@@ -34,7 +23,6 @@ public $user;
     {
 
         $user = Auth::user();
-
         $unReadnotifications = $user->unreadNotifications()
         ->orderBy('created_at', 'desc')
         ->get();

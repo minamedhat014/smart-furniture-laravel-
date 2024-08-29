@@ -36,8 +36,11 @@ a {
     text-decoration: none !important; }
 
 .content {
-  padding: 7rem 0; }
-
+  padding: 7rem 0; 
+  zoom: 0.75;
+    -moz-transform: scale(0.75);
+    -moz-transform-origin: 0 0;
+  }
 h2 {
   font-size: 20px; }
 

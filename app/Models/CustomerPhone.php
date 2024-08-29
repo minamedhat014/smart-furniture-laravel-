@@ -12,7 +12,7 @@ class CustomerPhone extends Model
 
     use HasFactory;
     protected $table='customer_phones';
-    protected $guarded =[''];
+    protected $guarded =['id'];
 
 
     public function customerPhone(): BelongsTo

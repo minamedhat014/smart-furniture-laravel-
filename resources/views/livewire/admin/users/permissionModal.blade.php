@@ -3,7 +3,7 @@
 
 <x-app-modal id="addPermissioneModal" type="store" title="Add Permission ">
   <x-slot name="inputs">
-    <x-form-input type="text" fname="Permission Name"  bname="name" icon="fa-solid fa-user-lock"/>
+    <x-form-input type="text" fname="Permission Name" class="req"   bname="name" icon="fa-solid fa-user-lock"/>
   </x-slot>
 </x-app-modal>
 
@@ -13,7 +13,7 @@
 
 <x-app-modal id="editPermissionModal" type="update" title="Edit Permission ">
   <x-slot name="inputs">
-    <x-form-input type="text" fname="Permission Name"  bname="name" icon="fa-solid fa-user-lock"/>
+    <x-form-input type="text" fname="Permission Name" class="req"   bname="name" icon="fa-solid fa-user-lock"/>
   </x-slot>
 </x-app-modal>
 

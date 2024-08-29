@@ -2,45 +2,31 @@
 
 namespace App\http\Livewire\Admin\users;
 
+use App\Traits\HasTable;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
 
 class Permissions extends Component
 {
  
 
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-
-
-    public $search;
-    public $perpage =5;
-    public $sortfilter ='desc';
+    use HasTable;
     public $name;
     public $guard_name ='admin';
     public $permission_id;
+    protected $write_permission = 'write user';
 
-
-
- protected $rules = [
-    'name' => 'required|min:4|unique:permissions',
-    'guard_name'=>''
-  
-];
-
-public function hydrate(){
-    $this->dispatchBrowserEvent('pharaonic.select2.init');
-    $this->dispatchBrowserEvent('pharaonic.select2.load', [
-        'component' => $this->id,
-        'target'    => '#multiSelect'
-    ]);
+    protected function rules()
+    {
+         return
+         
+         [ 'name' => 'required|min:3|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:permissions,name,'.$this ->permission_id,
+                     ];
+ 
+                    
  }
 
-public function updated($feilds)
-{
-    $this->validateOnly($feilds);
-}
+
 
 
 public function closeModal()
@@ -48,20 +34,21 @@ public function closeModal()
         $this->reset();
     }
 
-public function updatingSearch()
-    {
-        $this->resetPage();
+    public function mount(){
+        $this->check_permission('view users');
     }
 
  public function store(){
-
-    {
+    try{
+        $this->check_permission($this->write_permission);
         $validatedData = $this->validate();
- 
-        Permission::create($validatedData);
-        $this->reset();
-        $this->emit('closeModal');
-        session()->flash('success','done successfully');  
+        Permission::create([
+        'name' =>$validatedData['name'],
+        'guard_name' =>$this->guard_name,
+        ]);
+        $this->success();
+     }catch (\Exception $e){
+        errorMessage($e);
     }
  }
 
@@ -81,17 +68,14 @@ public function updatingSearch()
 
 
  public function update(){
-
     {
+        $this->check_permission($this->write_permission);
      $validatedData = $this->validate();
-     Permission::where('id',$this->Role_id)->update([
+     Permission::where('id',$this->permission_id)->update([
      'name'=>$validatedData['name']
      ]);
-     $this->reset();
-     $this->emit('closeModal');
-     session()->flash('success','done successfully');  
+     $this->success();
     }
-
  }
 
  public function deleteID(int $id){
@@ -102,19 +86,17 @@ public function updatingSearch()
 
  
  public function delete(){
-
     {
+        $this->check_permission($this->write_permission);
         Permission::FindOrFail($this->permission_id)->delete();
-        session()->flash('success','done successfully');
-   
+        successMessage();  
     }
 }
 
 
 public function render()
 {
-    $permissions = Permission::orderBy('id', 'desc')->paginate(5);
-        $permissions =Permission::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'desc')->paginate(5);
+        $permissions =Permission::where('name', 'like', '%'.$this->search.'%')->orderBy('id', $this->sortfilter)->paginate($this->perpage);
         return view('livewire.Admin.users.permissions',compact('permissions'));
     }
 }

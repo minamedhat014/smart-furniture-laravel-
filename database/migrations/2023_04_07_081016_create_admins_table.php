@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('phone')->nullable();
-            $table->rememberToken(); 
+            $table->char('phone')->nullable();
             $table->boolean('status')->default(true);
-            $table->foreignId('company_id')->constrained('companies');
-            $table->string('profile_photo_path', 2048)->nullable();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

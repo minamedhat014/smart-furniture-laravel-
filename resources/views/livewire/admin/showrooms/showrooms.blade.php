@@ -1,7 +1,10 @@
+<div>
 <x-app-table name=" List of showrooms ">
 
 <x-slot name="header">
+  @can('write showroom')
 <x-table-button icon="fa-solid fa-circle-plus" target="AddshowroomModal" />
+   @endcan
 
   </x-slot>
   <x-slot name="head">
@@ -36,15 +39,21 @@
                              <td> {{$row->phone}}</td>
                               <td>
                                 <div>
-                                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                  <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
                                     Actions
                                   </button>
                                   <div class="dropdown-menu">
+                                    @can('write showroom')
                                     <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editshowroomModel" type="button" wire:click ="edit({{$row->id}})" ><i class="fa-solid fa-pen-to-square"></i> Edit showroom </a> </li>
                                     <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#deleteShowroomModel" type="button" wire:click =" deleteID({{$row->id}})" ><i class="fa-solid fa-trash"></i> Remove showroom </a> </li>
                                     <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#closeShowroomModal" type="button" wire:click =" getshow_id({{$row->id}})" ><i class="fa-solid fa-shop-lock"></i> close showroom </a> </li>
+                                    @endcan
+                                    @can('showroom staff')
                                     <li><a href="{{route('showStaff.index',$row->id)}}" class="dropdown-item" ><i class="fa-solid fa-people-group"></i> showroom staff </a> </li>
+                                    @endcan
+                                    @can('showroom products')
                                     <li><a  href="{{route('showroomProducts.index',$row->id)}}" class="dropdown-item" type="button"  ><i class="fa-brands fa-product-hunt"></i> showroom  products </a> </li>
+                                    @endcan
                                   </div>
                                 </div>
                               </td> 
@@ -58,7 +67,7 @@
   </x-slot>
   </x-app-table>
   
-  
+  </div>
   
 
   

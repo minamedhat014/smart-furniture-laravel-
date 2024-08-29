@@ -22,10 +22,8 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->integer('item_hieght');
             $table->integer('item_width');
-            $table->integer('item_length');
             $table->integer('item_out_depth');
             $table->integer('item_inner_depth');
-            $table->Date('available_date');
             $table->integer('status')->default(1);
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();

@@ -10,7 +10,7 @@ class customerAddress extends Model
 {
     use HasFactory;
     protected $table ='customer_addresses';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
     public function customerAddress ():BelongsTo
     {

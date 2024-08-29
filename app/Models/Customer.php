@@ -12,7 +12,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $table ='customers';
-    protected $guarded =[];
+    protected $guarded =['id'];
 
     
     public function stores(): BelongsToMany

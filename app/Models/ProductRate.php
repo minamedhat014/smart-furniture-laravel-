@@ -10,7 +10,7 @@ class ProductRate extends Model
 {
     use HasFactory;
     protected  $table ='product_reviews';
-    protected $guarded = [];
+    protected $guarded =['id'];
 
     public function products(): BelongsTo
     {

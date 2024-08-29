@@ -5,9 +5,8 @@
 <x-app-modal id="addversionModel" type="store" title=" Add Product update ">
 
   <x-slot name="inputs">
-    <x-form-select  value="id"  display="name" :options="$products" fname="Product " bname="selected" icon="fa-brands fa-product-hunt" />
+    <x-form-select  value="id"  display="name" :options="$products" fname="Product " bname="product_id" icon="fa-brands fa-product-hunt" />
     <x-form-input  type="text" fname="update summary" bname="version_summary" icon="fa-regular fa-comment-dots" /> 
-    <x-form-multi-select  value="item_code" display="item_code"  :options="$items" fname="Item code " bname="items_code" icon="fa-solid fa-circle-info muti-icon" />
     <x-form-select  value="id" display="name" :options="$reasons" fname="Reason " bname="reason_id" icon="fa-solid fa-clipboard-question" />
    <x-form-photo fname="Images"  bname="photos">
   <x-slot name="preview">
@@ -29,7 +28,6 @@
   <x-slot name="inputs">
     <x-form-select  value="id"   display="name"  :options="$products" fname="Product " bname="selected" icon="fa-solid fa-product-hunt" />
     <x-form-input  type="text" fname="update summary" bname="version_summary" icon="fa-regular fa-comment-dots" /> 
-    <x-form-multi-select  value="item_code" display="item_code"  :options="$items" fname="Item code " bname="items_code" icon="fa-solid fa-circle-info muti-icon" />
     <x-form-select  value="id" display="name" :options="$reasons" fname="Reason" bname="reason_id" icon="fa-solid fa-clipboard-question" /> 
    <x-form-photo fname="Images"  bname="photos">
   <x-slot name="preview">

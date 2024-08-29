@@ -10,8 +10,9 @@ class UpdateRecordDate extends Model
     use HasFactory;
 
     protected $table='update_record_dates';
-    protected $guarded=[];
+    protected $guarded =['id'];
 
+    
     public function updateable()
     {
         return $this->morphTo();

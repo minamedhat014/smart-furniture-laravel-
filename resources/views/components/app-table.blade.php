@@ -7,7 +7,7 @@
             
               <div wire:loading class="loading" >
               <i class="fa-solid fa-spinner fa-spin "></i> 
-           processing....
+           processing.... please wait 
             </div>
            
               <div class="row">
@@ -17,17 +17,21 @@
                       {{$name}}
                     </div>
                       <div class="card-header table-actions">
+                        
                                <div class="row ">
                                 <x-table-pages/>
                                 <x-table-sort/>
+
+                                <button class="table-select btn-outline-secondary" wire:click="$refresh">
+                                  <i class="fa-solid fa-rotate"></i> 
+                                </button>
                                 {{$header}}
                                 <x-table-search/>
-                             
-                           
+
                               </div>
                       </div>
-                      <div class="card-body bg-light">
-                          <table id="example1" class="table-light table-hover table-sm table-bordered" >
+                      <div class="card-body bg-light table-responsive" >
+                          <table id="example1" class="table-light table-hover table-sm table-bordered text-center " style="width: -webkit-fill-available;">
                               <thead class="custom-table-header" >
                      
                               {{$head}}
@@ -68,12 +72,12 @@
      
            <div class="col-10">
             <span  class="col-3"> <i class="fa-solid fa-filter"></i> Start </span>
-            <input type="date" class="feild-input"   placeholder=" Strat Date" wire:model="startDate">
+            <input type="date" class="feild-input"   placeholder=" Strat Date" wire:model.live="startDate">
            </div>
           
            <div class="col-10">
             <span  class="col-3"> <i class="fa-solid fa-filter"></i> End </span>
-            <input type="date" class="feild-input" placeholder=" End Date" wire:model="endDate">
+            <input type="date" class="feild-input" placeholder=" End Date" wire:model.live="endDate">
            </div>
            
         </div>

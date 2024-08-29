@@ -13,12 +13,15 @@ class productType extends Model
     
     protected $table='product_types';
 
-    protected $guarded =[ ];
+    protected $guarded =['id'];
 
     public function type(): HasMany
     {
         return $this->hasMany(Product::class);
     }
    
-
+    public function offers()
+    {
+        return $this->belongsToMany(offer::class);
+    }
 }

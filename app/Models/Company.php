@@ -21,9 +21,10 @@ class Company extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['name']);
-    
+        ->logOnly(['*']);
+        // Chain fluent methods for configuration options
     }
+    
 
     public function store(): HasMany
     {

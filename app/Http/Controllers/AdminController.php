@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use toastr;
 use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AdminController extends Controller
 {
@@ -23,28 +24,40 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
     public function login (Request $Request):RedirectResponse
     {
-        $validated = $Request->validate([
+
+
+        $key = 'login-attempts:' . $Request->ip();
+    // Check if the request has been throttled
+
+    if (RateLimiter::tooManyAttempts($key, 4)) {
+        return back()->with('error', 'Too many login attempts. Please try again later.');
+    }
+    
+        $Request->validate([
             'email' => 'required|max:100|email',
-            'password' => 'regex:/^[a-zA-Z0-9\s\-]+$/u|required|max:20',
+            'password' => 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|required|max:20|min:8',
         ]);
      
-       $check= $Request->all();
-    
-       if(Auth::guard('admin')->attempt(['email'=>$check['email'],'password'=>$check['password']])){
-        $status = Auth::guard('admin')->user()->status;
-       if($status ==1){
-        return redirect()->route('admin.home');
-       }else{
-        Auth::guard('admin')->logout();
-        return redirect()->route('admin.login_form')->with('error','This user is no longer active');
-       }
-
         
-       }else{
-        return back()->with('error','Invaild Email or Password');
-       }
+        $credentials = $Request->only('email', 'password');
+
+    if (Auth::guard('admin')->attempt($credentials)) {
+        RateLimiter::clear($key);
+
+        $status = Auth::guard('admin')->user()->status;
+        if ($status == 1) {
+            return redirect()->route('admin.home');
+        } else {
+            Auth::guard('admin')->logout();
+            return redirect()->route('admin.login_form')->with('error', 'This user is no longer active.');
+        }
+    } else {
+        RateLimiter::hit($key, 60); // Throttle for 60 seconds
+        return back()->with('error', 'Invalid email or password.');
+    }
 
     }
 

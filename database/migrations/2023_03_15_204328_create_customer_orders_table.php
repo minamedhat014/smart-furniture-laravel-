@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('status_id')->constrained('order_statuses')->nullable()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('sales_name')->nullable();
             $table->foreignId('delivery_address_id')->constrained('customer_addresses');
-           $table->date('delivery_date')->nullable();
+            $table->string('remarks')->nullable();
            $table->string('created_by')->nullable();
            $table->string('updated_by')->nullable();
            $table->timestamps();

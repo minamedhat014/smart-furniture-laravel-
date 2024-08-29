@@ -11,7 +11,7 @@ class OrderDetail extends Model
 {
     use HasFactory;
     protected $table="order_details";
-    protected $guarded =[];
+    protected $guarded =['id'];
 
     public function order () :BelongsTo{
         return $this->belongsTo(customerOrder::class,'order_id');

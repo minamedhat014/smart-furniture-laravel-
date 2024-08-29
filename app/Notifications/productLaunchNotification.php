@@ -2,13 +2,14 @@
 
 namespace App\Notifications;
 
-use App\Models\Product;
+
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class productLaunchNotification extends Notification
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+
+class productLaunchNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -29,25 +30,27 @@ class productLaunchNotification extends Notification
      */
     public function via()
     {
-        return ['database'];
+        return ['mail','database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    // public function toMail(object $notifiable): MailMessage
-    // {
-    //     return (new MailMessage)
-    //                 ->line('a new '.$this->product->type->name.' product has been launched called'.' '.$this->product->name.' '.'from'.' '.$this->product->source->source_name,)
-    //                 ->action('more details', route('productSHOW',$this->product->id))
-    //                 ->line('Thank ');
-    // }
+    public function toMail(object $notifiable): MailMessage
+    {
+        $url =route('productSHOW',$this->product->id);
+            return (new MailMessage)
+            ->subject('launch of smart new product')
+            ->line('a new '.$this->product->type->name.' product has been launched called'.' '.$this->product->name,)
+            ->action('more details',$url)
+            ->line('Thanks');     
+    }
 
     public function toDatabase()
     {
         return [
-          'title'=> $this->product->name.' '.$this->product->type->name.' has been launched'.' '.'from'.' '.$this->product->source->name,
-           'by' => $this->product->created_by,
+          'title'=> $this->product->name.' '.$this->product->type->name.' has been launched',
+           'by' => displayCreatedBy($this->product->created_by),
            'image'=>$this->product->getFirstMediaUrl('products','thumb'),
            'id' =>$this->product->id,
            'url' => route('productSHOW',$this->product->id),

@@ -20,4 +20,10 @@ class ProductDetailController extends Controller
    
       return view('admin.products.price-list');
    }
+
+
+   public function available(){
+      return view('admin.products.available-items');
+   }
+
 }

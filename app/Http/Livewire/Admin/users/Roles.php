@@ -2,6 +2,8 @@
 
 namespace App\http\Livewire\Admin\users;
 
+use App\Traits\HasCheckbox;
+use App\Traits\HasTable;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
@@ -10,24 +12,24 @@ use Spatie\Permission\Models\Role;
 class Roles extends Component
 {
 
+       use HasTable;
+       use HasCheckbox;
 
-        use WithPagination;
-        protected $paginationTheme = 'bootstrap';
-    
-    
-        public $search;
-        public $perpage =5;
-        public $sortfilter ='desc';
         public $name;
         public $Role_id;
-        public $assigned_Permissions =[];
+        protected $write_permission='write user';
     
     
     
-     protected $rules = [
-        'name' => 'required|min:4|unique:roles',
-      
-    ];
+        protected function rules()
+        {
+             return
+             
+             [ 'name' => 'required|min:3|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:roles,name,'.$this ->Role_id,
+                         ];
+     
+                        
+     }
     
     
 public function closeModal()
@@ -35,27 +37,17 @@ public function closeModal()
     $this->reset();
 }
     
-    public function updated($feilds)
-    {
-        $this->validateOnly($feilds);
+
+    public function mount(){
+        $this->check_permission('view users');
     }
     
-    
-    
-    public function updatingSearch()
-        {
-            $this->resetPage();
-        }
-    
      public function store(){
-    
         try{
+     $this->check_permission($this->write_permission);
             $validatedData = $this->validate();
-     
             Role::create($validatedData);
-            $this->reset();
-            $this->emit('closeModal');
-            session()->flash('success','done successfully');  
+            $this->success();
         }catch(\Exception $e){
             session()->flash('error',$e);
         }
@@ -74,28 +66,20 @@ public function closeModal()
     
     
      }
-    
-     public function hydrate(){
-        $this->dispatchBrowserEvent('pharaonic.select2.init');
-        $this->dispatchBrowserEvent('pharaonic.select2.load', [
-            'component' => $this->id,
-            'target'    => '#multiSelect'
-        ]);
-     }
-
+   
     
      public function update(){
-    if( $this->Role_id > 1){
+        $this->check_permission($this->write_permission);
+        if( $this->Role_id > 1){
         try {
             $validatedData = $this->validate();
+
             Role::where('id',$this->Role_id)->update([
             'name'=>$validatedData['name']
             ]);
-            $this->reset();
-            $this->emit('closeModal');
-            session()->flash('success','done successfully');   
+           $this->success();
            }catch(\Exception $e){
-               session()->flash('error',$e);
+              errorMessage($e);
            }
     }else{
         session()->flash('error', "you can't change this role");
@@ -112,18 +96,36 @@ public function closeModal()
             $this->Role_id = $id;
             }
            
-    public function assignPermissions(){
+    public function syncPermissions(){
+        $this->check_permission($this->write_permission);
+        $validatedData = $this->validate(
+            [
+                'checked_ids' =>'required',
+            ]);
+
         $role= Role::findOrFail($this->Role_id);
-        $role->givePermissionTo($this->assigned_Permissions);
-        session()->flash('success','done successfully');   
-        $this->reset();
+        $role->syncPermissions($validatedData['checked_ids']);
+        $this->success();
+    }
+
+    public function assignPermissions(){
+        $this->check_permission($this->write_permission);
+        $validatedData = $this->validate(
+            [
+                'checked_ids' =>'required',
+            ]);
+
+        $role= Role::findOrFail($this->Role_id);
+        $role->givePermissionTo($validatedData['checked_ids']);
+        $this->success();
     }
      
      public function delete(){
+        $this->check_permission($this->write_permission);
      if($this ->Role_id > 1)
         {
          Role::FindOrFail($this->Role_id)->delete();
-         session()->flash('success','done successfully');
+      $this->success();
         }
         else{
             session()->flash('error', "you can't delete this role");
@@ -134,8 +136,7 @@ public function closeModal()
     public function render()
     {
         $permissions = Permission::all();
-        $roles = Role::orderBy('id', 'asc')->paginate(5);
-            $roles =Role::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'asc')->paginate(5);
+        $roles =Role::with('permissions')->where('name', 'like', '%'.$this->search.'%')->orderBy('id', $this->sortfilter)->paginate($this->perpage);
         return view('livewire.Admin.users.roles',compact('roles','permissions'));
     }
 }

@@ -154,5 +154,11 @@ return [
     */
 
     'render_on_redirect' => false,
+    'inject_morph_markers' => false,
+    'navigate' => false,
+    'legacy_model_binding' => false,
+    'inject_assets' => false,
+     
+    
 
 ];

@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('sku')->unique();
             $table->foreignId('type_id')->constrained('product_types')->cascadeOnUpdate();
             $table->foreignId('source_id')-> constrained('product_sources')->cascadeOnUpdate();
             $table->string('descripation');
-            $table->text('item_material')->nullable()->default(null);
+            $table->integer('warranty_years')->default(0);
             $table->string('fabric')->nullable();
             $table->string('sponge')->nullable();
             $table->string('sponge_thickness')->nullable();
@@ -26,7 +27,6 @@ return new class extends Migration
             $table->tinyInteger('Standard_ability')->default(1);
             $table->tinyInteger('chair_added')->nullable()->default(0);
             $table->tinyInteger('coshin_number')->nullable();
-            $table->string('coshin_color')->nullable();
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

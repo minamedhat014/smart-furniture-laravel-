@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('product_updates', function (Blueprint $table) {
             $table->id();
             $table->string('version_summary');
-            $table->string('items_code')->nullable();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade')->onDelete('cascade');
             $table->foreignId('reason_id')->constrained('version_reason')->onDelete('cascade')->onDelete('cascade');
             $table->string('created_by');

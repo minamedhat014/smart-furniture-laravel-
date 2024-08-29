@@ -1,3 +1,4 @@
+<div>
 @php
   $name=App\Models\showroom::where('id',$branch_id)->first()->name;
 @endphp
@@ -39,7 +40,7 @@
           <td> {{$row->phone}} </td>
           <td>
             <div>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
                 Actions
               </button>
               <div class="dropdown-menu">
@@ -57,4 +58,4 @@
       </x-slot>
       </x-app-table>
       
-
+</div>

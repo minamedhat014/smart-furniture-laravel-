@@ -17,10 +17,12 @@ class AdminSeeder extends Seeder
 
         DB::table('Admins')->delete();
         Admin::create([
-            'name' => 'mina',
-            'email' => 'admin@test.com',
-            'password' => bcrypt('12345678'),
+            'name' => 'mina medhat',
+            'email' => 'mina@MiraTech.com',
+            'password' => bcrypt('Donty&&147'),
             'company_id'=> 1,
+            'created_by'=>'system',
+            'phone'=>'01278397789'
         ])->assignRole('super admin');
     }
 }

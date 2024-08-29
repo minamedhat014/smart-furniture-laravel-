@@ -3,39 +3,20 @@
 namespace App\Http\Livewire\Admin\Showrooms;
 
 use App\Models\install_tech;
-use App\Models\installment;
+use App\Traits\HasTable;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\WithPagination;
+
 
 class InstallStaff extends Component
 {
-
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-    
-    public $search;
-    public $perpage =5;
-    public $sortfilter ='desc';
-    public $user_company_id;
+   use HasTable;
     public $company_id;
-    public $user;
     public $name;
     public $email;
     public $phone;
     public $delete_id;
     public $edit_id;
-
-
-
-
-
-    public function mount(){
-        $this->user_company_id=Auth::user()->company_id;
-        $this->company_id=Auth::user()->company_id;
-        $this->user=Auth::user()->name;
-    }
-
 
 
 
@@ -56,18 +37,6 @@ protected function rules()
 }
 
 
-public function updated($feilds)
-{
-    $this->validateOnly($feilds); }
-
-public function updatingSearch()
-   {
-       $this->resetPage();
-   }
-   
-
-    protected $queryString = ['search'];
-
 
 public function store(){
             $validatedData = $this->validate();
@@ -76,15 +45,12 @@ public function store(){
  'name'=>$validatedData['name'],
  'email'=>$validatedData['email'],
  'phone'=>$validatedData['phone'],
- 'company_id'=>$validatedData['company_id'],
- 'created_by'=> $this->user,
+ 'company_id'=>authedCompany(),
+ 'created_by'=> authName(),
         ]);
-        $this->reset(['name','email','phone','company_id']);
-      session()->flash('success', 'Done sucessfully'); 
-      $this->emit('closeModal');
+        $this->success();
        }catch (\Exception $e) {
-
-           session()->flash('error', $e); 
+          errorMessage($e);
       };   
 }
 
@@ -112,12 +78,10 @@ public function update(){
         'name'=>$validatedData['name'],
         'email'=>$validatedData['email'],
         'phone'=>$validatedData['phone'],
-        'company_id'=>$validatedData['company_id'],
-        'updated_by'=>$this->user,
+        'company_id'=>authedCompany(),
+        'updated_by'=>authName(),
     ]);
-    $this->reset(['name','email','phone','company_id']);
-    $this->emit('closeModal');
-    session()->flash('success', 'Done sucessfully');  
+  $this->success();
    }catch(\Exception $e){
        session()->flash('error', $e); 
    }
@@ -134,18 +98,17 @@ public function deleteID(int $delete_id){
  public function delete(){
    try {
    install_tech::FindOrFail($this->delete_id)->delete();
-   session()->flash('success', 'Done sucessfully'); 
+ successMessage();
    }catch (\Exception $e){
-       session()->flash('error', $e); 
-  }
+      errorMessage($e);
 }
-
+ }
 
 
 
     public function render()
     {
-        if($this->user_company_id === 1){
+        if(userFactory()){
             $data=install_tech::with('company')
             ->where('phone', 'like', '%' . $this->search . '%')
             ->orWhereHas('company', function ($query) {
@@ -154,7 +117,7 @@ public function deleteID(int $delete_id){
         }
         else{
             $data=install_tech::with('company')
-            ->where('company_id',$this->user_company_id)
+            ->where('company_id',authedCompany())
             ->where('phone', 'like', '%' . $this->search . '%')  
             ->orderBy('id',$this->sortfilter)->paginate($this->perpage);
         }

@@ -5,8 +5,7 @@ namespace App\http\Livewire\Admin\Products;
 
 use Livewire\Component;
 use App\Models\ProductRate;
-
-
+use App\Traits\HasTable;
 use Livewire\WithPagination;
 use Illuminate\Queue\Listener;
 use Illuminate\Support\Facades\DB;
@@ -16,9 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class ProductReview extends Component
 {
 
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-    public $user;
+ use HasTable;
     public $products;
     public $selected_product;
     public $product_id;
@@ -37,13 +34,7 @@ class ProductReview extends Component
 
  
 
-    
-    public function mount()
-    {
-        $this->user= Auth::user()->name.Auth::user()->id; 
-
-    }
-
+ 
 
 
     protected function rules()
@@ -77,21 +68,17 @@ class ProductReview extends Component
 'design_scale'=>$validatedData['design_scale'],
 'design_recomendation'=>$validatedData['design_recomendation'],
 'general_scale'=>$validatedData['general_scale'],
-'created_by'=> $this->user,
+'created_by'=> authName(),
        ]);
 
-  $this->reset(['price_scale','price_recomendation','material_scale','material_recomendation','design_scale','design_recomendation','general_scale'
-  ,'colors_scale','colors_recomendation'
-]);
-$this->emit('closeModal');
-  session()->flash('success', 'thanks for your rating ... done sucessfully'); 
+       $this->success('thank your for your feedback');
       }catch (\Exception $e) {
-          session()->flash('error', $e); 
+         errorMessage($e);
      };   
 }
 
 
-public function closeModal()
+protected function closeModal()
     {
         $this->reset(['price_scale','price_recomendation','material_scale','material_recomendation','design_scale','design_recomendation','general_scale'
   ,'colors_scale','colors_recomendation'
@@ -119,16 +106,11 @@ public function update(){
 'design_scale'=>$validatedData['design_scale'],
 'design_recomendation'=>$validatedData['design_recomendation'],
 'general_scale'=>$validatedData['general_scale'],
-'created_by'=> $this->user,
+'created_by'=> authName(),
        ]);
-
-  $this->reset(['price_scale','price_recomendation','material_scale','material_recomendation','design_scale','design_recomendation','general_scale'
-  ,'colors_scale','colors_recomendation'
-]);
-$this->emit('closeModal');
-  session()->flash('success', 'thanks for your rating ... updated sucessfully'); 
+$this->success('thank your for your feedback');
       }catch (\Exception $e) {
-          session()->flash('error', $e); 
+          errorMessage($e);
      };   
 }
 
@@ -140,10 +122,10 @@ public function deleteID(int $delete_id){
  public function delete(){
    try {
     ProductRate::FindOrFail($this->delete_id)->delete();
-     session()->flash('success', 'Done sucessfully'); 
+   successMessage();
     }catch (\Exception $e){
         DB::rollBack();
-        session()->flash('error', $e );
+        errorMessage($e);
     }
 }
 
@@ -153,7 +135,7 @@ public function deleteID(int $delete_id){
 
     public function render()
     {
-        $this->data=ProductRate::where('product_id',$this->product_id)->where('created_by',$this->user)->get();
+        $this->data=ProductRate::where('product_id',$this->product_id)->where('created_by',authName())->get();
         $id = $this->product_id;
         return view('livewire.admin.products.product-review');
     }

@@ -17,11 +17,8 @@ return new class extends Migration
             $table->foreignId('item_id')->constrained('product_details')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity')->default(1);
             $table->string('wharehouse');
-            $table->decimal('cost_unit_price');
             $table->decimal('unit_price');
             $table->decimal('branch_extra_discount')->nullable;
-            $table->decimal('unit_price_after_branch_discount');
-            $table->decimal('final_price');
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

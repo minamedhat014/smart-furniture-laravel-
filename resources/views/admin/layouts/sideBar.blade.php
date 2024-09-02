@@ -260,7 +260,7 @@
       </ul>
         </li>  
 
-        {{-- <li class="nav-item has-treeview menu-close">
+ <li class="nav-item has-treeview menu-close">
           <a href="" class="nav-link active">
             <i class="fa-solid fa-calendar-day"></i>
             <p>
@@ -272,12 +272,13 @@
             <li class="nav-item">             
               <a href="{{route('deliveryAppointment.index')}}" class="nav-link">
                 <i class="fa-solid fa-calendar-day"></i>
-                <p> delivery  </p>
+                <p> Delivery Appointments  </p>
               </a>
             </li>      
       </ul>
       </li> 
           
+{{--        
       <li class="nav-item has-treeview menu-close">
         <a href="" class="nav-link active">
           <i class="fa-solid fa-tags"></i>
@@ -327,7 +328,7 @@
           </li> 
     </ul>
       </li>  
- --}}
+ --}} 
 
       {{-- <li class="nav-item has-treeview menu-close">
         <a href="" class="nav-link active">

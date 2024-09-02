@@ -91,6 +91,11 @@ public function __construct()
 
    public function mount(){
     $this->check_permission('view products');
+
+    if(!authedCan($this->write_permission)){
+     $this->statusFilter = 2;
+    }
+
     $this->types =productType ::all(['id','name']);
     $this->sources =productSource::all(['id','name']);
     $this->Materials =Material::all();  

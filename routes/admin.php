@@ -48,10 +48,7 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
                 Route::get('/notifications/',[settingsController::class,'notify'])->name('notifications.index');
               
                  //only for admins 
-                 
-                Route::get ('/users/',[userPermissionController::class,'index'])
-              ->middleware(['permission:view users', 'role:admin|super admin'])
-                ->name('user.index');
+                Route::get ('/users/',[userPermissionController::class,'index'])->middleware(['permission:view users', 'role:admin|super admin'])->name('user.index');
                 Route::get('/roles/',[roleController::class,'index'])->middleware(['permission:view users','role:admin|super admin'])->name('roles.index');
                 Route::get('/permissions/',[permissionController::class,'index'])->middleware(['permission:view users','role:admin|super admin'])->name('permissions.index');
                 Route::get('/activities/',[SystemActivityLog::class,'index'])->middleware(['permission:view activity log','role:admin|super admin'])->name('systemActivity.index');

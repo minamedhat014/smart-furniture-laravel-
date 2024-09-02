@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-delivery memo
+delivery appointments
 @endsection
 
 

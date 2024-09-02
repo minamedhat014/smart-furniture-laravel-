@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->morphs('appointable');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date')->nullable();
+            $table->string('title');
+            $table->string('zone');
+            $table->string('remarks')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

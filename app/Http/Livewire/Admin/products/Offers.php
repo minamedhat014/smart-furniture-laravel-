@@ -48,6 +48,9 @@ public function __construct()
 }
 
     public function mount(){
+        if(!authedCan($this->write_permission)){
+            $this->statusFilter = 2;
+           }
         $this->offers = offersType::all() ; 
       $this->check_permission('view offers');
           

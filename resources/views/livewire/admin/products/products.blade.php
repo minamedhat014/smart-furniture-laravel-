@@ -1,4 +1,5 @@
 <div>
+  
     <x-app-table name="List of Products">
     
       <x-slot name="header">

@@ -11,9 +11,11 @@ class Calender extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+
+     public $events;
+    public function __construct($events)
     {
-        //
+        $this->events=$events;
     }
 
     /**

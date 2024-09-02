@@ -25,7 +25,10 @@ class Customer extends Model
         return $this->hasMany(customerAddress::class,'customer_id');
     }
 
-   
+    public function appointment()
+    {
+        return $this->morphOne(price::class, 'appointable');
+    }
 
     public function phone(): HasMany
     {

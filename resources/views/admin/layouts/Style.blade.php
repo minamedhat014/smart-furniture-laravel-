@@ -5,9 +5,6 @@
 
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('assets/dist/fontawesome/css/all.min.css')}}">
- <!-- fullCalendar -->
- <link rel="stylesheet" href="{{asset('assets/plugins/fullcalendar/main.css')}}">
-
   <link rel="stylesheet" href="{{asset('assets/plugins/jqvmap/jqvmap.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
@@ -29,3 +26,4 @@
 
   <link rel="stylesheet" href="{{asset('assets/dist/css/mycustom.css')}}">
   @yield('css')
+  @stack('css')

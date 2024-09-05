@@ -10,17 +10,18 @@
   </x-slot>
   
   <x-slot name="head">
-    <th class="col-1">Id</th>
-    <th class="col-2"> Customer Name </th>
-    <th class="col-1"> Date of birth </th>
-    <th class="col-1"> Date of marriage </th>
-    <th class="col-1"> Branches </th>
-    <th class="col-1"> Phones </th>
-    <th class="col-1"> Type </th>
-    <th class="col-2"> Address </th>
-    <th class="col-2"> Created By </th>
+    <th>Id</th>
+    <th> Title </th>
+    <th>Name </th>
+    <th> Date of birth </th>
+    <th> Date of marriage </th>
+    <th> Branches </th>
+    <th> Phones </th>
+    <th> Type </th>
+    <th> Address </th>
+    <th> Created By </th>
     @can('write customer')
-    <th class="col-1"> Actions </th>
+    <th> Actions </th>
     @endcan
   </x-slot>
   
@@ -30,7 +31,8 @@
     @foreach($this->customers as $key => $row)
     <tr >
       <td> {{$row->id}}</td>
-      <td> <span class="badge bg-dark"> {{$row->title}} :</span>{{$row->name}}</td>
+      <td> <span class="badge bg-info"> {{$row->title}} </span> </td>
+      <td> {{$row->name}}</td>
       <td> {{$row->date_of_birth}}</td>
       <td> {{$row->date_of_marriage}}</td>
       <td>

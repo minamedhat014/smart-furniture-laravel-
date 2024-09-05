@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\users;
+namespace App\Http\Livewire\Admin\Users;
 
 use App\Traits\HasCheckbox;
 use App\Traits\HasTable;

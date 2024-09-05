@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\Showrooms;
+namespace App\Http\Livewire\Admin\Showrooms;
 
 use toastr;
 use App\Models\Company;

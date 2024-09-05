@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\Settings;
+namespace App\Http\Livewire\Admin\Settings;
 
 use Livewire\Component;
 use App\Models\dropdownLists;

@@ -1,13 +1,10 @@
 <?php
 
-namespace App\http\Livewire\admin\products;
+namespace App\Http\Livewire\Admin\Products;
 
 use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\productDetail;
 use App\Models\ProductComponent;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+
 
 class productDetailsModal extends Component
 {

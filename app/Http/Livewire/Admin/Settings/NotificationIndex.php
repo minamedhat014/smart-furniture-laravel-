@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\Settings;
+namespace App\Http\Livewire\Admin\Settings;
 
 use App\Traits\HasTable;
 use Livewire\Component;

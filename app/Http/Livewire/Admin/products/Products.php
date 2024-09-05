@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\Products;
+namespace App\Http\Livewire\Admin\Products;
 
 
 use Exception;

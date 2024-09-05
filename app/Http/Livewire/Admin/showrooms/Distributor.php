@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\showrooms;
+namespace App\Http\Livewire\Admin\Showrooms;
 
 
 use session;

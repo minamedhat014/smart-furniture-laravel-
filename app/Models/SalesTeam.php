@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class salesTeam extends Authenticatable
+class SalesTeam extends Authenticatable
 {
     use HasFactory, Notifiable;
     use HasRoles;

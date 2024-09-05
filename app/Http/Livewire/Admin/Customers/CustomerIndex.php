@@ -1,6 +1,6 @@
 <?php
 
-namespace App\http\Livewire\Admin\Customers;
+namespace App\Http\Livewire\Admin\Customers;
 
 use Carbon\Carbon;
 use App\Models\City;

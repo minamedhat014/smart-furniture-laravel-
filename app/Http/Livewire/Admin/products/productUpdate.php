@@ -1,9 +1,8 @@
 <?php
 
-namespace App\http\Livewire\Admin\Products;
+namespace App\Http\Livewire\Admin\Products;
 
 use App\Models\Product;
-use App\Models\productDetail;
 use App\Models\ProductUpdate as ModelsProductUpdate;
 use App\Models\versionReason;
 use App\Traits\HasMultiSelect;

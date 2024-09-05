@@ -3,9 +3,9 @@
 
 <x-slot name="inputs">
     <x-form-input  type="text" fname=" Offer Name " bname="name" icon="fa-solid fa-shield-heart"  class="req" /> 
-    <x-form-input  type="date" fname="Start Date" bname="start_date" icon="fa-solid fa-calendar" /> 
-    <x-form-input  type="date" fname="End Date" bname="end_date" icon="fa-solid fa-calendar" /> 
-    <x-form-select  :options="$offers" display="name" fname="Offer Type" bname="type_id" value="id" icon="fa-solid fa-shield-heart" />
+    <x-form-input  type="date" fname="Start Date" bname="start_date" icon="fa-solid fa-calendar" class="req"/> 
+    <x-form-input  type="date" fname="End Date" bname="end_date" icon="fa-solid fa-calendar" class="req" /> 
+    <x-form-select  :options="$offers" display="name" fname="Offer Type" bname="type_id" value="id" class="req" icon="fa-solid fa-shield-heart" />
     <x-form-input  type="text" fname="Requirments" bname="requirments" icon="fa-solid fa-registered" />
     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
   </x-slot>
@@ -19,9 +19,9 @@
 <x-app-modal id="editoffersModel" type="update" title=" Edit Offer">
 
   <x-slot name="inputs">
-    <x-form-input  type="text" fname=" Offer Name" bname="name" icon="fa-solid fa-shield-heart" /> 
-    <x-form-input  type="date" fname="Start Date" bname="start_date" icon="fa-solid fa-calendar" /> 
-    <x-form-input  type="date" fname="End Date" bname="end_date" icon="fa-solid fa-calendar" /> 
+    <x-form-input  type="text" fname=" Offer Name" bname="name" icon="fa-solid fa-shield-heart" class="req" /> 
+    <x-form-input  type="date" fname="Start Date" bname="start_date" icon="fa-solid fa-calendar" class="req" /> 
+    <x-form-input  type="date" fname="End Date" bname="end_date" icon="fa-solid fa-calendar" class="req" /> 
     <x-form-select  :options="$offers" display="name"  fname="Offer Type" bname="type_id" value="id" icon="fa-solid fa-shield-heart" />
     <x-form-input  type="text" fname="Requirments" bname="requirments" icon="fa-solid fa-registered" />
     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />

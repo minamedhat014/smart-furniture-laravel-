@@ -2,19 +2,21 @@
 
 namespace App\http\Livewire\Admin\Customers;
 
+use Carbon\Carbon;
 use App\Models\City;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\showRoom;
 use App\Traits\HasTable;
+
+
 use App\Models\CustomerType;
-
-
 use App\Traits\HasMultiSelect;
 use App\Models\customerAddress;
-use App\services\customerService;
+use App\Models\CustomerTitles;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
+use App\services\customerService;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -32,15 +34,16 @@ public $branches=[];
 #[Locked]
 public $customer_id;
 public $name;
-public $mail;
-public $national_id;
 public $store_ids =[];
 public $type;
+public $title;
 public $phone1;
 public $phone2;
 public $remarks;
 public $showList = true;
 public $city;
+public $date_of_birth;
+public $date_of_marriage;
 public $address;
 public $cities;
 
@@ -49,6 +52,7 @@ public $edit_id;
 public $selected_id;
 public $editAddress;
 protected $customerService;
+public $titles;
 protected $write_permission ="write customer";
 
 
@@ -60,12 +64,12 @@ public function __construct()
 
 
 public function mount(){
-  $this->check_permission("view customers");
-  
+  $this->check_permission("view customers");  
  if($this->showList == false){
   $this->perpage = 1;
  }
   $this-> cities = City::all('id','name');
+  $this->titles = CustomerTitles::all();
   if(userFactory()){
    $this->branches = showRoom::all('id','name');
   }else{
@@ -80,9 +84,10 @@ protected function rules()
    {
         return [ 
         'name' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
-        'mail' => 'nullable|email',
-        'national_id' => 'required|numeric|regex:/^\d{14}$/|unique:customers,national_id,'. $this ->edit_id,
+        'title'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'type' => 'required',
+        'date_of_birth'=>'nullable|date|before:'.Carbon::now()->subYears(15)->format('Y-m-d'),
+        'date_of_marriage' =>'nullable|date|after:date_of_birth',
         'phone1' => [
           'required',
           'regex:/^01[0-9]{9}$/',
@@ -103,7 +108,7 @@ protected function rules()
 
     public function closeModal()
     {
-      $this->reset(['name','national_id','remarks','type','store_ids','phone1','mail',
+      $this->reset(['name','title','remarks','date_of_birth','date_of_marriage','type','store_ids','phone1',
       'phone2' ,'city' ,'address']); 
     }
 
@@ -130,9 +135,10 @@ public function edit(int $id){
   if($edit){
    $this->edit_id = $id;
    $this->name =$edit->name;
-   $this->mail =$edit->mail;
-   $this->national_id =$edit->national_id;
+   $this->title =$edit->title;
    $this->type =$edit->type;
+   $this->date_of_birth =$edit->date_of_birth;
+   $this->date_of_marriage =$edit->date_of_marriage;
    $this->store_ids= $edit->stores->pluck('id')->toArray();
    $this->phone1=$edit->phone->pluck('number')->first();
    $this->phone2=$edit->phone->pluck('number')->last();
@@ -261,6 +267,8 @@ public function edit(int $id){
     public function render()
     {
         $types=CustomerType::all('name');
+     
+
         return view('livewire.admin.customers.customer-index',compact('types'));
     }
 }

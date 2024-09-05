@@ -12,7 +12,6 @@
     <th class="col-1"> Created at</th>
     <th class="col-1"> Customer Name </th>
     <th class="col-1"> Branches </th>
-    <th class="col-1"> National id </th>
     <th class="col-1"> Phones </th>
     <th class="col-1"> Type </th>
     <th class="col-2"> Address </th>
@@ -36,8 +35,6 @@
         </span>
         @endforeach
       </td>
-      <td> {{$row->national_id}}</td>
-       
         <td> 
        @foreach($row->phone as $key => $pho)
        <span class="badge bg-success"> 

@@ -201,12 +201,16 @@ h2 {
                 
                 <div class="form-group first">
                   <label for="username">password</label>
-                  <input type="password" id="password"  class="form-control" placeholder="Password" name="password" required>
-                  <span id="toggle-password" class="eye-icon">👁️</span>
+                  <input type="password"   id="password"  class="form-control" placeholder="Password" name="password" required>
+                  <span id="toggle-password" class="eye-icon">👀</span>
                 </div>
                          @error('password')
                              <span class="text-danger">{{$message}}</span>
                           @enderror
+
+            
+        
+
             <input type="submit" value="Log In" class="btn btn-block btn-primary">
 
       
@@ -258,7 +262,7 @@ document.getElementById('toggle-password').addEventListener('click', function ()
     passwordField.setAttribute('type', type);
 
     // Optionally, change the eye icon to show "open" or "closed" eye
-    this.textContent = type === 'password' ? '👁️' : '🙈';
+    this.textContent = type === 'password' ? '👀' : '🙈';
 });
 
 </script>

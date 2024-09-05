@@ -12,9 +12,9 @@
   <x-slot name="head">
     <th class="col-1">Id</th>
     <th class="col-2"> Customer Name </th>
-    <th class="col-2"> Customer Email</th>
+    <th class="col-1"> Date of birth </th>
+    <th class="col-1"> Date of marriage </th>
     <th class="col-1"> Branches </th>
-    <th class="col-1"> National id </th>
     <th class="col-1"> Phones </th>
     <th class="col-1"> Type </th>
     <th class="col-2"> Address </th>
@@ -30,8 +30,9 @@
     @foreach($this->customers as $key => $row)
     <tr >
       <td> {{$row->id}}</td>
-      <td> {{$row->name}}</td>
-      <td> {{$row->mail}}</td>
+      <td> <span class="badge bg-dark"> {{$row->title}} :</span>{{$row->name}}</td>
+      <td> {{$row->date_of_birth}}</td>
+      <td> {{$row->date_of_marriage}}</td>
       <td>
         @foreach($row->stores()->get() as $key => $ro)
         <span class="badge bg-warning"> 
@@ -39,8 +40,6 @@
         </span>
         @endforeach
       </td>
-      <td> {{$row->national_id}}</td>
-       
         <td> 
        @foreach($row->phone as $key => $pho)
        <span class="badge bg-success"> 

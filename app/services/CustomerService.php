@@ -2,15 +2,11 @@
 
 namespace App\services;
 
-use App\Models\Price;
-use App\Models\Product;
+
 use App\Models\Customer;
 use App\Models\CustomerPhone;
-use App\Models\productDetail;
 use App\Models\customerAddress;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\ProductPriceNotification;
 
 class customerService {
 
@@ -26,9 +22,10 @@ public function store($validatedData,$stores,$phones){
     
      $customer = Customer::create([
       'name'=>$validatedData['name'],
-      'mail'=>$validatedData['mail'],
-      'national_id'=>$validatedData['national_id'],
+      'title'=>$validatedData['title'],
       'type'=>$validatedData['type'],
+      'date_of_marriage'=>$validatedData['date_of_marriage'],
+      'date_of_birth'=>$validatedData['date_of_birth'],
       'remarks'=>$validatedData['remarks'],
       'created_by' => authName(),
              ]);
@@ -60,8 +57,9 @@ public function store($validatedData,$stores,$phones){
     $customer = Customer::findOrFail($id);
 $customer->update([
 'name'=>$validatedData['name'],
-'mail'=>$validatedData['mail'],
-'national_id'=>$validatedData['national_id'],
+'title'=>$validatedData['title'],
+'date_of_marriage'=>$validatedData['date_of_marriage'],
+'date_of_birth'=>$validatedData['date_of_birth'],
 'type'=>$validatedData['type'],
 'remarks'=>$validatedData['remarks'],
 'updated_by' => authName(),
@@ -103,14 +101,12 @@ $customer->update([
         ->where('name', 'like', '%'.$search.'%')
        ->orWhereHas('phone', function ($query) {
          $query->where('number', 'like', '%' . $this->search . '%');})
-         ->orwhere('national_id','like','%' . $this->search . '%')
         ->orderBy('id',$sort)->paginate($pages);
        }
        
        elseif(CustomerPhone::where('number',$this->search)->exists() or Customer::where('national_id',$this->search)->exists()){
         return Customer::with('stores','phone','address')
         ->orwhereRelation('phone', 'number',$this->search)
-         ->orwhere('national_id',$this->search)
         ->orderBy('id',$this->sortfilter)->paginate($this->perpage); 
       } 
         else{

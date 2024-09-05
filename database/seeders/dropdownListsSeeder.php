@@ -91,6 +91,11 @@ class dropdownListsSeeder extends Seeder
                 'name' => 'customer concern ',
                 'model_namespace' => 'App\Models\CustomerConcern',
             ),
+            array(
+                'id' => '16',
+                'name' => 'customer titles ',
+                'model_namespace' => 'App\Models\CustomerTitle',
+            ),
 
            
 

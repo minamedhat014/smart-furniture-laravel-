@@ -1,5 +1,5 @@
-
-<x-app-modal id="addorderModal" type="storeOrder" title="Add order related to {{$customer->name ?? ''}}">
+<div>
+<x-app-modal id="addOrderModal" type="storeOrder" title="Add order related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
       <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" />
       <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
@@ -9,7 +9,7 @@
         <x-slot name="preview">
           @if ($photos)
           @foreach($photos as  $photo)
-          <img src="{{ $photo->temporaryUrl() }}" width="100px" height="100px">
+          <img src="{{$photo->temporaryUrl() }}" width="100px" height="100px">
           <button wire:click="removePhoto({{ $loop->index }})" class="btn btn-outline-light"><i class="fa-solid fa-circle-xmark" style="color: #a80505;"></i></button>
           @endforeach
          @endif
@@ -19,7 +19,7 @@
   </x-app-modal>
   
 
-  <x-app-modal id="editorderModal" type="update" title="Edit order  related to {{$customer->name ?? ''}}">
+  <x-app-modal id="editorderModal" type="updateOrder" title="Edit order  related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
       <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" />
       <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
@@ -51,10 +51,6 @@
      <p> Are you sure you want to send  this order to factory  </p>
     </x-slot>
   </x-app-modal>
-  
-
-
-
   
 
 {{-- display images  --}}
@@ -91,3 +87,5 @@
 
   </x-slot>
 </x-app-modal>
+
+</div>

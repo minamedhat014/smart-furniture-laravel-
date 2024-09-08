@@ -24,8 +24,11 @@ customers details
       </div>
     </nav>
     <div class="tab-content p-3" id="nav-tabContent">
-      <div class="tab-pane fade show active" id="customer-order" role="tabpanel" aria-labelledby="customer-order-tab"> 
-        @livewire('admin.orders.order-index')
+      
+      <div class="tab-pane fade show active" id="customer-order" role="tabpanel" aria-labelledby="customer-order-tab">
+        
+        @livewire('admin.orders.customer-orders')
+        
       </div>
       <div class="tab-pane fade" id="customer-activity" role="tabpanel" aria-labelledby="customer-activity-tab">
       

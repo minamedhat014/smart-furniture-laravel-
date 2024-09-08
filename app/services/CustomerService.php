@@ -104,7 +104,7 @@ $customer->update([
         ->orderBy('id',$sort)->paginate($pages);
        }
        
-       elseif(CustomerPhone::where('number',$this->search)->exists() or Customer::where('national_id',$this->search)->exists()){
+       elseif(CustomerPhone::where('number',$this->search)->exists()){
         return Customer::with('stores','phone','address')
         ->orwhereRelation('phone', 'number',$this->search)
         ->orderBy('id',$this->sortfilter)->paginate($this->perpage); 

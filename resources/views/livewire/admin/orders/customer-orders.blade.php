@@ -1,14 +1,16 @@
 <div>  
-  @if($customer)
+  @if($customer_id)
 
-<x-app-table name=" List of orders related to  {{$customer->name ?? ''}} ">
+<x-app-sub-table name=" List of orders related to  {{$customer->name ?? ''}} ">
     <x-slot name="header">
-    <x-table-button icon="fa-solid fa-circle-plus" target="addorderModal" />
+
+    <x-table-button icon="fa-solid fa-circle-plus" target="addOrderModal" />
+    
     </x-slot> 
     <x-slot name="head">  
      <th class="col-1"> order number </th>
       <th class="col-2"> Created at</th>
-      <th class="col-1"> Name </th>
+      <th class="col-1"> customer Name </th>
       <th class="col-1"> Branch </th>
       <th class="col-1"> Sales name </th>
       <th class="col-1"> Delivery address </th>
@@ -82,14 +84,12 @@
       </tr>
      @endforeach  
     </x-slot>
-    
     <x-slot name="footer">
-      @include('livewire.admin.orders.orderModal')
-
     </x-slot>
-    </x-app-table>
+    </x-app-sub-table>
     @endif
-    
+
+    @include('livewire.admin.orders.orderModal')
     </div>
     
   

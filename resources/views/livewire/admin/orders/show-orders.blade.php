@@ -2,10 +2,7 @@
 <x-app-table name=" List of all orders ">
     <x-slot name="header">
       <x-table-select fname="select status" bname="orderStatus" :options="$statuses" value='id'/>
-      <span class=" table-tag"> 
-      you can search by customer name or national id or branch 
-    </span>
-   
+     
     </x-slot> 
     <x-slot name="head">  
      <th class="col-1"> order number </th>

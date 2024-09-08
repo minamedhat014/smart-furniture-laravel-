@@ -30,7 +30,7 @@ trait HasPhotosUpload {
         foreach ($this->photos as $photo) {
             $photo->store('products');
     }} catch (\Exception $e) {
-        session()->flash('error',$e);
+     errorMessage($e);
           };
     }
     

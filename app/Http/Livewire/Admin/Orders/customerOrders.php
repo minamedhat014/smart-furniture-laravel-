@@ -15,15 +15,15 @@ use App\Traits\HasPhotosUpload;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use App\services\customerOrderService;
-use Illuminate\Support\Facades\Storage;
 use App\Notifications\orderNotification;
+use App\Traits\HasSubTable;
 use Illuminate\Support\Facades\Notification;
 
 
-class OrderIndex extends Component
+class customerOrders extends Component
 {
     
-use HasTable;
+use HasSubTable;
 use HasPhotosUpload;
 
      public $sourceFilter =null;
@@ -76,7 +76,6 @@ protected function rules()
         'delivery_address_id'=>'required|numeric',
         'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'photos.*' => 'required|image|mimes:jpeg,png,pdf|max:1024', // 1MB Max
-       
                     ];                   
 }
 
@@ -87,19 +86,21 @@ public function updateCustomerId(int $id){
     try {
       $this->customer_id =$id;
       $customer=Customer::where('id',$id)->first();
-      session()->flash('success', 'customer '.$customer->name. ' '. ' has been selected');
+      successMessage('customer '.$customer->name . ' '. ' has been selected');
      }catch (\Exception $e){
-         session()->flash('error',$e);
+       errorMessage($e);
      }
   } 
 
 
  public function storeOrder(){
+    try{
     $validatedData = $this->validate();
     $this->customerOrderService->storeOrder($validatedData);
-    $this->closeModal();
-    $this->dispatch('closeModal');
-
+    successMessage();
+   }catch (\Exception $e){
+    errorMessage($e);
+   }
 }
 
 public function orderDocument($id){
@@ -125,33 +126,16 @@ $this->delivery_address_id=$edit->delivery_address_id;
 $this->remarks=$edit->remarks;
  }
 
-//  public function update(){
-//     $validatedData = $this->validate();
-//     try{
-//     $order= customerOrder::FindOrFail($this->edit_id)
-//      ->update([
-//         'customer_id'=>$validatedData['customer_id'],
-//         'branch_id'=>$validatedData['branch_id'],
-//         'status_id'=>$validatedData['status_id'],
-//         'sales_name'=>$validatedData['sales_name'],
-//         'delivery_address_id'=>$validatedData['delivery_address_id'],
-//         'delivery_date'=>$validatedData['delivery_date'],
-//          'updated_by'=>$this->user,
-//      ]); 
-//      if(count($this->photos) > 0){
-//         $order->clearMediaCollection('products');
-//         foreach($this->photos as $photo){
-//             $order->addMedia($photo)->toMediaCollection('orders'); 
-//         };}
-//      $this->reset(['branch_id','status_id','sales_name','delivery_address_id','photos'
-//     ]);
-//   $this->dispatch('closeModal');
-//   session()->flash('success', 'Done sucessfully'); 
-// }catch (\Exception $e) {
-//     DB::rollBack();
-//     session()->flash('error', $e ); 
-// } 
-//  }
+ public function updateOrder(){
+    try{
+        $validatedData = $this->validate();
+     $this->customerOrderService->update($this->edit_id, $validatedData);
+      $this->success();
+}catch (\Exception $e) {
+    DB::rollBack();
+    session()->flash('error', $e ); 
+} 
+ }
 
  public function gettingId(int $id){
     $this->delete_id= $id;
@@ -161,10 +145,10 @@ $this->remarks=$edit->remarks;
  public function delete(){
    try {
      customerOrder::FindOrFail($this->delete_id)->delete();
-     session()->flash('success', 'Done sucessfully'); 
+      successMessage();
     }catch (\Exception $e){
         DB::rollBack();
-        session()->flash('error', $e );
+       errorMessage($e);
     }
 }
 
@@ -182,14 +166,14 @@ public function sendOrder(){
             ]);
 
             Notification::send(FactorySalesRecipients(), new orderNotification($order));
-            session()->flash('success', 'sent to factory sucessfully'); 
+          successMessage('sent to factory sucessfully');
           }else{
-                session()->flash('error', 'the order you attempting to send is empty'); 
+               errorMessage('the order you attempting to send is empty');
             }      
         }
      catch (\Exception $e){
          DB::rollBack();
-         session()->flash('error', $e );
+         errorMessage($e);
      }
  }
 
@@ -204,11 +188,9 @@ public function sendOrder(){
 
     public function render()
     {
-     
            $this->sales= showRoomTeam::where('showRoom_id',$this->branch_id)->get();     
-            $this->customer=customer::with('stores','phone','address')->where('id',$this->customer_id)->get()->first();
-            $this->address=customerAddress::where('customer_id',$this->customer_id)->get();
-
-            return view('livewire.admin.orders.order-index'); 
+            $this->customer=customer::with('stores','phone','address')->where('id',$this->customer_id)->first();
+            $this->address=customerAddress::where('customer_id',$this->customer_id)->get();     
+        return view('livewire.admin.orders.customer-orders'); 
     }
 }

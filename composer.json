@@ -18,7 +18,6 @@
         "maatwebsite/excel": "^3.1",
         "orangehill/iseed": "^3.0",
         "pharaonic/livewire-select2": "^1.2",
-        "realrashid/sweet-alert": "^7.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-backup": "^8.6",

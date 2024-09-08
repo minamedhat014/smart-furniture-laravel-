@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
                 Route::get('/permissions/',[permissionController::class,'index'])->middleware(['permission:view users','role:admin|super admin'])->name('permissions.index');
                 Route::get('/activities/',[SystemActivityLog::class,'index'])->middleware(['permission:view activity log','role:admin|super admin'])->name('systemActivity.index');
                 Route::get('/dropdownLists/',[settingsController::class,'index'])
-                // ->middleware(['permission:view system list','role:admin|super admin'])
+                ->middleware(['permission:view system list','role:admin|super admin'])
                 ->name('dropdown.index');
                 Route::get('/importCenter/',[settingsController::class,'importCenter'])->middleware(['permission:view import center','role:admin|super admin|super sales factory'])->name('settings.importCenter');
     

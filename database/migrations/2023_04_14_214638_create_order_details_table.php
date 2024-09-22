@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('wharehouse');
             $table->decimal('unit_price');
             $table->decimal('branch_extra_discount')->nullable;
+            $table->decimal('unit_price_after_discount');
+            $table->decimal('final_price');
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

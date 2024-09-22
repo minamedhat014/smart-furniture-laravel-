@@ -83,8 +83,13 @@
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editCustomerModel" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addAddress" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-location-dot"></i> Add another address </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteCustomerModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
+                  <li><a class="dropdown-item"  href="{{route('customerOrder.index',['id'=>$row->id])}}" target="_blank" type="button"  ><i class="fa-solid fa-cart-shopping"></i> Orders </a> </li>
+
                   @endcan
+                  
+                  @if($showList == false)
                   <li><a data-bs-toggle="modal" class="dropdown-item"  wire:click="select({{$row->id}})" type="button"  ><i class="fa-solid fa-circle-check"></i> Select </a> </li>
+                  @endif
                 </div>
             </td> 
     </tr>

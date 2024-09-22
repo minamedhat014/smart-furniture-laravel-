@@ -10,8 +10,34 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerOrderController extends Controller
 {
+
     public function index(){
         return view('admin.customers.customer-details');
+    }
+
+    public function orders($id){
+        
+        $company_orders = customerOrder::with('store')
+        ->whereRelation('store',function($query){
+         $query->where('company_id','=', authedCompany());})
+         ->get(); 
+          $id= $id;
+       
+          if(userFactory()){
+
+            return view('admin.orders.order-index',compact('id'));
+
+          }
+         elseif($company_orders->where('id',$id)->isNotEmpty()){
+            
+            return view('admin.orders.order-index',compact('id'));
+         } 
+         else{   
+         errorMessage('The order you are attempting to access does not belong to your company');
+          return back();
+          }
+
+       
     }
 
     public function show(){

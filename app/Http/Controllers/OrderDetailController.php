@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\customerOrder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 class OrderDetailController extends Controller
 {
 
@@ -14,11 +13,10 @@ class OrderDetailController extends Controller
 
          $company_orders = customerOrder::with('store')
          ->whereRelation('store',function($query){
-          $query->where('company_id','=', Auth::user()->company_id);})
-          ->get();
+          $query->where('company_id','=', authedCompany());})
+          ->get(); 
            $id= $id;
         
-
            if(userFactory()){
             return view('admin.orders.order-details' ,compact('id'));  
            }
@@ -26,7 +24,7 @@ class OrderDetailController extends Controller
             return view('admin.orders.order-details' ,compact('id'));  
           } 
           else{   
-           Session()->flash('error', 'The order you are attempting to access does not belong to your company');
+          errorMessage('The order you are attempting to access does not belong to your company');
            return back();
            }
     }

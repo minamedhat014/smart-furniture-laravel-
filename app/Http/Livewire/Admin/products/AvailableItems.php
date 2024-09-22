@@ -69,6 +69,8 @@ public function mount(){
     
      }
 
+
+
      public function closeModal(){
      $this->reset([
       'file','balance','consumption_rate_per_week','available_date'

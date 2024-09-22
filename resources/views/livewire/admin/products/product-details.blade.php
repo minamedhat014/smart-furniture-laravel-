@@ -97,7 +97,7 @@ $i++;
               Actions
             </button>
             <div class="dropdown-menu">
-
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#ProductDetailsAddModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-copy"></i> Copy to new </a> </li>
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#ProductDetailsEditModel" type="button" wire:click="edit({{$row->id}})" ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
             <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#deleteProductsDetailsModel" type="button"  wire:click='deleteID({{$row->id}})'> <i class="fa-solid fa-trash danger"></i> Remove</a></li>
             <li><a  class="dropdown-item" type="button"  wire:click='removeSet({{$row->id}})'> <i class="fa-solid fa-list-check"></i> Remove From Set </a></li>

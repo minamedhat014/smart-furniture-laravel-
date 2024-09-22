@@ -15,7 +15,7 @@ class customerService {
    private $sortfilter;
    private $perpage;
 
-public function store($validatedData,$stores,$phones){
+public function store($validatedData){
 
    try{
      DB::beginTransaction();
@@ -31,11 +31,11 @@ public function store($validatedData,$stores,$phones){
              ]);
         $this->customer_id = $customer->id;
         $client = Customer::findOrFail($this->customer_id);
-        $client->stores()->sync($stores);
-        foreach ($phones as $row){
-          if(!is_null($row)){
-            CustomerPhone::create(['number'=>$row,'customer_id'=>$this->customer_id]);      
-        }};
+        $client->stores()->sync($validatedData['store_ids']);
+       CustomerPhone::create(['number'=>$validatedData['phone1'],'customer_id'=>$this->customer_id]);      
+       if($validatedData['phone2']){
+        CustomerPhone::create(['number'=>$validatedData['phone2'],'customer_id'=>$this->customer_id]);
+       }
         customerAddress::create([
           'customer_id'=>$this->customer_id,
           'city'=>$validatedData['city'],
@@ -51,7 +51,7 @@ public function store($validatedData,$stores,$phones){
 }
 
 
- public function update($id,$validatedData,$stores,$phones){
+ public function update($id,$validatedData){
    try{
     DB::beginTransaction();
     $customer = Customer::findOrFail($id);
@@ -64,20 +64,13 @@ $customer->update([
 'remarks'=>$validatedData['remarks'],
 'updated_by' => authName(),
        ]);
-  $customer->stores()->syncWithoutDetaching($stores);
-
+  $customer->stores()->syncWithoutDetaching($validatedData['store_ids']);
+  $this->customer_id = $customer->id;
   CustomerPhone::where('customer_id',$id)->delete();
-  foreach ($phones as $row){
-    if(!is_null($row)){
-      CustomerPhone::create(['number'=>$row,'customer_id'=>$id]);      
-  }};
-  customerAddress::where('customer_id',$id)->delete();
-  customerAddress::create([
-    'customer_id'=>$id,
-    'city'=>$validatedData['city'],
-    'address'=>$validatedData['address'],
-           ]);
-
+  CustomerPhone::create(['number'=>$validatedData['phone1'],'customer_id'=>$this->customer_id]);      
+  if($validatedData['phone2']){
+   CustomerPhone::create(['number'=>$validatedData['phone2'],'customer_id'=>$this->customer_id]);
+  }
       DB::commit(); 
       successMessage(); 
      }catch(\Exception $e){

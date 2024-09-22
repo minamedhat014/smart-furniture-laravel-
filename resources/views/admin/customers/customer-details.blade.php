@@ -18,7 +18,7 @@ customers details
 <div class="row mt-4">
     <nav class="w-100">
       <div class="nav nav-tabs" id="customer-tab" role="tablist">
-        <a class="nav-item nav-link active" id="customer-order-tab" data-toggle="tab" href="#customer-order" role="tab" aria-controls="customer-order" aria-selected="true"> <i class="fa-solid fa-cart-arrow-down"></i> Orders</a>
+        <a class="nav-item nav-link active" id="customer-order-tab" data-toggle="tab" href="#customer-order" role="tab" aria-controls="customer-order" aria-selected="true"> <i class="fa-solid fa-cart-arrow-down"></i> Deliveries </a>
         <a class="nav-item nav-link" id="customer-activity-tab" data-toggle="tab" href="#customer-activity" role="tab" aria-controls="customer-activity" aria-selected="false"> <i class="fa-solid fa-person-circle-exclamation"></i> Activites</a>
         <a class="nav-item nav-link" id="customer-complaint-tab" data-toggle="tab" href="#customer-complaint" role="tab" aria-controls="customer-complaint" aria-selected="false"> <i class="fa-solid fa-screwdriver-wrench"></i> Complaints</a>
       </div>
@@ -27,17 +27,26 @@ customers details
       
       <div class="tab-pane fade show active" id="customer-order" role="tabpanel" aria-labelledby="customer-order-tab">
         
-        @livewire('admin.orders.customer-orders')
+    delivery 
+
         
       </div>
+
+
       <div class="tab-pane fade" id="customer-activity" role="tabpanel" aria-labelledby="customer-activity-tab">
       
-       غفغفغفغفغفغف 
+       complaints
 
       </div>
+
+
       <div class="tab-pane fade" id="customer-complaint" role="tabpanel" aria-labelledby="customer-complaint-tab">
-       فغفغفغف
+       
+
+        activites 
        </div>
+
+
     </div>
   </div>
 

@@ -5,9 +5,7 @@ namespace App\Http\Livewire\Admin\Orders;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\showRoom;
-use App\Traits\HasTable;
 use App\Models\OrderDetail;
-use Livewire\Attributes\On;
 use App\Models\showRoomTeam;
 use App\Models\customerOrder;
 use App\Models\customerAddress;
@@ -80,23 +78,20 @@ protected function rules()
 
 
 
-#[On('customer-selected')] 
-public function updateCustomerId(int $id){
+public function select(int $id){
     try {
-      $this->customer_id =$id;
-      $customer=Customer::where('id',$id)->first();
-      successMessage('customer '.$customer->name . ' '. ' has been selected');
+      $this->dispatch('order-selected', $id);
      }catch (\Exception $e){
-       errorMessage($e);
+      errorMessage($e);
      }
   } 
-
+  
 
  public function storeOrder(){
     try{
     $validatedData = $this->validate();
     $this->customerOrderService->storeOrder($validatedData);
-    successMessage();
+    $this->success();
    }catch (\Exception $e){
     errorMessage($e);
    }
@@ -133,7 +128,7 @@ $this->remarks=$edit->remarks;
       $this->success();
 }catch (\Exception $e) {
     DB::rollBack();
-    session()->flash('error', $e ); 
+    errorMessage($e);
 } 
  }
 

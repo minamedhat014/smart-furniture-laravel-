@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
         DB::table('Admins')->delete();
         Admin::create([
             'name' => 'mina medhat',
-            'email' => 'mina@MiraTech.com',
+            'email' => 'mina.medhat014@gmail.com',
             'password' => bcrypt('Donty&&147'),
             'company_id'=> 1,
             'created_by'=>'system',

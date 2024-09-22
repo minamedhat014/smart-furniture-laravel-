@@ -5,16 +5,6 @@
       <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
       <x-form-select fname="Address" bname="delivery_address_id"  display="city" icon="fa-solid fa-location-dot" :options="$address" value="id" />      
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
-      <x-form-photo fname="Images"  bname="photos">
-        <x-slot name="preview">
-          @if ($photos)
-          @foreach($photos as  $photo)
-          <img src="{{ $photo->temporaryUrl() }}" width="100px" height="100px">
-          <button wire:click="removePhoto({{ $loop->index }})" class="btn btn-outline-light"><i class="fa-solid fa-circle-xmark" style="color: #a80505;"></i></button>
-          @endforeach
-         @endif
-        </x-slot>
-        </x-form-photo>
     </x-slot>
   </x-app-modal>
   
@@ -25,16 +15,6 @@
       <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
       <x-form-select fname="Address" bname="delivery_address_id"  display="city" icon="fa-solid fa-location-dot" :options="$address" value="id" />      
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
-      <x-form-photo fname="Images"  bname="photos">
-        <x-slot name="preview">
-          @if ($photos)
-          @foreach($photos as  $photo)
-          <img src="{{ $photo->temporaryUrl() }}" width="100px" height="100px">
-          <button wire:click="removePhoto({{ $loop->index }})" class="btn btn-outline-light"><i class="fa-solid fa-circle-xmark" style="color: #a80505;"></i></button>
-          @endforeach
-         @endif
-        </x-slot>
-        </x-form-photo>
     </x-slot>
   </x-app-modal>
   

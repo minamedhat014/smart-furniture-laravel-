@@ -68,7 +68,7 @@
            Actions
             </button>
             <div class="dropdown-menu">
-              <li><a href="{{route('orderDetails.index',$row->id)}}" class="dropdown-item"  type="button"  ><i class="fa-solid fa-circle-info"></i> order details </a> </li>
+              <li><a data-bs-toggle="modal" class="dropdown-item"  wire:click="select({{$row->id}})" type="button"  ><i class="fa-solid fa-circle-info"></i> order items </a> </li>
               <li> <a data-bs-toggle="modal"class="dropdown-item" data-bs-target="#orderDocumentDisplay" wire:click='orderDocument({{$row->id}})' type="button"> <i class="fa-solid fa-image"></i> View order documents </a></li>
               @if($row->status_id ===1)
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editorderModal" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>

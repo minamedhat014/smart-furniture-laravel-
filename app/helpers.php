@@ -88,7 +88,7 @@ if (!function_exists('authedCan')) {
 if (!function_exists('errorMessage')) {
   function errorMessage($e)
   {
-      return  session()->flash('error', $e); 
+      return  session()->flash('error', $e->getMessage()); 
   }
 }
 

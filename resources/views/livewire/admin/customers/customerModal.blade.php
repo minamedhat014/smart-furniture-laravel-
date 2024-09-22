@@ -30,8 +30,6 @@
     <x-form-select fname="types" bname="type"  display="name" icon="fa-solid fa-ranking-star" :options="$types" value="name"  class="req"/> 
     <x-form-input  type="phone" fname="First phone" bname="phone1" icon="fa-solid fa-phone" class="req"/>
     <x-form-input  type="phone" fname="Second phone" bname="phone2" icon="fa-solid fa-phone" />
-    <x-form-select fname="city" bname="city"  display="name" icon="fa-solid fa-city" :options="$cities" value="name" class="req" /> 
-    <x-form-input  type="text" fname="Address" bname="address" icon="fa-solid fa-location-dot" class="req" />
     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
   </x-slot>
 </x-app-modal>
@@ -40,7 +38,7 @@
 
 <x-app-modal id="DeleteCustomerModel" type="delete" title="Remove customer">
   <x-slot name="inputs">
-    <p> Are you sure you want Remove this Record</p>
+    <p class="text-danger"> Are you sure you want Remove this Record</p>
   </x-slot>
 </x-app-modal>
 

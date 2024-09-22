@@ -96,7 +96,6 @@ public function __construct()
       $this->type_id =$edit->type_id;
       $this->requirments =$edit->requirments;
       $this->status =$edit->status;
-      $this->checked_ids = $edit->materials->pluck('id')->toArray();
       $this->remarks =$edit->remarks;
      }else{
       return redirect()->back();

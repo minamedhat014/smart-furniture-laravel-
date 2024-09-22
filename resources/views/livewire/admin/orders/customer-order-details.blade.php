@@ -1,7 +1,7 @@
 <div>
-    <x-app-table name="Details related to  order no. {{$order_id}} ">
+  @if($order_id)
+    <x-app-sub-table name="Details related to  order no. {{$order_id}} ">
         <x-slot name="header">
-
       @if($status ==1)
         <x-table-button icon="fa-solid fa-circle-plus" target="addDetails" />
      @endif
@@ -75,9 +75,10 @@
  
         </x-slot>
         <x-slot name="footer">  
-          {{$data->links()}}
-         @include('livewire.admin.orders.orderDetailsModal')
+          {{$data->links()}}  
         </x-slot>
-        </x-app-table>
-                 
-      </div>
+        </x-app-sub-table>   
+
+     @endif
+        @include('livewire.admin.orders.orderDetailsModal')
+</div>

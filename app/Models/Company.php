@@ -9,8 +9,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Company extends Model
+class Company extends Model 
 {
+
+   
+    
     use LogsActivity;
     use HasFactory;
     protected $table='companies';
@@ -36,5 +39,9 @@ class Company extends Model
         return $this->hasMany(Admin::class ,'company_id');
     }
 
+    public function Policy(): HasMany
+    {
+        return $this->hasMany(companyPolicy::class ,'company_id');
+    }
 
 }

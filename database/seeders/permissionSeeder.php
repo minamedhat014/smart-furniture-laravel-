@@ -41,7 +41,9 @@ class permissionSeeder extends Seeder
             'write installment' ,'view installments',
             'sales','general settings', 'customers','reports',
             //customers 
-            'view customers','write customer'
+            'view customers','write customer',
+            // orders 
+            'view orders', 'write order',
            
 
         ];

@@ -15,7 +15,7 @@ class orderStatusSeeder extends Seeder
     public function run(): void
     {
         DB::table('order_statuses')->delete();
-        $data=['open','delivered','deliverd with complaint','delivered without installation ','sent to fcatory'];
+        $data=['open','waiting for Payment','Confirmed','sent to fcatory','ready for dispatch','delivered','Canceled','Returned','deliverd with complaint','delivered without installation ',];
         foreach ($data as $row) {
             orderStatus::create([
                   'name'=> $row

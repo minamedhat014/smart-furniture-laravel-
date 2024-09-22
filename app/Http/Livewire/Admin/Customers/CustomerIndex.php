@@ -86,6 +86,7 @@ protected function rules()
         'name' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'title'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'type' => 'required',
+        'store_ids'=>'required',
         'date_of_birth'=>'nullable|date|before:'.Carbon::now()->subYears(15)->format('Y-m-d'),
         'date_of_marriage' =>'nullable|date|after:date_of_birth',
         'phone1' => [
@@ -118,7 +119,7 @@ public function store(){
     try{
    $this->check_permission($this->write_permission);
   $validatedData = $this->validate();
-  $this->customerService ->store($validatedData,$this->store_ids,[$this->phone1,$this->phone2]);
+  $this->customerService ->store($validatedData);
  $this->success();
 
       }catch (\Exception $e) {
@@ -200,7 +201,7 @@ public function edit(int $id){
     try{
       $this->check_permission($this->write_permission);
   $validatedData = $this->validate();
-  $this->customerService->update($this->edit_id, $validatedData,$this->store_ids,[$this->phone2,$this->phone2]);
+  $this->customerService->update($this->edit_id, $validatedData);
   $this->success();
       }catch (\Exception $e) {
         DB::rollBack();

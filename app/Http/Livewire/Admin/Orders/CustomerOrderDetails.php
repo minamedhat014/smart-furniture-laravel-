@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Admin\Orders;
 
-use App\Models\customerOrder;
 use Livewire\Component;
+use App\Traits\HasTable;
 use App\Models\Warehouse;
 use App\Models\OrderDetail;
-use App\Models\Price;
+use Livewire\Attributes\On;
+use App\Models\customerOrder;
 use App\Models\productDetail;
-use App\Traits\HasTable;
+use App\services\CustomerOrderDetailsService;
 use Illuminate\Support\Facades\DB;
 
 
@@ -27,17 +28,24 @@ class CustomerOrderDetails extends Component
     public $wharehouses;
     public $branch_extra_discount =0;
     public $unit_price;
+    public $unit_price_after_discount;
+    public $final_price;
     public $status;
     public $order_id;
+    protected $customerOrderDetailsService;
+    protected $write_permission ="write order details";
+
+    public function __construct()
+    {
+        $this->customerOrderDetailsService = app(CustomerOrderDetailsService::class);
+    }
     
 
  
     public function mount(){
-      
+        $this->check_permission('view orders');
         $this->items=productDetail::all('id','item_code');
-        $this->wharehouses= Warehouse::all();
-        $this->status=customerOrder::where('id',$this->order_id)->first()->status_id;
-       
+        $this->wharehouses= Warehouse::all(); 
             }
 
 
@@ -52,7 +60,9 @@ protected function rules()
         'quantity' => 'required|numeric',
         'unit_price' => 'required|numeric',
         'wharehouse' => 'required',
-        'branch_extra_discount'=>'required|numeric|between:0,100',
+        'branch_extra_discount'=> 'numeric|required|between:0,0.85',
+        'unit_price_after_discount' =>'required|numeric',
+        'final_price'=>'required|numeric',
         'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
 
                     ];                   
@@ -61,32 +71,31 @@ protected function rules()
 
 public function closeModal()
 {
- $this->reset(['item_id','quantity','wharehouse','remarks' ,'branch_extra_discount']);
+ $this->reset(['item_id','quantity','wharehouse','remarks' ,'branch_extra_discount','unit_price_after_discount','final_price']);
 }
 
 
- public function storeOrderDetails(){
-    $validatedData = $this->validate();
-      try{
-        DB::beginTransaction();
-        OrderDetail::create([
-        'order_id'=>$validatedData['order_id'],
-        'item_id'=>$validatedData['item_id'],
-        'quantity'=>$validatedData['quantity'],
-        'unit_price'=>$validatedData['unit_price'],
-        'wharehouse'=>$validatedData['wharehouse'],
-        'branch_extra_discount'=>$validatedData['branch_extra_discount'],
-        'remarks'=>$validatedData['remarks'],
-        'created_by' => authName(),
-         ]);
 
-     DB::commit();
-     $this->dispatch('closeModal');
-     $this->reset(['item_id','quantity','wharehouse','remarks' ,'unit_price','unit_price_after_branch_discount','branch_extra_discount','final_price','cost_unit_price']);
-    session()->flash('success', 'Done sucessfully'); 
+#[On('order-selected')] 
+public function updateOrderId(int $id){
+    try {
+      $this->order_id =$id;
+      $this->status=customerOrder::where('id',$this->order_id)->first()->status_id;
+      successMessage('show deatils for order no. '.$id);
+     }catch (\Exception $e){
+       errorMessage($e);
+     }
+  } 
+
+
+ public function storeOrderDetails(){
+      try{
+        $validatedData = $this->validate();
+       $this->customerOrderDetailsService->store($validatedData);
+       $this->success();
         }catch (\Exception $e) {
             DB::rollBack();
-            session()->flash('error', $e); 
+            errorMessage($e);
        };   
 }
 
@@ -104,36 +113,23 @@ public function closeModal()
 $this->item_id=$edit->item_id;
 $this->quantity=$edit->quantity;
 $this->wharehouse=$edit->wharehouse;
+$this->branch_extra_discount=$edit->branch_extra_discount;
 $this->unit_price=$edit->unit_price;
 $this->remarks=$edit->remarks;
  }
 
-//  public function update(){
-//     $validatedData = $this->validate();
-//     try{
-//      OrderDetail::FindOrFail($this->edit_id)
-//      ->update([
-//         'order_id'=>$validatedData['order_id'],
-//         'item_id'=>$validatedData['item_id'],
-//         'quantity'=>$validatedData['quantity'],
-//         'unit_price'=>$validatedData['unit_price'],
-//         'branch_extra_discount'=>$validatedData['branch_extra_discount'],
-//         'unit_price_after_branch_discount'=>$validatedData['unit_price_after_branch_discount'],
-//         'final_price'=>$validatedData['final_price'],
-//         'cost_unit_price'=>$validatedData['cost_unit_price'],
-//         'wharehouse'=>$validatedData['wharehouse'],
-//         'remarks'=>$validatedData['remarks'],
-//          'updated_by'=>$this->user,
-//      ]); 
-     
-//      $this->reset(['item_id','quantity','wharehouse','remarks' ,'unit_price','unit_price_after_branch_discount','branch_extra_discount','final_price','cost_unit_price']);
-//      $this->dispatch('closeModal');
-//      session()->flash('success', 'Done sucessfully'); 
-//      }catch (\Exception $e) {
-//      DB::rollBack();
-//      session()->flash('error', $e ); 
-//     } 
-//  }
+
+
+ public function update(){
+    try{
+    $validatedData = $this->validate();
+     $this->customerOrderDetailsService->update($this->edit_id,$validatedData);
+     $this->success();
+     }catch (\Exception $e) {
+     DB::rollBack();
+    errorMessage($e); 
+    } 
+ }
 
  public function deleteID(int $delete_id){
     $this->delete_id= $delete_id;
@@ -142,13 +138,12 @@ $this->remarks=$edit->remarks;
  public function delete(){
        try {
      OrderDetail::FindOrFail($this->delete_id)->delete();
-     session()->flash('success', 'Done sucessfully'); 
+     successMessage() ;
     }catch (\Exception $e){
         DB::rollBack();
-        session()->flash('error', $e );
-    }
+       errorMessage($e);
 }
-
+ }
 
 
     public function render()
@@ -156,13 +151,14 @@ $this->remarks=$edit->remarks;
         $data= OrderDetail::with('order','productDetails')
         ->where('order_id' ,$this->order_id)
         ->orderBy('id',$this->sortfilter)->paginate($this->perpage);
-       
+    
         if($this->item_id){
         $this->unit_price = ProductDetail::with(['price' => function ($query) {
             $query->where('pricable_id', $this->item_id);
         }])->first()->price->final_price;
+        $this->unit_price_after_discount = $this->unit_price  - ($this->unit_price * $this->branch_extra_discount );
+        $this->final_price = $this->unit_price_after_discount * $this->quantity;
     }
-
         return view('livewire.admin.orders.customer-order-details' ,compact('data'));
     }
 }

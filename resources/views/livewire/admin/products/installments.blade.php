@@ -64,6 +64,7 @@
                 </button>
                 <div class="dropdown-menu">
                   @can('write installment')
+                  <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-copy"></i> Copy to new </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editModel" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#deleteModel" wire:click="deleteID({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" wire:click="launch({{$row->id}})" type="button"  ><i class="fa-solid fa-play"></i> activate </a> </li>

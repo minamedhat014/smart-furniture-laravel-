@@ -34,6 +34,13 @@ class customerOrder extends Model  implements HasMedia
         return $this->HasMany(OrderDetail::class,'order_id');
     }
 
+
+
+    public function trace () :HasMany{
+        return $this->HasMany(OrderTrace::class,'order_id');
+    }
+
+    
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -58,5 +65,7 @@ class customerOrder extends Model  implements HasMedia
     {
         return $this->morphMany(UpdateRecordDate::class, 'updateable');
     }
+
+  
 
 }

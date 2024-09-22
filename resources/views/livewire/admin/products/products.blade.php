@@ -105,6 +105,7 @@
             <div class="dropdown-menu">
               @can('write product')
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editProductsModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addProductsModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-copy"></i> Copy to new </a> </li>
               <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#deleteProductsModel" type="button"  wire:click='deleteID({{$row->id}})'> <i class="fa-solid fa-trash danger"></i> Remove</a></li>
               @endcan 
               <li><a class="dropdown-item" href="{{route('itemsDetails',['id'=>$row->id,'type'=>$row->type->id])}}" type="button" target="_blank" > <i class="fa-solid fa-circle-plus"></i> Product items </a></li>

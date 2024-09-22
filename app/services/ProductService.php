@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use App\serviceContract\productServiceContract;
 use App\Notifications\productCancelNotification;
 use App\Notifications\productLaunchNotification;
+use GrahamCampbell\ResultType\Success;
 
 class ProductService  implements productServiceContract{
 
@@ -39,7 +40,7 @@ public function store($validatedData){
    DB::commit();
 }catch(\Exception $e){
     DB::rollBack();
-    session()->flash('error', $e->getMessage());
+   errorMessage($e);
 }  
 }
 
@@ -49,8 +50,9 @@ public function store($validatedData){
 
  public function update($validatedData ,$edit_id){
     try{
-  $product=Product::FindOrFail($edit_id);
-     $product->update([
+DB::beginTransaction();
+  $product=Product::findOrFail($edit_id);
+  $product->update([
      'name'=>$validatedData['name'],
      'sku'=>$validatedData['sku'],
      'type_id'=>$validatedData['type_id'],
@@ -66,15 +68,17 @@ public function store($validatedData){
      'coshin_number'=>$validatedData['coshin_number'],
      'updated_by'=>authName(),
      ]); 
+     $product->materials()->sync($validatedData['item_material']);
+
      if(count($validatedData['photos']) > 0){
         $product->clearMediaCollection('products');
-        foreach($validatedData['photos']as $photo){
+        foreach($validatedData['photos'] as $photo){
             $product->addMedia($photo)->toMediaCollection('products'); 
-        };}
-        $product->materials()->sync($validatedData['item_material']);
+        };}     
+        DB::commit();     
     }catch(\Exception $e){
         DB::rollBack();
-        session()->flash('error', $e->getMessage());
+      errorMessage($e);
     }  
     }
 
@@ -91,7 +95,7 @@ public function store($validatedData){
             Notification::send(FactorySalesRecipients(), new productCancelNotification($product));
            }catch(\Exception $e){
                DB::rollBack();
-           session()->flash('error', $e ); 
+             errorMessage($e);
            }  
     
     }  
@@ -128,10 +132,10 @@ public function store($validatedData){
        public function delete(int $id){
         try {
           Product::FindOrFail($id)->delete();
-          session()->flash('success', 'Done sucessfully'); 
+         successMessage();
          }catch (\Exception $e){
              DB::rollBack();
-             session()->flash('error', $e );
+            errorMessage($e);
          }
      }
 

@@ -18,7 +18,7 @@ use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductDetailsExport;
-use Ghanem\LaravelSmsmisr\Facades\Smsmisr;
+
 
 
 
@@ -104,10 +104,11 @@ public function __construct()
 
 protected function rules()
    {
-        return [ 'name' => 'required|min:3|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:products,name,'.$this ->edit_id,
+        return [ 
+        'name' => 'required|min:3|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:products,name,'.$this ->edit_id,
         'type_id' => 'required',
         'source_id' => 'required',
-        'sku'=>'required|min:3|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:products,sku'.$this ->edit_id,
+         'sku' => 'required|min:5|regex:/^[a-zA-Z0-9\s\-]+$/u|unique:products,sku,'.$this ->edit_id,
         'descripation'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'divisablity'=>'required',
         'warranty_years'=>'nullable|numeric|max:10',
@@ -118,7 +119,8 @@ protected function rules()
         'chair_added'=>'',
         'coshin_number'=>'nullable|numeric|max:20',
         'sponge_thickness'=>'nullable|numeric|max:100',
-        'photos.*' => 'required|image|mimes:jpeg,png,pdf|max:1024', // 1MB Max
+        'photos' => 'sometimes|array',
+        'photos.*' => 'image|mimes:jpeg,png,pdf|max:1024', // 1MB Max
                     ];
 
                    
@@ -127,7 +129,7 @@ protected function rules()
 
 
 
-    // protected $queryString = ['search'];
+ 
 
  public function store(){
     try{ 
@@ -157,6 +159,7 @@ protected function rules()
   $this->chair_added = $edit->chair_added;
   $this->divisablity =$edit->divisablity;
   $this->fabric =$edit->fabric;
+  $this->warranty_years =$edit->warranty_years;
   $this->sponge =$edit->sponge;
   $this->sponge_thickness =$edit->sponge_thickness;
   $this->coshin_number =$edit->coshin_number;
@@ -174,7 +177,7 @@ protected function rules()
 
  public function update(){
     try{   
-        $this->check_permission($this->write_permission);
+     $this->check_permission($this->write_permission);
      $validatedData = $this->validate();
      $this->ProductService->update($validatedData,$this->edit_id);
     $this->success();

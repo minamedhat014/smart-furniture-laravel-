@@ -9,7 +9,7 @@
         <x-slot name="preview">
           @if ($photos)
           @foreach($photos as  $photo)
-          <img src="{{$photo->temporaryUrl() }}" width="100px" height="100px">
+          <img src="{{ $photo->temporaryUrl() }}" width="100px" height="100px">
           <button wire:click="removePhoto({{ $loop->index }})" class="btn btn-outline-light"><i class="fa-solid fa-circle-xmark" style="color: #a80505;"></i></button>
           @endforeach
          @endif

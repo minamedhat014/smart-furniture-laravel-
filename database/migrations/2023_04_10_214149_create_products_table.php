@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('type_id')->constrained('product_types')->cascadeOnUpdate();
             $table->foreignId('source_id')-> constrained('product_sources')->cascadeOnUpdate();
             $table->string('descripation');
-            $table->integer('warranty_years')->default(0);
+            $table->integer('warranty_years')->nullable()->default(0);
             $table->string('fabric')->nullable();
             $table->string('sponge')->nullable();
             $table->string('sponge_thickness')->nullable();

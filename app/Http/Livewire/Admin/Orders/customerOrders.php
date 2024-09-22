@@ -35,7 +35,6 @@ use HasPhotosUpload;
      public $sales_name;
      public $delivery_address_id;
      public $edit_id;
-     public $delete_id;
      public $address=[];
      public $customer=[];
      public $customer_id;
@@ -126,6 +125,7 @@ $this->delivery_address_id=$edit->delivery_address_id;
 $this->remarks=$edit->remarks;
  }
 
+
  public function updateOrder(){
     try{
         $validatedData = $this->validate();
@@ -138,13 +138,13 @@ $this->remarks=$edit->remarks;
  }
 
  public function gettingId(int $id){
-    $this->delete_id= $id;
+    $this->edit_id= $id;
   
     }
 
  public function delete(){
    try {
-     customerOrder::FindOrFail($this->delete_id)->delete();
+     customerOrder::FindOrFail($this->edit_id)->delete();
       successMessage();
     }catch (\Exception $e){
         DB::rollBack();
@@ -154,8 +154,8 @@ $this->remarks=$edit->remarks;
 
 public function sendOrder(){
     try {
-        if(OrderDetail::where('order_id',$this->getId)->exists()){
-           $order= customerOrder::findOrfail($this->getId);
+        if(OrderDetail::where('order_id',$this->edit_id)->exists()){
+           $order= customerOrder::findOrfail($this->edit_id);
            $order->update([
                 'status_id' =>5, //sent to factory
             ]);
@@ -168,7 +168,7 @@ public function sendOrder(){
             Notification::send(FactorySalesRecipients(), new orderNotification($order));
           successMessage('sent to factory sucessfully');
           }else{
-               errorMessage('the order you attempting to send is empty');
+               errorMessage('the order you are attempting to send is empty please add items firstly ');
             }      
         }
      catch (\Exception $e){

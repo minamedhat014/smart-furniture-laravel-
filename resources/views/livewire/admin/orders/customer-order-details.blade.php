@@ -34,8 +34,8 @@
          @endphp  
 
          <td> {{$i}}</td>
-         <td> {{$row->productDetails->item_code}}</td>
-         <td> {{$row->productDetails->descripation}}</td>
+         <td> {{$row->productDetails?->item_code}}</td>
+         <td> {{$row->productDetails?->descripation}}</td>
          <td> {{$row->quantity}}</td>
          <td> {{$row->wharehouse}}</td>
          <td> {{$row->unit_price}}</td>
@@ -75,6 +75,7 @@
  
         </x-slot>
         <x-slot name="footer">  
+          {{$data->links()}}
          @include('livewire.admin.orders.orderDetailsModal')
         </x-slot>
         </x-app-table>

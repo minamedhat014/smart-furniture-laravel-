@@ -1,6 +1,4 @@
 <div>  
-  @if($customer_id)
-
 <x-app-sub-table name=" List of orders related to  {{$customer->name ?? ''}} ">
     <x-slot name="header">
 
@@ -85,11 +83,10 @@
      @endforeach  
     </x-slot>
     <x-slot name="footer">
+      @include('livewire.admin.orders.orderModal')
     </x-slot>
     </x-app-sub-table>
-    @endif
-
-    @include('livewire.admin.orders.orderModal')
+ 
     </div>
     
   

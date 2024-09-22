@@ -6,6 +6,7 @@ use App\Models\customerOrder;
 use Livewire\Component;
 use App\Models\Warehouse;
 use App\Models\OrderDetail;
+use App\Models\Price;
 use App\Models\productDetail;
 use App\Traits\HasTable;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\DB;
 class CustomerOrderDetails extends Component
 {
     use HasTable;
-    public $item_id;
+    
+    public $item_id =0;
     public $quantity =1;
     public $wharehouse= "WFG";
     public $remarks;
@@ -40,11 +42,6 @@ class CustomerOrderDetails extends Component
 
 
 
-       public function closeModal()
-       {
-        $this->reset(['item_id','quantity','wharehouse','remarks' ,'branch_extra_discount']);
-       }
-   
       
  
 protected function rules()
@@ -53,11 +50,18 @@ protected function rules()
         'order_id'=>'required|numeric',
         'item_id' => 'required|numeric',
         'quantity' => 'required|numeric',
+        'unit_price' => 'required|numeric',
         'wharehouse' => 'required',
         'branch_extra_discount'=>'required|numeric|between:0,100',
         'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
 
                     ];                   
+}
+
+
+public function closeModal()
+{
+ $this->reset(['item_id','quantity','wharehouse','remarks' ,'branch_extra_discount']);
 }
 
 
@@ -69,6 +73,7 @@ protected function rules()
         'order_id'=>$validatedData['order_id'],
         'item_id'=>$validatedData['item_id'],
         'quantity'=>$validatedData['quantity'],
+        'unit_price'=>$validatedData['unit_price'],
         'wharehouse'=>$validatedData['wharehouse'],
         'branch_extra_discount'=>$validatedData['branch_extra_discount'],
         'remarks'=>$validatedData['remarks'],
@@ -151,6 +156,13 @@ $this->remarks=$edit->remarks;
         $data= OrderDetail::with('order','productDetails')
         ->where('order_id' ,$this->order_id)
         ->orderBy('id',$this->sortfilter)->paginate($this->perpage);
+       
+        if($this->item_id){
+        $this->unit_price = ProductDetail::with(['price' => function ($query) {
+            $query->where('pricable_id', $this->item_id);
+        }])->first()->price->final_price;
+    }
+
         return view('livewire.admin.orders.customer-order-details' ,compact('data'));
     }
 }

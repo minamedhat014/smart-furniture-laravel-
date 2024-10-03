@@ -103,6 +103,27 @@ top: 50%;
     right: -5%;
     background-color: white;
 }
+.page-title{
+  position: absolute;;
+     font-size: 17px;
+     font-weight: bold;
+     color: #002659;
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
+    top: 0%;    
+    left:50%;
+    transform: translateX(-50%);
+    text-decoration: underline;
+    background-color: white;
+}
+ul {
+  list-style: none; /* Remove default bullet points */
+  padding-left: 0;  /* Remove default padding */
+}
+
+li::before {
+  content: "- ";    /* Add dash before each list item */
+}
 .page-header{
   width: 100%;
   position: relative;
@@ -131,18 +152,18 @@ top: 50%;
 
 .line{ 
    width:100%;
-   margin: 3%;
+   margin:20px;
    display:flex;
  
   }
 
  .line .title{ 
   margin-left:2%;
-  width:30%;
+  width:40%;
   }
 
 .line .system-feedback{ 
-    font-weight:700;
+    font-weight:500;
     color: #818181; 
   }
 
@@ -162,6 +183,17 @@ top: 50%;
     border-radius:15%;
  }
 
+ .badge{
+  height:10px;
+    outline: none;
+    margin-right: 12px;
+    text-align:center;
+    color:var(--brand-blue);
+    border-radius: 5px ;
+    transition: .5s ease ;
+    background-color: #ffff ;
+    border: none;
+ }
 		</style>
 	</head>
 	<body>
@@ -173,6 +205,11 @@ top: 50%;
              {{-- logo section  --}} 
                 <div class="page-header">   
                   <img src="{{asset('assets/dist/img/logo.png')}}" alt="logo" class="logo">
+           <div class="page-title">
+
+            <span><i class="fa-solid fa-file-signature"></i> {{$title}}</span>
+           </div>
+                  
             
 <div class="layout-address">
 
@@ -183,8 +220,8 @@ top: 50%;
   <i class="fa-solid fa-globe"></i>  www.smartfurniture.com.eg
   <br>
   <span> <i class="fa-solid fa-phone "></i> 19641</span>
- 
   <br>
+  
     </div>
    </div>
 

@@ -1,4 +1,5 @@
 <div>
+
 <x-app-modal id="addOrderModal" type="storeOrder" title="Add order related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
       <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" />
@@ -29,43 +30,68 @@
   <x-app-modal id="sendOrderModel" type="sendOrder" title="send to factory order related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
      <p> Are you sure you want to send  this order to factory  </p>
+     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
     </x-slot>
   </x-app-modal>
   
 
-{{-- display images  --}}
-
-<x-app-modal id="orderDocumentDisplay" type=" " title="order documents ">
+{{-- order confirmation  --}}
+<x-app-modal id="confirmOrderModal" type="confirmOrder" title="Add order confirmation related to {{$customer->name ?? ''}}">
   <x-slot name="inputs">
-
-    <div class="row">
-        <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-         @if($order)
-          @foreach($order->getMedia('orders') as $image)
-          <div class="carousel-item active ">
-            <img src="{{ asset($image->getUrl()) }}" class="corsal-image">
-          </div>  
-          @endforeach
-          @endif
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon " aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      </div>
-
+<p class="text-danger">
+Please make sure that the customer had paid the full amount before adding the order confirmation 
+</p>
+    <x-form-file-upload fname="upload files"  bname="files" class="req">
+      <x-slot name="preview">
+        @if ($files)
+        @foreach ($files as $file)
+      <h6> <i class="fa-solid fa-file-pdf"></i> {{$file->getClientOriginalName()}} </h6>
+        <button wire:click="removeFile({{ $loop->index }})" class="btn btn-outline-light"><i class="fa-solid fa-circle-xmark" style="color: #a80505;"></i></button>
+       @endforeach
+       @endif
+      </x-slot>
+      </x-form-file-upload>
+      <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
   </x-slot>
 </x-app-modal>
+
+
+
+
+
+{{-- order tracking  --}}
+
+
+
+<x-app-modal id="orderTrackingModal" type=" " title="track order related to {{$customer->name ?? ''}}">
+  <x-slot name="inputs">
+    @if($trackedOrder) 
+    @foreach($trackedOrder->updates()->get() as $key => $track)
+
+ <div>
+  <span class="badge bg-primary"> 
+      {{$track->transaction_name}} on {{$track-> created_at->format('Y-m-d')}} by   {{displayCreatedBy($track->created_by)}} with the following remarks : {{$track->remarks}}
+  </span>
+ </div>
+     
+    @endforeach
+    @endif
+
+  </x-slot>
+</x-app-modal> 
+
+
+{{-- set appointment for delivery date  --}}
+
+
+
+<x-app-modal id="setAppointmentModal" type="addDeliveryAppointment" title="set delivery appointment related to {{$customer->name ?? ''}}">
+  <x-slot name="inputs">
+    <x-form-input  type="datetime-local" fname="appointment start" bname="appointment_start" icon="fa-solid fa-calender" class="req" />
+    <x-form-input  type="datetime-local" fname="appointment end" bname="appointment_end" icon="fa-solid fa-calender" class="req" />
+    <x-form-select  value="id"  display="name" :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="is important" bname="appointment_importence" icon="fa-solid fa-circle-check" class="req" />
+    <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
+  </x-slot>
+</x-app-modal> 
 
 </div>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');            
             $table->char('national_id')->nullable();
             $table->date('date_of_birth')->nullable();
-            $table->date('date_of-marriage')->nullable();
+            $table->date('date_of_marriage')->nullable();
             $table->string('type')->nullable();
             $table->string('remarks')->nullable();
             $table->string('created_by')->nullable();

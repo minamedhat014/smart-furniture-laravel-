@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-Order show
+appointments
 @endsection
 
 
@@ -10,5 +10,8 @@ Order show
 @endsection
 
 @section('content')
-@livewire('admin.orders.customer-orders',['customer_id'=>$id ])
+
+@livewire('admin.appointments.appointment-calender')
+
 @endsection
+

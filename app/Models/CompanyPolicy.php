@@ -21,10 +21,10 @@ class CompanyPolicy extends Model implements HasMedia
         return $this->belongsTo(Company::class,'company_id');
        }
 
-
-       public function  lines(){
-        return $this->hasMany(PolicyLine::class,'policy_id');
+       public function  department(){
+        return $this->belongsTo(Department::class,'department_id');
        }
+       
 
        
     public function registerMediaCollections(): void

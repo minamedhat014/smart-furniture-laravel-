@@ -6,9 +6,11 @@ use App\Models\Company;
 use Livewire\Component;
 use App\Traits\HasTable;
 use App\Models\CompanyPolicy;
+use App\Models\Department;
 use App\Traits\HasFilesUpload;
 use App\services\PolicyService;
 use Livewire\Attributes\Computed;
+use Spatie\Permission\Models\Role;
 
 class Policies extends Component
 {
@@ -20,11 +22,16 @@ class Policies extends Component
   public $companies =[];
   public $edit_id;
   public $company_id;
+  public $department_id;
   public $policy_name;
+  public $departments=[];
+  public $have_access;
   public $policy_description;
-
   protected $PolicyService;
   public $titles;
+  public $roles=[];
+
+
   protected $write_permission ="write policy";
   
   
@@ -36,11 +43,11 @@ class Policies extends Component
   
   
   public function mount(){
-    $this->check_permission("view policies");  
-  
+    $this->check_permission("view policies");   
      $this->companies = Company::all(['id','name']);
- 
-
+     $this->departments = Department::all(['id','name']);
+     $this->roles =Role::all();
+  
     }
   
   
@@ -49,6 +56,7 @@ class Policies extends Component
      {
           return [ 
           'company_id' => 'required|numeric',
+          'department_id' => 'required|numeric',
           'policy_name'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
           'policy_description' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
           'files' => 'sometimes|array',
@@ -84,6 +92,7 @@ class Policies extends Component
     if($edit){
      $this->edit_id = $id;
      $this->company_id =$edit->company_id;
+     $this->department_id =$edit->department_id;
      $this->policy_name =$edit->policy_name;
     $this->policy_description =$edit->policy_description;
     }else{
@@ -114,8 +123,9 @@ class Policies extends Component
   
       public function approve(){
         try {
-          $this->check_permission($this->write_permission);
+          $this->check_permission('approve policy');
          CompanyPolicy::FindOrFail($this->edit_id)->update([
+          'status' => 'approved',
           'approved_by' =>authName(),
          ]);
         successMessage();
@@ -124,6 +134,10 @@ class Policies extends Component
          }
      } 
     
+
+     public function assign(){
+
+     }
 
   
    public function delete(){
@@ -142,8 +156,14 @@ class Policies extends Component
    #[Computed]
    public function policies(){
   
-    return 
-    $this->PolicyService->index($this->search,$this->sortfilter,$this->perpage);
+    if(authedCan($this->write_permission)){
+      return 
+      $this->PolicyService->index($this->search,$this->sortfilter,$this->perpage);
+    }else{
+      return 
+      $this->PolicyService->indexApproved($this->search,$this->sortfilter,$this->perpage);
+    }
+   
    }
   
 

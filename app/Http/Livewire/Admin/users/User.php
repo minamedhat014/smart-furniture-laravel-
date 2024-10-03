@@ -119,9 +119,13 @@ class User extends Component
   public function assignRoles (){ 
    try{
     $this->check_permission($this->write_permission);
-   $admin= Admin::findOrFail($this->admin_id);
-   $admin ->syncRoles($this->assigned_roles);
-    $this->success();
+   if($this->admin_id > 1 ){
+    $admin= Admin::findOrFail($this->admin_id);
+    $admin ->syncRoles($this->assigned_roles);
+    $this->success();}
+    else{
+        errorMessage('The roles of this admin are not allawed to be removed or sync'); 
+    }
    }catch(\Exception $e){
     errorMessage($e);
     }
@@ -135,12 +139,12 @@ class User extends Component
     $admin->update([
         'status' => 0
     ]);
-    session()->flash('error','user now is deactive '); 
+    errorMessage('user now is deactive '); 
     }elseif($admin->status == 0){
     $admin->update([
         'status' => 1
     ]);
-    session()->flash('success','user now is active '); 
+    successMessage('user now is active '); 
     }
    }
 
@@ -153,7 +157,7 @@ class User extends Component
         $admin ->syncRoles([]);
         $this->success();}
         else{
-            session()->flash('error','The roles of this admin are not allawed to be removed '); 
+            errorMessage('The roles of this admin are not allawed to be removed '); 
         }
         }catch(\Exception $e){
             errorMessage($e);

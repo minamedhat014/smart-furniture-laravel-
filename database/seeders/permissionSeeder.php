@@ -23,6 +23,10 @@ class permissionSeeder extends Seeder
             'view system list',
             'write system list','view activity log',
             'view users','write user',
+            //departments
+           
+            //procedures
+            'view policies' , 'write policy','approve policy',
             // showrooms permission
             'view distributors' ,'write distributor' ,
             'view showrooms','write showroom','showroom staff','showroom products',
@@ -44,6 +48,7 @@ class permissionSeeder extends Seeder
             'view customers','write customer',
             // orders 
             'view orders', 'write order',
+
            
 
         ];

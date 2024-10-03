@@ -11,10 +11,10 @@
       <x-slot name="head">
         <th>Id</th>
         <th>Company </th>
+        <th>Department</th>
         <th>Policy Name </th>
         <th>Polciy Description</th>
         <th>Created By </th>
-        <th>Approved By</th>
         @can('write policy')
         <th> Actions </th>
         @endcan
@@ -27,10 +27,10 @@
         <tr >
           <td>{{ $row->id }}</td>
           <td>{{$row->company?->name}} </td>
+          <td>{{$row->department?->name}} </td>
           <td> {{$row->policy_name}}</td>
           <td> {{$row->policy_description}}</td>
           <td>{{displayCreatedBy($row->created_by)}}</td>
-          <td>{{displayCreatedBy($row->approved_by)}}</td>
                 <td>
                   <div>
                     <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">

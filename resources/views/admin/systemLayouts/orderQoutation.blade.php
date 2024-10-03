@@ -1,219 +1,145 @@
- <x-print-layout title="product details">
+<x-print-layout title="Sales qoutation">
   <x-slot name="content">  
     <div class="layout-section">
       
+
       <div class="box">
-       <div class="line"> 
-         <i class="fa-brands fa-product-hunt"></i> <span class="title"> Product Name </span>
+
+
+        <div class="line"> <i class="fa-solid fa-hashtag"></i>
+          <span class="title"> order number </span>
+          <span class="system-feedback">      
+             {{$order->id}}
+           </span>
+       </div> 
+       <div class="line">
+        <i class="fa-solid fa-store"></i>  <span class="title"> branch </span>
+        <span class="system-feedback">
+         {{$order->store->name}}  
+         </span>
+       </div> 
+        <div class="line"><i class="fa-solid fa-user"></i>  <span class="title"> sales name
+         </span>
          <span class="system-feedback">
-          {{$products->name}} 
-          </span> 
+         {{$order->sales_name}}
+         </span>
         </div>
-     
-         <div class="line">
-          <i class="fa-solid fa-clipboard-check"></i>  <span class="title"> Product Type </span>
-          <span class="system-feedback">
-           {{$products->type->name}}  
-           </span>
-         </div> 
-         @can('view product source ')
-          <div class="line"><i class="fa-brands fa-sourcetree"></i>  <span class="title"> Product Source 
-           </span>
 
-          
+       <div class="line"> <i class="fa-solid fa-calendar"></i>
+         <span class="title"> order date </span>
+         <span class="system-feedback">      
+            {{$order->created_at}}
+          </span>
+      </div> 
+      
+    
+
+        </div>
+
+
+        <div class="box">
+         <div class="line"> 
+           <i class="fa-solid fa-user"></i> <span class="title"> customer name </span>
            <span class="system-feedback">
-           {{$products->source->name}}
-           </span>
+            {{$order->customer->name}} 
+            </span> 
           </div>
-          @endcan
-          
-     
-          <div class="line"><i class="fa-solid fa-puzzle-piece"></i> <span class="title">Divisablity </span>
-           @if($products->divisablity==0)
-           <span class="system-feedback">
-             No Divisibility
-             </span>
-           @endif 
-           @if( $products->divisablity==1)
-           <span class="system-feedback">
-             Divisible
-             </span>
-     
-         @endif 
-          </div>  
-     
-       </div>
-      </div>
-    </div>
-      
-     
-         
-     
-           <div class="gallary ">
-             <div >  
-               @foreach($products->getMedia('products') as $image)
-                 <div>
-                   <img class="layout-image" src="{{ asset($image->getUrl()) }}">
-                 </div>
-               @endforeach   
-           </div>
-         </div> 
-     
        
-     
-     
-          <table id="example1" class="table table-white table-hover table-sm table-bordered"  style="width: 94%; margin-left:3%;">
-           <thead style="background-color: #d0d1d3 ;">
-           <tr>
-               <th> serial </th>
-             <th> Item Code </th>
-             <th> Name</th>
-             <th> item color</th>
-             <th> components</th>
-             <th> Dealler price</th>
-             <th> Enduser price before Extra discount </th>
-             <th> Enduser price with discount </th>
-           </tr>
-           </thead>
-           <tbody class="custom-table-body">
-             <tr>
-               @php
-                 $i = 0;
-           
-               @endphp
-               @foreach($data as $row)
-               @php
-     
-                   $i++
-               @endphp
-               <td>{{$i}}</td>
-             <td>{{$row->item_code}}</td>
-             <td>{{$row->descripation}}</td>
-             <td>{{$row->item_color}}</td>
-             <td>{{$row->component_name}}</td>
-             <td>{{ number_format($row->price->original_price * $row->quantity, 0, '.', ',')}}</td>
-             <td>{{ number_format($row->price->final_price * $row->quantity, 0, '.', ',')}}</td>
-             <td>
-              @php
-            $totalPrice =0;
-            $discountsum =0;
-            $discountAmount=0;
-                 foreach ($row->price->discounts()->get() as $discount) {
-                   $discountsum += $discount->discount_percentage;
-                 }
-               $totalPrice += $row->price->final_price * $row->quantity;
-               $discountAmont= $totalPrice * $discountsum ;
-               $finalPrice = $totalPrice -  $discountAmont;
-                 @endphp
-              {{number_format($finalPrice, 0, '   . ' , ',' ) }} EGP
-             </td>
-           </tr>
-           @endforeach
-           </tbody>
-            
-           <tfoot class="custom-table-footer"> 
-            <tr> 
-          <th scope="row" colspan="10" > End user total price set:
         
-            @php
-            $totalPrice =0;
-            $discountsum =0;
-            $discountAmount=0;
-     
-             @endphp
-     
-             @foreach($selected as $key => $row)
-                 @php
-                 foreach ($row->price->discounts()->get() as $discount) {
-                   $discountsum += $discount->discount_percentage;
-                 }
-               $totalPrice += $row->price->final_price * $row->quantity;
-               $discountAmont= $totalPrice * $discountsum ;
-               $finalPrice = $totalPrice -  $discountAmont;
-             
-           
-                 @endphp
+       
+            <div class="line"><i class="fa-solid fa-phone"></i>
+             <span class="title"> phones </span>
+             @foreach($order->customer->phone as $key => $pho)
+             <span class="system-feedback badge">
+            {{$pho->number}}  
+             </span> 
              @endforeach
-     
-          @if($selected->first())
-             {{number_format($finalPrice, 0, '   . ' , ',' ) }} EGP
-     
-          @endif
-           </th>
-            </tr>
-             <tr> 
-          <th scope="row" colspan="10" > set consists of : 
-              @foreach($data as $key =>$row)
-            <h6 style="display: inline-block">{{$row->quantity ." ".$row ->component_name." ".$row -> item_width." "."CM."}}  </h6>
-            @endforeach
-          </th>
-       
-            </tr>
-         </tfoot>
-        </table>
-      <hr>
-      
-     <div class="layout-section">
-       <div class="visible-print qr-code">   
-         {{QrCode::size(50)->generate($products->name)}}
-        </div>
-     
-       <div class="box">
-     
-         <div class="line">
-           <span class="system-feedback"> Dealler price does not include VAT meanwhile  Enduser price include VAT</span> 
-           
-           </div> 
-           
-            
-         <div class="line">
-           <i class="fa-solid fa-cubes-stacked "></i> <span class="title"> Materials  </span>  
-           @foreach($products->materials()->get() as $mat )
-           {{$mat->name ." "." ,"}}
-           @endforeach
-        </div>
-     
-        
-      @if($products->type_id ==1)
-     
-     <div class="line"> 
-       <i class="fa-brands fa-slack"></i> 
-       <span class="title"> Fabric</span> 
-       <span class="system-feedback"> {{$products ->fabric}}</span> 
-     </div>
-     
-     <div class="line"> 
-       <i class="fa-brands fa-slack"></i> 
-       <span class="title"> cushion number and color</span> 
-       <span class="system-feedback"> {{$products ->coshin_number}}  {{$products ->coshin_color}} </span> 
-     </div>
-     
-     
-     
-     <div class="line">  <i class="fa-solid fa-ticket-simple"></i> 
-       <span class="title">Sponge Thickness</span>
-       <span class="system-feedback"> {{$products ->sponge_thickness}}</span>
-     </div>
-     
-     @if($products ->chair_added == 0)
-     <div class="line">  <i class="fa-solid fa-cart-plus"></i>
-       <span class="title">  Extra chair</span>
-       <span class="system-feedback"> No can't be added</span>
-     </div>
-     @elseif($products ->chair_added == 1)
-     <div class="line">  <i class="fa-solid fa-cart-plus"></i>
-       <span class="title">  Extra chair </span>
-       <span class="system-feedback"> Yes can be added</span>
-      @endif
-      </div>
-     @endif
-     </div>
-     
-     </div>
-     
-       </div>  
-       </div>
+            </div> 
 
+            <div class="line"> <i class="fa-solid fa-location-dot"></i>
+              <span class="title"> order address</span>
+              <span class="system-feedback">      
+                {{$order->address->city}} - {{$order->address->address}}
+               </span>
+           </div> 
+            
+       
+         </div>
+        </div>
+      </div>
+        
+       
+       
+         <table id="example1" class="table table-white table-hover table-sm table-bordered"  style="width: 94%; margin-left:3%;">
+             <thead style="background-color: #d0d1d3 ;">
+             <tr>
+               <th> serial </th>
+               <th> Item Code </th>
+               <th> Description  </th>
+               <th> Quantity </th>
+               <th> Original U-price</th>
+               <th> Extra dis. </th>
+               <th> U-price after Dis.</th>
+               <th> Quantity price </th>
+               
+             </tr>
+             </thead>
+             <tbody class="custom-table-body">
+               <tr>
+                 @php
+                   $i = 0;
+             
+                 @endphp
+                 @foreach($data as $row)
+                 @php
+       
+                     $i++
+                 @endphp
+                 <td>{{$i}}</td>
+               <td>{{$row->productDetails?->item_code}}</td>
+               <td>{{$row->productDetails?->descripation}}
+                
+                {{$row->productDetails?->item_color}}
+                @foreach($row->productDetails?->product?->materials()->get() as $key => $mat)
+                <span class="system-feedback badge"> {{$mat->name }}  </span>  
+                @endforeach
+                  
+               
+                  </td>
+               <td>{{$row->quantity}}</td>
+               <td>{{$row->unit_price}}</td>
+               <td>{{$row->branch_extra_discount}}</td>
+               <td>{{$row->unit_price_after_discount}}</td>
+               <td>{{$row->	final_price }}</td>
+              
+             </tr>
+             @endforeach
+             </tbody>
+              
+             <tfoot class="custom-table-footer"> 
+              <tr> 
+            <th scope="row" colspan="12" > total price :    
+           {{$data->sum('final_price')}} EGP 
+             </th>
+              </tr>
+              <tr> 
+                <th scope="row" colspan="12" >total quantity :      
+               {{$data->sum('quantity')}} items
+                 </th>
+                  </tr>
+           </tfoot>
+          </table> 
+        <hr>
+        
+       <div class="layout-section">
+         <div class="box">
+          <x-order-note>
+          </x-order-note>
+         </div>  
+         </div>
+  
+  
+      
   </x-slot>
  </x-print-layout>
  

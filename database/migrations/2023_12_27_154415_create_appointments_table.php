@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('end_date')->nullable();
             $table->string('title');
             $table->string('zone');
+            $table->string('type');
             $table->tinyInteger('done')->default(1);
             $table->tinyInteger('importance')->default(1);
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();

@@ -42,7 +42,7 @@
   </x-app-modal>
   
 {{-- edit --}}
-<x-app-modal id="editorderDetailsModal" type="store" title="Edit order details ">
+<x-app-modal id="editorderDetailsModal" type="update" title="Edit order details ">
   <x-slot name="inputs">
     
     <x-form-select fname="item" bname="item_id"  display="item_code" icon="fa-brands fa-product-hunt" :options="$items" value="id" />

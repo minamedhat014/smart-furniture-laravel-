@@ -17,11 +17,46 @@ class RoleSeeder extends Seeder
         DB::table('roles')->delete();
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $arrayOfRolesNames  =[
-            'super admin','admin' ,'super sales factory','sales factory' ,'super cs',
-            'cs','super qulaity','quality','factory managers','sales','area manager','branch manager',
-            'cs tech' , 'installation tech','production sw','production sai','purchase', 'accountant'
+        $arrayOfRolesNames = [
+            'super admin',
+            'admin',
+            'super sales factory',
+            'sales factory',
+            'Call center',
+            'Customer service',
+            'Sales',
+            'Marketing',
+            'IT',
+            'HR',
+            'Finance',
+            'Accounting',
+            'Operations',
+            'Logistics',
+            'Supply Chain',
+            'Procurement',
+            'Quality Assurance',
+            'Research and Development',
+            'Training and Development',
+            'Recruitment',
+            'Public Relations PR',
+            'Design',
+            'Warehouse',
+            'Quality control',
+            'Quality of receivings',
+            'Production',
+            'super quality',
+            'factory managers',
+            'Installation and Assembly',
+            'area manager',
+            'branch manager',
+            'cs tech', 
+            'installation tech',
+            'production sw',
+            'production sai',
+        
         ];
+           
+        
 
         $roles = collect($arrayOfRolesNames)->map(function ($roles) {
             return ['name' => $roles, 'guard_name' => 'admin'];

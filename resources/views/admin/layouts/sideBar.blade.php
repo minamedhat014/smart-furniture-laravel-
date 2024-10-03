@@ -90,7 +90,7 @@
               </li>
     
               <li class="nav-item">     
-                <a href="{{route('permissions.index')}}" class="nav-link">
+                <a href="{{route('permissions.index')}}"  class="nav-link">
                   <i class="fa-solid fa-unlock-keyhole"></i>
                   <p> Permissions  List </p>
                 </a>
@@ -115,7 +115,7 @@
               
           <li>
             @can('view policies')
-              <a href="{{route('policy.index')}}" class="nav-link">
+              <a href="{{route('policy.index')}}" target="_blank"  class="nav-link">
                 <i class="fa-solid fa-laptop-file"></i>
                 <p> Policies List </p>
               </a>
@@ -140,7 +140,7 @@
 
               @can('view products')
               <li class="nav-item">
-                <a href="{{route('products.index')}}" class="nav-link">
+                <a href="{{route('products.index')}}"  target="_blank" class="nav-link">
                   <i class="fa-brands fa-product-hunt"></i>
                   <p> Product List </p>
                 </a>
@@ -158,7 +158,7 @@
 
               @can('view products versions')
               <li class="nav-item">
-                <a href="{{route('productUpdate.index')}}" class="nav-link">
+                <a href="{{route('productUpdate.index')}}" target="_blank"  class="nav-link">
                   <i class="fa-solid fa-wrench"></i>
                   <p> Product Updates </p>
                 </a>
@@ -167,7 +167,7 @@
              
             @can('view offers')
               <li class="nav-item">
-                <a href="{{route('offers.index')}}" class="nav-link">
+                <a href="{{route('offers.index')}}" target="_blank"  class="nav-link">
                   <i class="fa-solid fa-tags"></i>
                   <p> Offers List </p>
                 </a>
@@ -175,7 +175,7 @@
             
 
               <li class="nav-item">
-                <a href="{{route('installments.index')}}" class="nav-link">
+                <a href="{{route('installments.index')}}"  class="nav-link">
                   <i class="fa-solid fa-wallet"></i>
                   <p> Installments List </p>
                 </a>
@@ -217,7 +217,7 @@
 
 
               <li class="nav-item">
-              <a href="{{route('brachProducts.show')}}" class="nav-link"> 
+              <a href="{{route('brachProducts.show')}}" target="_blank"  class="nav-link"> 
                   <i class="fa-solid fa-chair"></i>
                   <p> Showroom Products</p>
                 </a>
@@ -255,7 +255,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">             
-              <a href="{{route('customers.index')}}" class="nav-link">
+              <a href="{{route('customers.index')}}" target="_blank"  class="nav-link">
                   <i class="fa-solid fa-user"></i>
                   <p> customers List </p>
                 </a>
@@ -264,21 +264,29 @@
               <li class="nav-item">             
                 <a href="{{route('customers.myIndex')}}" class="nav-link">
                   <i class="fa-solid fa-user "></i>
-                    <p> My Customers List</p>
+                    <p> My Customers </p>
                   </a>
                 </li>
 
               <li class="nav-item">             
-                <a href="{{route('customerDetails.index')}}" class="nav-link">
+                <a href="{{route('customer.insight')}}"  target="_blank"  class="nav-link">
                   <i class="fa-solid fa-id-card"></i>
-                  <p> customer Details </p>
+                  <p> Customer insight </p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="{{route('customerOrder.customerSelect')}}" target="_blank"  class="nav-link">
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  <p> customer orders </p>
+                </a>
+              </li> 
+
               
               <li class="nav-item">
-                <a href="{{route('customerOrder.show')}}" class="nav-link">
-                  <i class="fa-solid fa-bag-shopping"></i>
-                  <p>  Orders List</p>
+                <a href="{{route('customerOrder.delivered')}}"  target="_blank" class="nav-link">
+                  <i class="fa-solid fa-house-crack"></i>
+                  <p> Delivered orders </p>
                 </a>
               </li> 
         
@@ -300,9 +308,9 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">             
-              <a href="{{route('deliveryAppointment.index')}}" class="nav-link">
+              <a href="{{route('appointment.index')}}" target="_blank"  class="nav-link">
                 <i class="fa-solid fa-calendar-day"></i>
-                <p> Delivery Appointments  </p>
+                <p> Appointments  </p>
               </a>
             </li>      
       </ul>

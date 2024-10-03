@@ -15,7 +15,7 @@ class warehouseSeeder extends Seeder
     public function run(): void
     {
       DB::table('warehouses')->delete();
-      $data =['WFG','WNC','WDF','WFG Sofa' ,'WFG accessories','drawings','Showroom'];
+      $data =['WFG','WNC','WDF','Outlet','Showroom'];
       foreach($data as $row){
         Warehouse::create([
         'name'=>$row

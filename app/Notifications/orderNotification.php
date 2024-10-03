@@ -48,7 +48,7 @@ class orderNotification extends Notification
            'by' => $this->order->sales_name,
            'image'=>$this->order->getFirstMediaUrl('orders','thumb'),
            'id' =>$this->order->id,
-           'url' => route('orderFactory.note',$this->order->id),
+           'url' => route('customerOrders.show',$this->order->id),
           'created_at' => $this->order->created_at,
         ];
     }

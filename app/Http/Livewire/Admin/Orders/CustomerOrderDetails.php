@@ -35,6 +35,8 @@ class CustomerOrderDetails extends Component
     protected $customerOrderDetailsService;
     protected $write_permission ="write order details";
 
+
+
     public function __construct()
     {
         $this->customerOrderDetailsService = app(CustomerOrderDetailsService::class);
@@ -76,19 +78,10 @@ public function closeModal()
 
 
 
-#[On('order-selected')] 
-public function updateOrderId(int $id){
-    try {
-      $this->order_id =$id;
-      $this->status=customerOrder::where('id',$this->order_id)->first()->status_id;
-      successMessage('show deatils for order no. '.$id);
-     }catch (\Exception $e){
-       errorMessage($e);
-     }
-  } 
-
 
  public function storeOrderDetails(){
+
+    if($this ->status =='open'){
       try{
         $validatedData = $this->validate();
        $this->customerOrderDetailsService->store($validatedData);
@@ -96,7 +89,10 @@ public function updateOrderId(int $id){
         }catch (\Exception $e) {
             DB::rollBack();
             errorMessage($e);
-       };   
+       };
+      } else{
+        session()->flash('error', 'order status is not open'); 
+      }
 }
 
 
@@ -121,6 +117,7 @@ $this->remarks=$edit->remarks;
 
 
  public function update(){
+    if($this ->status =='open'){
     try{
     $validatedData = $this->validate();
      $this->customerOrderDetailsService->update($this->edit_id,$validatedData);
@@ -129,6 +126,9 @@ $this->remarks=$edit->remarks;
      DB::rollBack();
     errorMessage($e); 
     } 
+     }else{
+        session()->flash('error', 'order status is not open');
+    }
  }
 
  public function deleteID(int $delete_id){
@@ -136,6 +136,7 @@ $this->remarks=$edit->remarks;
     }
 
  public function delete(){
+    if($this ->status =='open'){
        try {
      OrderDetail::FindOrFail($this->delete_id)->delete();
      successMessage() ;
@@ -143,7 +144,10 @@ $this->remarks=$edit->remarks;
         DB::rollBack();
        errorMessage($e);
 }
+}else{
+    session()->flash('error', 'order status is not open');
  }
+}
 
 
     public function render()
@@ -151,7 +155,7 @@ $this->remarks=$edit->remarks;
         $data= OrderDetail::with('order','productDetails')
         ->where('order_id' ,$this->order_id)
         ->orderBy('id',$this->sortfilter)->paginate($this->perpage);
-    
+         $this->status = customerOrder::FindOrFail($this->order_id)->status->name;
         if($this->item_id){
         $this->unit_price = ProductDetail::with(['price' => function ($query) {
             $query->where('pricable_id', $this->item_id);

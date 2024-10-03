@@ -18,6 +18,7 @@ public function store($validatedData){
      DB::beginTransaction();
    $policy= CompanyPolicy::create([
 'company_id'=>$validatedData['company_id'],
+'department_id'=>$validatedData['department_id'],
 'policy_name'=>$validatedData['policy_name'],
 'policy_description'=>$validatedData['policy_description'],
 'created_by'=>authName(),
@@ -43,6 +44,7 @@ public function store($validatedData){
     $policy =CompanyPolicy::FindOrFail($id);
     $policy->update([
 'company_id'=>$validatedData['company_id'],
+'department_id'=>$validatedData['department_id'],
 'policy_name'=>$validatedData['policy_name'],
 'policy_description'=>$validatedData['policy_description'],
 'updated_by'=>authName(),
@@ -62,19 +64,44 @@ public function store($validatedData){
     }
 
 
-    public function index($search,$sort,$pages)
-    {
-       
+    public function indexApproved($search,$sort,$pages)
+    {    
       $this->search = $search;
       $this->sortfilter = $sort; 
       $this->perpage = $pages; 
+
        return  
-        CompanyPolicy::with('lines')
-        ->where('policy_name', 'like', '%'.$search.'%')->
-        orWhere('policy_description', 'like', '%'.$search.'%')
-        ->orderBy('id',$sort)->paginate($pages);
+       
+       CompanyPolicy::with('company', 'department')
+       ->where('status', 'approved')
+       ->where(function ($query) {
+           $query->where('policy_name', 'like', '%' . $this->search . '%')
+                 ->orWhere('policy_description', 'like', '%' . $this->search . '%')
+                 ->orWhereRelation('department', 'name', 'like', '%' . $this->search . '%');
+       })
+       ->orderBy('id', $this->sortfilter)
+       ->paginate($this->perpage);
+   
        }
        
-
+       
+       public function index($search,$sort,$pages)
+       {    
+         $this->search = $search;
+         $this->sortfilter = $sort; 
+         $this->perpage = $pages; 
+   
+          return  
+          
+          CompanyPolicy::with('company', 'department')
+          ->where(function ($query) {
+              $query->where('policy_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('policy_description', 'like', '%' . $this->search . '%')
+                    ->orWhereRelation('department', 'name', 'like', '%' . $this->search . '%');
+          })
+          ->orderBy('id', $this->sortfilter)
+          ->paginate($this->perpage);
+      
+          }
           
        }

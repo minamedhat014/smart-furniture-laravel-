@@ -87,15 +87,18 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
 
              route::get('/customers/',[CustomerController::class,'index'])->middleware('permission:view customers')->name('customers.index');
              route::get('/myCustomers/',[CustomerController::class,'myIndex'])->middleware('permission:view customers')->name('customers.myIndex');
-
-    // customer orders 
-            route::get('/customer/Orders/{id}',[CustomerOrderController::class,'orders'])->name('customerOrder.index');
-            route::get('/customer/details',[CustomerOrderController::class,'index'])->name('customerDetails.index');
-            route::get('/orders/',[CustomerOrderController::class,'show'])->name('customerOrder.show');
+             route::get('/customer/details',[CustomerController::class,'insight'])->name('customer.insight');
+         // customer orders 
+            route::get('/customer/Orders/',[CustomerOrderController::class,'customerSelect'])->name('customerOrder.customerSelect');
+            route::get('/customer/Order/preview/{id}',[CustomerOrderController::class,'preview'])->name('orderPDF.preview');
+            route::get('/customer/Order/{id}',[CustomerOrderController::class,'orders'])->name('customerOrders.show');
+            route::get('/orders/',[CustomerOrderController::class,'delivered'])->name('customerOrder.delivered');
             Route::get('/order/Details/{id}/',[OrderDetailController::class,'index'])->name('orderDetails.index');
-            Route::get('/order/{id}/',[CustomerOrderController::class,'factory'])->name('orderFactory.note');
-            Route::get('/delivery/Appointment/',[AppointmentController::class,'index'])->name('deliveryAppointment.index');
-    
+            Route::get('/order/{id}/',[CustomerOrderController::class,'qoutation'])->name('orderQoutation.print');
+
+         // appointment
+            Route::get('/Appointments/',[AppointmentController::class,'index'])->name('appointment.index');
+            Route::get('/Appointments/day/{date}',[AppointmentController::class,'viewDay'])->name('appointment.daily');
      // mail test 
 
 
@@ -105,7 +108,6 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
     //     });
     //     return 'Email has been sent!';
     // });
-        
 
        
         });

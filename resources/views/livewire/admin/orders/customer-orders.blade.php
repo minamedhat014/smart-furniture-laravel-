@@ -18,7 +18,7 @@
 
     </x-slot>
     
-    <x-slot name="body" wire:poll.750ms>
+    <x-slot name="body">
 
      @foreach($this->orders as $key => $row)
       <tr>
@@ -38,44 +38,36 @@
           </td>
         <td> {{$row->remarks}}</td>
         <td>
-          @if($row->status_id === 1)
-          <span class="badge bg-success"> 
-            open 
+        
+          <span class="badge bg-info"> 
+            {{$row->status?->name}}
         </span>
-          @elseif($row->status_id===2)
-          <span class="badge bg-secondary"> 
-           Delivered
-        </span>
-        @elseif($row->status_id===3)
-          <span class="badge bg-danger"> 
-           Delivered with Complaint
-        </span>
-        @elseif($row->status_id===4)
-        <span class="badge bg-waring"> 
-         Delivered without installation
-      </span>
-      @elseif($row->status_id===5)
-      <span class="badge bg-info"> 
-      sent to the factory 
-    </span>
     
-   
-     @endif
-
+    
      <td>
           <div>
             <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
            Actions
             </button>
             <div class="dropdown-menu">
-              <li><a data-bs-toggle="modal" class="dropdown-item"  wire:click="select({{$row->id}})" type="button"  ><i class="fa-solid fa-circle-info"></i> order items </a> </li>
-              <li> <a data-bs-toggle="modal"class="dropdown-item" data-bs-target="#orderDocumentDisplay" wire:click='orderDocument({{$row->id}})' type="button"> <i class="fa-solid fa-image"></i> View order documents </a></li>
-              @if($row->status_id ===1)
+              <li><a  class="dropdown-item"  href="{{route('orderDetails.index',$row->id)}}" type="button"  ><i class="fa-solid fa-eye"></i> View order lines </a> </li>
+              <li><a data-bs-toggle="modal" class="dropdown-item"  data-bs-target="#orderTrackingModal" wire:click="orderTrack({{$row->id}})" type="button"  ><i class="fa-brands fa-stack-exchange"></i> Track changes  </a> </li>
+              <li> <a class="dropdown-item"  href="{{route('orderQoutation.print',$row->id)}}" type="button" target="blank"> <i class="fa-solid fa-print"></i> Print qoutation </a></li>
+              <li> <a class="dropdown-item"  href="{{route('orderPDF.preview',$row->id)}}" type="button"  target="blank"> <i class="fa-solid fa-file-pdf"></i>View PDF </a></li>
+              @if($row->status?->name == 'open')
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#confirmOrderModal" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-clipboard-check"></i> Add Confirmation </a> </li>
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editorderModal" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteOrderModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
-              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sendOrderModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-share-from-square"></i> Send to factory </a> </li>
               @endif
              
+              @if($row->status?->name == 'confirmed')
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sendOrderModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-share-from-square"></i> Send to factory </a> </li>
+              @endif
+
+              @if($row->status?->name == "ready for dispatch" || $row->status?->name == "confirmed" ||$row->status?->name == "sent to fcatory"  )
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#setAppointmentModal" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-calendar"></i> set Delivery date</a> </li>
+              @endif
+
             </div>
         </td> 
 

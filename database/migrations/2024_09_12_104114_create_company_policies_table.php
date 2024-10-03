@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('company_policies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
             $table->string('policy_name');
             $table->mediumText('policy_description');
-            $table->string('file_path')->nullable();
+            $table->string('have_access')->nullable();
             $table->string('created_by');
             $table->string('approved_by')->nullable();
             $table->string('status')->nullable();

@@ -1,10 +1,10 @@
 <div>
   @if($order_id)
-    <x-app-sub-table name="Details related to  order no. {{$order_id}} ">
+    <x-app-table name="Details related to  order no. {{$order_id}} ">
         <x-slot name="header">
-      @if($status ==1)
+       @if($status == 'open') 
         <x-table-button icon="fa-solid fa-circle-plus" target="addDetails" />
-     @endif
+       @endif 
 
         </x-slot> 
         <x-slot name="head">  
@@ -41,12 +41,12 @@
          <td> {{$row->unit_price}}</td>
      
          <td> <span class="badge bg-success">{{$row-> branch_extra_discount }} % </span> </td>
-         <td> {{$row-> unit_price_after_branch_discount }}</td>
+         <td> {{$row-> unit_price_after_discount }}</td>
          <td> {{$row-> final_price }}</td>
          <td> {{$row->remarks}}</td> 
        
          <td>
-          @if($data->first()->order->status_id===1)
+          @if($data->first()->order?->status?->name == 'open')
             <div>
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
              Actions
@@ -77,7 +77,7 @@
         <x-slot name="footer">  
           {{$data->links()}}  
         </x-slot>
-        </x-app-sub-table>   
+        </x-app-table>   
 
      @endif
         @include('livewire.admin.orders.orderDetailsModal')

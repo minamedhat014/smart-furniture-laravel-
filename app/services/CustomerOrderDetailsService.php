@@ -2,7 +2,7 @@
 
 namespace App\services;
 
-
+use App\Models\customerOrder;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 

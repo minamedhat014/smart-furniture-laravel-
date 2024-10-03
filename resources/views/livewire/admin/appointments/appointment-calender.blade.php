@@ -1,9 +1,6 @@
 <div>
-    <x-app-table name="delivery appointments">
-
-        <x-slot name="header">
-
-        </x-slot>
+    
+    <x-app-sub-table name="appointments">
 
         <x-slot name="head">
 
@@ -16,9 +13,9 @@
         </x-slot>
         
         <x-slot name="footer">
-
+        @include('livewire.admin.appointments.appointmentModal')
         </x-slot> 
-  </x-app-table>
+  </x-app-sub-table>
     
 
 </div>

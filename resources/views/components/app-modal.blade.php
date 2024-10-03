@@ -3,7 +3,7 @@
 @props(['id', 'title','type'])
 
 <div  wire:ignore.self class="modal fade" id="{{$id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  @if(Str::startsWith($type, 'store') ||Str::startsWith($type, 'assign') ||Str::startsWith($type, ' ') ||Str::startsWith($type, 'update') ||Str::startsWith($type, 'run') || Str::startsWith($type, 'upload')|| Str::startsWith($type, 'add')|| Str::startsWith($type, 'select')) modal-xl  @else modal-dialog-centered @endif">
+    <div class="modal-dialog  @if(Str::startsWith($type, 'store') ||Str::startsWith($type, 'send') ||Str::startsWith($type, 'confirm') ||Str::startsWith($type, 'assign')||Str::startsWith($type, ' ') ||Str::startsWith($type, 'update') ||Str::startsWith($type, 'run') || Str::startsWith($type, 'upload')|| Str::startsWith($type, 'add')|| Str::startsWith($type, 'select')) modal-xl  @else modal-dialog-centered @endif">
       <div class="modal-content ">
         <div class="modal-header "> 
           <p class="modal-title fs-5" id="{{$id}}"> {{$title}}</p>

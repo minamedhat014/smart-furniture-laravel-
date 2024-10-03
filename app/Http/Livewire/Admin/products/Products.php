@@ -58,7 +58,8 @@ class products extends Component
 
     public $types;
     public $warranty_years;
-    public $sources ;
+    public $sources;
+    public $type_name;
     public $Materials;  
     public $chair_added;   
     public $coshin_number;      
@@ -267,7 +268,7 @@ public function data(){
 
 public function render()
     {
-   
+        
         return view('livewire.Admin.products.Products');
      
     }

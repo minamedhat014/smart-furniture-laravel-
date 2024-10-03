@@ -15,7 +15,35 @@ class departmentSeeder extends Seeder
     public function run(): void
     {
         DB::table('departments')->delete();
-        $data =['call center','installation team','Delivery team', 'facebook','Mail','phone','sales','admin','design','purchase','wharehouse','quality','hr','production','transportation','planning','accounting'];
+
+        $data = [
+          'Call center',
+          'Customer service',
+          'Sales',
+          'Marketing',
+          'IT',
+          'HR',
+          'Finance',
+          'Accounting',
+          'Operations',
+          'Logistics',
+          'Supply Chain',
+          'Procurement',
+          'Quality Assurance',
+          'Research and Development',
+          'Training and Development',
+          'Recruitment',
+          'Installation and Assembly',
+          'Public Relations PR',
+          'Design',
+          'Warehouse',
+          'Quality control',
+          'Quality of receivings',
+          'Production',
+
+      ];
+      
+
      foreach ($data as $row){
 
     Department::create([

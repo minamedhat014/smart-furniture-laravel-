@@ -27,20 +27,20 @@ class customerOrder extends Model  implements HasMedia
         return $this->belongsTo(customerAddress::class,'delivery_address_id');
     }
 
-    public function customer () :BelongsTo{
+   
+     public function customer () :BelongsTo{
         return $this->belongsTo(Customer::class,'customer_id');
     }
+
+    public function status () :BelongsTo{
+        return $this->belongsTo(orderStatus::class,'status_id');
+    }
+
     public function orderDetails () :HasMany{
         return $this->HasMany(OrderDetail::class,'order_id');
     }
 
-
-
-    public function trace () :HasMany{
-        return $this->HasMany(OrderTrace::class,'order_id');
-    }
-
-    
+  
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -64,6 +64,11 @@ class customerOrder extends Model  implements HasMedia
     public function updates()
     {
         return $this->morphMany(UpdateRecordDate::class, 'updateable');
+    }
+
+    public function appointments()
+    {
+        return $this->morphMany(Appointment::class, 'appointable');
     }
 
   

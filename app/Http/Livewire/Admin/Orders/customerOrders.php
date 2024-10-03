@@ -5,24 +5,23 @@ namespace App\Http\Livewire\Admin\Orders;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\showRoom;
-use App\Models\OrderDetail;
 use App\Models\showRoomTeam;
 use App\Models\customerOrder;
 use App\Models\customerAddress;
-use App\Traits\HasPhotosUpload;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use App\services\customerOrderService;
-use App\Notifications\orderNotification;
+use App\Traits\HasFilesUpload;
 use App\Traits\HasSubTable;
-use Illuminate\Support\Facades\Notification;
+
 
 
 class customerOrders extends Component
 {
     
 use HasSubTable;
-use HasPhotosUpload;
+use HasFilesUpload;
+
 
      public $sourceFilter =null;
      public $statusFilter= null ;
@@ -38,6 +37,10 @@ use HasPhotosUpload;
      public $customer_id;
      public $remarks;
      public $order;
+     public $appointment_start;
+     public $appointment_end;
+     public $appointment_importence;
+     public $trackedOrder;
      protected $customerOrderService;
   
 
@@ -58,6 +61,7 @@ use HasPhotosUpload;
        public function closeModal()
        {
         $this->reset(['status_id','sales_name','delivery_address_id','photos','remarks',
+        'trackedOrder','appointment_start','appointment_end','appointment_importence'
     ]);
        }
    
@@ -72,7 +76,6 @@ protected function rules()
         'sales_name'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'delivery_address_id'=>'required|numeric',
         'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
-        'photos.*' => 'required|image|mimes:jpeg,png,pdf|max:1024', // 1MB Max
                     ];                   
 }
 
@@ -96,6 +99,22 @@ public function select(int $id){
     errorMessage($e);
    }
 }
+
+public function confirmOrder(){
+    try{
+    $validatedData = $this->validate([
+       'files.*' => 'nullable|file|mimes:pdf|max:5048',
+       'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+        'edit_id'=>'required',
+
+    ]);
+    $this->customerOrderService->confirmOrder($validatedData);
+    $this->success();
+   }catch (\Exception $e){
+    errorMessage($e);
+}
+}
+
 
 public function orderDocument($id){
 $this->order= customerOrder::findOrFail($id);
@@ -137,6 +156,13 @@ $this->remarks=$edit->remarks;
   
     }
 
+    
+ public function orderTrack(int $id){
+    $this->trackedOrder= customerOrder::FindOrFail($id);
+  
+    }
+
+
  public function delete(){
    try {
      customerOrder::FindOrFail($this->edit_id)->delete();
@@ -149,27 +175,38 @@ $this->remarks=$edit->remarks;
 
 public function sendOrder(){
     try {
-        if(OrderDetail::where('order_id',$this->edit_id)->exists()){
-           $order= customerOrder::findOrfail($this->edit_id);
-           $order->update([
-                'status_id' =>5, //sent to factory
-            ]);
-            $order->updates()->create([
-               'transaction_name' =>'order_status_5',
-               'remarks' =>'sent order to factory ',
-               'created_by'=>$this->user
-            ]);
+        $validatedData = $this->validate([
+            'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+             'edit_id'=>'required',
+     
+         ]);
 
-            Notification::send(FactorySalesRecipients(), new orderNotification($order));
-          successMessage('sent to factory sucessfully');
-          }else{
-               errorMessage('the order you are attempting to send is empty please add items firstly ');
-            }      
+        $this->customerOrderService->sendOrder($validatedData);
+        $this->success('order has been sent to factory successfully');
         }
      catch (\Exception $e){
          DB::rollBack();
          errorMessage($e);
      }
+ }
+
+ public function addDeliveryAppointment(){
+    try{
+    $order = customerOrder::findOrFail($this->edit_id);
+    $validatedData = $this->validate([
+        'appointment_start'=>'required|date_format:Y-m-d\TH:i|after:'.$order->created_at,
+        'appointment_end'=>'required|date_format:Y-m-d\TH:i|after:appointment_start',
+        'appointment_importence'=>'required|numeric',
+        'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+
+     ]);
+
+    $this->customerOrderService->setAppointment($validatedData,$order);
+    $this->success();
+    }catch (\Exception $e){
+     DB::rollBack();
+     errorMessage($e);
+ }
  }
 
 #[Computed]

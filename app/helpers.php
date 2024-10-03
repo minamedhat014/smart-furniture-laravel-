@@ -85,9 +85,20 @@ if (!function_exists('authedCan')) {
 }
 
 
+if (!function_exists('authedRoles')) {
+  function authedRoles()
+  {
+    return Auth::user()->roles->pluck('name')->toArray();
+  }
+}
+
+
+
+
 if (!function_exists('errorMessage')) {
   function errorMessage($e)
   {
+
       return  session()->flash('error', $e->getMessage()); 
   }
 }

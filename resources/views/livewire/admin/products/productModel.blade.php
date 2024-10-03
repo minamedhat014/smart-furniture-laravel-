@@ -11,13 +11,12 @@
     <x-form-input  type="text" fname="Descripation" bname="descripation" icon="fa-solid fa-pen" /> 
    
 
-    @if($type_id ==1 || $type_id ==6)
+    @if($type_id == 1 || $type_id == 6)
     <x-form-input  type="text" fname="Fabric" bname="fabric" icon="fa-brands fa-slack" /> 
     <x-form-input  type="text" fname="Sponge" bname="sponge" icon="fa-brands fa-slack" /> 
     <x-form-input  type="text" fname="Sponge thickness" bname="sponge_thickness" icon="fa-brands fa-slack" /> 
     <x-form-select  value="id"  display="name" :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="A Chair can be added" bname="chair_added" icon="fa-solid fa-circle-check" class="req" />
     <x-form-input  type="text" fname="Cushion number" bname="coshin_number" icon="fa-solid fa-arrow-up-9-1" /> 
-
     @endif
 
     <x-form-select  value="id" display="name"  :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="Divisablity" bname="divisablity" icon="fa-solid fa-circle-check" class="req"  />

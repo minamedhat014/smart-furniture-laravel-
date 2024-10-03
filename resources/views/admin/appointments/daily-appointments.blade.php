@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-delivery appointments
+daily appointments
 @endsection
 
 
@@ -11,7 +11,7 @@ delivery appointments
 
 @section('content')
 
-@livewire('admin.appointments.delivery-appointment')
+@livewire('admin.appointments.daily-appointments',['selected_date'=>$date])
 
 @endsection
 

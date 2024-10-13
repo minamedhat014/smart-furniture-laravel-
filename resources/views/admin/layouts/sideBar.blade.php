@@ -308,7 +308,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">             
-              <a href="{{route('appointment.index')}}" target="_blank"  class="nav-link">
+              <a href="{{route('appointment.select')}}" target="_blank"  class="nav-link">
                 <i class="fa-solid fa-calendar-day"></i>
                 <p> Appointments  </p>
               </a>

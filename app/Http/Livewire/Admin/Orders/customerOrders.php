@@ -8,6 +8,7 @@ use App\Models\showRoom;
 use App\Models\showRoomTeam;
 use App\Models\customerOrder;
 use App\Models\customerAddress;
+use App\services\AppointmentService;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use App\services\customerOrderService;
@@ -42,11 +43,13 @@ use HasFilesUpload;
      public $appointment_importence;
      public $trackedOrder;
      protected $customerOrderService;
+     protected $AppointmentService;
   
 
      public function __construct()
      {
-         $this->customerOrderService = app(customerOrderService::class);
+         $this->customerOrderService = app(CustomerOrderService::class);
+         $this->AppointmentService = app(AppointmentService::class);
      }
      
        
@@ -200,8 +203,7 @@ public function sendOrder(){
         'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
 
      ]);
-
-    $this->customerOrderService->setAppointment($validatedData,$order);
+    $this->AppointmentService->store($validatedData,$order);
     $this->success();
     }catch (\Exception $e){
      DB::rollBack();

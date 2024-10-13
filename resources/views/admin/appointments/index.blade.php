@@ -11,7 +11,7 @@ appointments
 
 @section('content')
 
-@livewire('admin.appointments.appointment-calender')
+@livewire('admin.appointments.appointment-calender',['selected_type' => $type , 'selected_zone'=>$zone])
 
 @endsection
 

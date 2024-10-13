@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Notification;
 
 
 
-class customerOrderService {
+class CustomerOrderService {
 
 
 
@@ -84,35 +84,6 @@ public function storeOrder($validatedData){
 }
 
 
-
-
-
-public function setAppointment($validatedData,$order){
-  try{
-     DB::beginTransaction();
-    $order->appointments()->create([
-    'start_date'=>$validatedData['appointment_start'],
-    'end_date'=>$validatedData['appointment_end'],
-    'type'=>'delivery',
-    'title'=> 'customer '.$order->customer?->name  . ' order no. '.$order->id . ' related to '.$order->store?->name . ' store ' , 
-    'zone'=>$order->address?->city,
-    'importance'=>$validatedData['appointment_importence'],
-    'company_id'=>authedCompany(),
-    'remarks'=>$validatedData['remarks'],
-   'created_by'=>authName(),
-    ]);
-    $order->updates()->create([
-      'transaction_name' =>'set delivery appointment on ' . $validatedData['appointment_start'],
-       'remarks' =>$validatedData['remarks'] ,
-      'created_by'=>authName(),
-   ]);
-    DB::commit(); 
-    }catch (\Exception $e) {
-        DB::rollBack();
-        errorMessage($e);
-   };   
-
-}
 
 
  public function update($edit_id,$validatedData){

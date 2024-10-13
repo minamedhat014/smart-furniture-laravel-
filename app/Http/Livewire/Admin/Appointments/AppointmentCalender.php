@@ -4,8 +4,7 @@ namespace App\Http\Livewire\Admin\Appointments;
 
 use Livewire\Component;
 use App\Traits\HasTable;
-use App\Models\Appointment;
-use Livewire\Attributes\On;
+use App\services\AppointmentService;
 
 
 class AppointmentCalender extends Component
@@ -15,32 +14,24 @@ class AppointmentCalender extends Component
 
 
 
-public $events= [];
-public $appointment_type;
+public $events=[];
 public $selected_type;
-public $zones=[];
 public $selected_zone;
-
-
-public function mount(){
-
-    $this->events = Appointment::where('done',1)->get()->map(function ($event) {
-        return [
-            'id'=>  $event->id,
-            'title' => $event->title." - ".$event->zone ." - ".$event->remarks,
-            'start' => $event->start_date, // Ensure proper date format
-            'end' => $event->end_date,     // Optional
-        ];
-    })->toArray();
-
-}
-
-#[On('eventView')]
-public function appointmentView(int $id)
-{
-    dd($id);
+protected $AppointmentService;
   
-}
+
+     public function __construct()
+     {
+         $this->AppointmentService = app(AppointmentService::class);
+     }
+     
+     public function mount($selected_type, $selected_zone)
+     {
+         $this->selected_type = $selected_type;
+         $this->selected_zone = $selected_zone;
+     }
+
+
 
 protected function rules()
    {
@@ -68,12 +59,13 @@ protected function rules()
     }
 
 
-  
+ 
 
+   
 
     public function render()
     {
-
+        $this->events= $this->AppointmentService->index($this->selected_type,$this->selected_zone);
         return view('livewire.admin.appointments.appointment-calender');
     }
 }

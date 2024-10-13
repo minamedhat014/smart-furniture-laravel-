@@ -97,8 +97,9 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
             Route::get('/order/{id}/',[CustomerOrderController::class,'qoutation'])->name('orderQoutation.print');
 
          // appointment
-            Route::get('/Appointments/',[AppointmentController::class,'index'])->name('appointment.index');
-            Route::get('/Appointments/day/{date}',[AppointmentController::class,'viewDay'])->name('appointment.daily');
+            Route::get('/Appointments/',[AppointmentController::class,'select'])->name('appointment.select');
+            Route::get('/Appointment/{id}',[AppointmentController::class,'viewAppointment'])->name('appointment.view');
+            Route::post('/Appointments/',[AppointmentController::class,'index'])->name('appointment.index');
      // mail test 
 
 

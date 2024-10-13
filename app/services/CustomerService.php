@@ -91,7 +91,7 @@ $customer->update([
       if(userFactory()){
         return  
         Customer::with('stores','phone','address')
-        ->where('name', 'like', '%'.$search.'%')
+        ->where('name', 'like', '%'.$this->search.'%')
        ->orWhereHas('phone', function ($query) {
          $query->where('number', 'like', '%' . $this->search . '%');})
         ->orderBy('id',$sort)->paginate($pages);

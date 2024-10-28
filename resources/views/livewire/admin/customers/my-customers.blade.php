@@ -48,7 +48,7 @@
 @foreach($row->address as $key => $add)
 <div>
   <button type="button" class="badge bg-primary dropdown-toggle col-10" data-toggle="dropdown" style="border: none;  outline:none">
- {{$add->city}} - {{$add->address}}
+ {{$add->zone}} - {{$add->address}}
   </button>
   @can('write customer')
   <div class="dropdown-menu">

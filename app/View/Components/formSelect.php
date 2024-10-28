@@ -14,10 +14,11 @@ class formSelect extends Component
     public $icon;
     public $value;
     public $display;
+    public $display2;
     /**
      * Create a new component instance.
      */
-    public function __construct($fname,$bname,$options,$icon,$value,$display)
+    public function __construct($fname,$bname,$options,$icon,$value,$display,$display2='')
     {
         $this->fname=$fname;
         $this->bname=$bname;
@@ -25,6 +26,7 @@ class formSelect extends Component
         $this->icon=$icon;
         $this->value=$value;
         $this->display=$display;
+        $this->display2=$display2;
         
     }
     /**

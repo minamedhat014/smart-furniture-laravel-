@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class Zone extends Model
 {
     use HasFactory;
-    protected $table = 'cities';
-    protected $guarded =[''];
+    protected $table = 'zones';
+    protected $guarded =['id'];
 }

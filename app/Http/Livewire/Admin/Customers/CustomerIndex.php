@@ -14,6 +14,7 @@ use App\Models\CustomerType;
 use App\Traits\HasMultiSelect;
 use App\Models\customerAddress;
 use App\Models\CustomerTitles;
+use App\Models\Zone;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use App\services\customerService;
@@ -41,11 +42,11 @@ public $phone1;
 public $phone2;
 public $remarks;
 public $showList = true;
-public $city;
+public $zone;
 public $date_of_birth;
 public $date_of_marriage;
 public $address;
-public $cities;
+public $zones;
 
 #[Locked]
 public $edit_id;
@@ -68,7 +69,7 @@ public function mount(){
  if($this->showList == false){
   $this->perpage = 1;
  }
-  $this-> cities = City::all('id','name');
+  $this-> zones = Zone::all('id','name');
   $this->titles = CustomerTitles::all();
   if(userFactory()){
    $this->branches = showRoom::all('id','name');
@@ -99,10 +100,9 @@ protected function rules()
             'regex:/^01[0-9]{9}$/',
             Rule::unique('customer_phones', 'number')->ignore($this->edit_id, 'customer_id'),
           ],
-        'city' =>    'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
-        'address' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'remarks' => 'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
-
+        'zone' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+        'address' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
                     ];
 }
 
@@ -110,7 +110,7 @@ protected function rules()
     public function closeModal()
     {
       $this->reset(['name','title','remarks','date_of_birth','date_of_marriage','type','store_ids','phone1',
-      'phone2' ,'city' ,'address']); 
+      'phone2' ,'zone' ,'address']); 
     }
 
 
@@ -143,7 +143,7 @@ public function edit(int $id){
    $this->store_ids= $edit->stores->pluck('id')->toArray();
    $this->phone1=$edit->phone->pluck('number')->first();
    $this->phone2=$edit->phone->pluck('number')->last();
-   $this->city=$edit->address->pluck('city')->first();
+   $this->zone=$edit->address->pluck('zone')->first();
    $this->address=$edit->address->pluck('address')->first();
    $this->remarks =$edit->remarks;
   }else{
@@ -157,7 +157,7 @@ public function edit(int $id){
   $edit= customerAddress::findOrFail($id);
   if($edit){
     $this->edit_id = $id;
-    $this->city =$edit->city;
+    $this->zone =$edit->zone;
     $this->address =$edit->address;
    }
 
@@ -169,16 +169,16 @@ public function edit(int $id){
     try {
       $this->check_permission($this->write_permission);
       $validatedData = $this->validate([
-        'city' =>    'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+        'zone' =>    'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'address' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
       ]);
      $address=customerAddress::findOrFail($this->edit_id);
     $address-> update([
-        'city'=>$validatedData['city'],
+        'zone'=>$validatedData['zone'],
         'address'=>$validatedData['address'],
                ]);
       $this->dispatch('closeModal');
-      $this->reset(['city' ,'address']);
+      $this->reset(['zone' ,'address']);
        successMessage();
      }catch (\Exception $e){
       errorMessage($e);
@@ -220,16 +220,16 @@ public function edit(int $id){
       try {
         $this->check_permission($this->write_permission);
         $validatedData = $this->validate([
-          'city' =>    'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+          'zone' =>    'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
           'address' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         ]);
         customerAddress::create([
           'customer_id'=>$this->selected_id,
-          'city'=>$validatedData['city'],
+          'zone'=>$validatedData['zone'],
           'address'=>$validatedData['address'],
                  ]);
         $this->dispatch('closeModal');
-        $this->reset(['city' ,'address']);
+        $this->reset(['zone' ,'address']);
       successMessage();
        }catch (\Exception $e){
         errorMessage($e);

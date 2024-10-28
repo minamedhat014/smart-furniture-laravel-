@@ -29,8 +29,6 @@ class customerAddress extends Model
     {
         return $this->belongsTo(Customer::class,'customer_id');
     }
-    public function city ():BelongsTo
-    {
-        return $this->belongsTo(city::class,'city_id');
-    }
+
+
 }

@@ -108,7 +108,7 @@
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addProductsModel" type="button" wire:click='edit({{$row->id}})' ><i class="fa-solid fa-copy"></i> Copy to new </a> </li>
               <li><a data-bs-toggle="modal" class="dropdown-item"data-bs-target="#deleteProductsModel" type="button"  wire:click='deleteID({{$row->id}})'> <i class="fa-solid fa-trash danger"></i> Remove</a></li>
               @endcan 
-              <li><a class="dropdown-item" href="{{route('itemsDetails',['id'=>$row->id,'type'=>$row->type->id])}}" type="button" target="_blank" > <i class="fa-solid fa-circle-plus"></i> Product items </a></li>
+              <li><a class="dropdown-item" href="{{route('itemsDetails',['id'=>$row->id,'type'=>$row->type->id])}}" type="button" target="_blank" > <i class="fa-solid fa-eye"></i> View items </a></li>
                @can('rate products')
               <li><a class="dropdown-item" href="{{route('productReview',['id'=>$row->id])}}"  type="button"  target="_blank" > <i class="fa-solid fa-star"></i> Rate this product</a></li>
               @endcan

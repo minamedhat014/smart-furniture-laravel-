@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
        $this->call(offertypeSeeder::class);
        $this->call(bankSeeder::class);
        $this->call(dropdownListsSeeder::class);
-       $this->call(citySeeder::class);
+       $this->call(ZoneSeeder::class);
        $this->call(customerTypeSeeder::class);
        $this->call(orderStatusSeeder::class);
        $this->call(complaintSourceSeeder::class);

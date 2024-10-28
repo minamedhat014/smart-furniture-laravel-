@@ -1,4 +1,4 @@
-@props(['fname', 'bname','icon','options','value','display'])
+@props(['fname', 'bname','icon','options','value','display','display2'])
 
 <div class="feild col-lg-4 col-md-8 col-sm-12">
     <label for="{{$bname}}">  {{ucfirst($fname)}}  <span {{ $attributes->merge(['class' => ''])}}> </span></label>
@@ -7,7 +7,13 @@
         wire:model.live ="{{$bname}}">
         <option value="" > select </option>
           @foreach($options as  $option)
-          <option value="{{$option[$value]}}" >   {{$option[$display]}} </option>
+          <option value="{{$option[$value]}}" >  
+             {{$option[$display]}} 
+          
+             @if($display2 !== '')
+            - {{$option[$display2]}}
+             @endif
+          </option>
           @endforeach
         </select>             
         @if($errors->has($bname))

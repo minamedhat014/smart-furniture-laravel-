@@ -1,5 +1,5 @@
 <div>  
-<x-app-sub-table name=" List of orders related to  {{$customer->name ?? ''}} ">
+<x-app-table name=" List of orders related to  {{$customer->name ?? ''}} ">
     <x-slot name="header">
 
     <x-table-button icon="fa-solid fa-circle-plus" target="addOrderModal" />
@@ -33,7 +33,7 @@
         <td> {{$row->sales_name}}</td>
         <td>
           <span class="badge bg-primary"> 
-           {{$row->address?->city}} - {{$row->address->address}}
+           {{$row->address?->zone}} - {{$row->address->address}}
           </span>
           </td>
         <td> {{$row->remarks}}</td>
@@ -64,6 +64,10 @@
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sendOrderModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-share-from-square"></i> Send to factory </a> </li>
               @endif
 
+              @if($row->status?->name == 'sent to fcatory')
+              <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sendBackModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-share-from-square"></i> Send to factory </a> </li>
+              @endif
+
               @if($row->status?->name == "ready for dispatch" || $row->status?->name == "confirmed" ||$row->status?->name == "sent to fcatory"  )
               <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#setAppointmentModal" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-calendar"></i> set Delivery date</a> </li>
               @endif
@@ -77,7 +81,7 @@
     <x-slot name="footer">
       @include('livewire.admin.orders.orderModal')
     </x-slot>
-    </x-app-sub-table>
+    </x-app-table>
  
     </div>
     

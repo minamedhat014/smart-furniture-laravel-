@@ -59,7 +59,7 @@ public function __construct()
     protected function rules()
        {
             return [ 
-            'name' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+            'name' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-%]+$/u',
             'start_date' => 'required|date',
             'end_date'=>'required|date',
             'status'=>'numeric',
@@ -148,10 +148,10 @@ public function __construct()
     
     
     
-    public function suspend(int $id){
+    public function suspend(){
         try{
-            $this->check_permission($this->write_permission);
-        $this->offerService->suspend($id);
+        $this->check_permission($this->write_permission);
+        $this->offerService->suspend($this->offer_id);
         successMessage();
         }catch(\Exception $e){
             errorMessage($e);

@@ -9,8 +9,8 @@ use App\Models\customerOrder;
 use App\Models\orderStatus;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\orderNotification;
+use App\Traits\HasTable;
 use Illuminate\Support\Facades\Notification;
-
 
 
 class CustomerOrderService {
@@ -20,7 +20,8 @@ class CustomerOrderService {
 
 
 public function confirmOrder ($validatedData){
-
+  try{
+    if(OrderDetail::where('order_id',$validatedData['edit_id'])->exists()){
   $order = customerOrder::FindOrFail($validatedData['edit_id']);
   $status = orderStatus::where('name', 'confirmed')->firstOrFail();
   $order->update([
@@ -36,13 +37,20 @@ $order->updates()->create([
   foreach($validatedData['files'] as $file){
     $order->addMedia($file)->toMediaCollection('orders'); 
   }};
-  
+  successMessage();
+}else{
+  session()->flash('error','the order you are attempting to send is empty please add items firstly ');
+}
+
+}catch (\Exception $e) {
+  errorMessage($e);
+};   
   }
 
 
   
 public function sendOrder ($validatedData){
-
+  try{ 
   if(OrderDetail::where('order_id',$validatedData['edit_id'])->exists()){
     $order= customerOrder::findOrfail($validatedData['edit_id']);
     $status = orderStatus::where('name', 'sent to fcatory')->firstOrFail();
@@ -55,11 +63,38 @@ public function sendOrder ($validatedData){
         'created_by'=>authName(),
      ]);
      Notification::send(FactorySalesRecipients(), new orderNotification($order));
+     successMessage();
    }else{
-        errorMessage('the order you are attempting to send is empty please add items firstly ');
+      session()->flash('error','the order you are attempting to send is empty please add items firstly ');
      }      
-  
+    }catch (\Exception $e) {
+      errorMessage($e);
+    }; 
   }
+
+  
+public function sendBack ($validatedData){
+try{
+  if(OrderDetail::where('order_id',$validatedData['edit_id'])->exists()){
+    $order= customerOrder::findOrfail($validatedData['edit_id']);
+    $status = orderStatus::where('name', 'sent back to branch')->firstOrFail();
+    $order->update([
+         'status_id' =>$status->id, //sent to factory
+     ]);
+     $order->updates()->create([
+        'transaction_name' =>'sent back to branch',
+         'remarks' =>$validatedData['remarks'],
+        'created_by'=>authName(),
+     ]);
+     successMessage();
+   }else{
+        session()->flash('error','the order you are attempting to send is empty please add items firstly ');
+     }      
+    }catch (\Exception $e) {
+      errorMessage($e);
+    }; 
+  }
+
 
   
 

@@ -4,7 +4,7 @@
     <x-slot name="inputs">
       <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" />
       <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
-      <x-form-select fname="Address" bname="delivery_address_id"  display="city" icon="fa-solid fa-location-dot" :options="$address" value="id" />      
+      <x-form-select fname="Address" bname="delivery_address_id"  display="zone" display2="address" icon="fa-solid fa-location-dot" :options="$address" value="id" />      
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
     </x-slot>
   </x-app-modal>
@@ -30,6 +30,15 @@
   <x-app-modal id="sendOrderModel" type="sendOrder" title="send to factory order related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
      <p> Are you sure you want to send  this order to factory  </p>
+     <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
+    </x-slot>
+  </x-app-modal>
+  
+
+  
+  <x-app-modal id="sendBackModel" type="sendBack" title="send to branch order related to {{$customer->name ?? ''}}">
+    <x-slot name="inputs">
+     <p> Are you sure you want to send  this order back to branch </p>
      <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
     </x-slot>
   </x-app-modal>

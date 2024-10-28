@@ -38,7 +38,7 @@ public function store($validatedData){
        }
         customerAddress::create([
           'customer_id'=>$this->customer_id,
-          'city'=>$validatedData['city'],
+          'zone'=>$validatedData['zone'],
           'address'=>$validatedData['address'],
                  ]);
    DB::commit();

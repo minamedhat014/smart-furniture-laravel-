@@ -112,7 +112,7 @@ public function confirmOrder(){
 
     ]);
     $this->customerOrderService->confirmOrder($validatedData);
-    $this->success();
+   $this->closeModal();
    }catch (\Exception $e){
     errorMessage($e);
 }
@@ -169,7 +169,7 @@ $this->remarks=$edit->remarks;
  public function delete(){
    try {
      customerOrder::FindOrFail($this->edit_id)->delete();
-      successMessage();
+     $this->success();
     }catch (\Exception $e){
         DB::rollBack();
        errorMessage($e);
@@ -185,13 +185,31 @@ public function sendOrder(){
          ]);
 
         $this->customerOrderService->sendOrder($validatedData);
-        $this->success('order has been sent to factory successfully');
+        $this->closeModal();
         }
      catch (\Exception $e){
          DB::rollBack();
          errorMessage($e);
      }
  }
+
+ 
+public function sendBack(){
+    try {
+        $validatedData = $this->validate([
+            'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+             'edit_id'=>'required',
+         ]);
+
+        $this->customerOrderService->sendBack($validatedData);
+        $this->closeModal();
+        }
+     catch (\Exception $e){
+         DB::rollBack();
+         errorMessage($e);
+     }
+ }
+
 
  public function addDeliveryAppointment(){
     try{

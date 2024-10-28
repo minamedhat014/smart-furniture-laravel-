@@ -16,7 +16,7 @@ class customerTypeSeeder extends Seeder
     public function run(): void
     {
         DB::table('customer_types')->delete();
-        $data=['potential','silver','VIP', 'bussiness','gold','platinum'];
+        $data=['potential','new customer','old customer',];
 
         foreach ($data as $row) {
             CustomerType::create([

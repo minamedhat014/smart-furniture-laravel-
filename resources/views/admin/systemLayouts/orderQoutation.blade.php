@@ -59,7 +59,7 @@
             <div class="line"> <i class="fa-solid fa-location-dot"></i>
               <span class="title"> order address</span>
               <span class="system-feedback">      
-                {{$order->address->city}} - {{$order->address->address}}
+                {{$order->address->zone}} - {{$order->address->address}}
                </span>
            </div> 
             

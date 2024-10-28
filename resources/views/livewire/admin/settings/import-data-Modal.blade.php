@@ -20,9 +20,6 @@
   <x-app-modal id="customerUpload" type="updateCustomers" title="upload exstrnal list">
 
     <x-slot name="inputs">
-     <p class="text-danger">
-       please note by uploading a new file you will delete and update all the current records !! 
-     </p>
       <x-form-file-upload fname="upload file"  bname="file">
         <x-slot name="preview">
           @if ($file)

@@ -9,10 +9,10 @@
       <x-form-select fname="component Name" display="name" bname="component_name" icon="fa-brands fa-buromobelexperte" :options="$componentNames" value="name" /> 
       <x-form-input  type="text" fname="Item Color" bname="item_color" icon="fa-solid fa-brush" />
       <x-form-input  type="text" fname="Quantity" bname="quantity" icon="fa-solid fa-boxes-stacked" />
-      <x-form-input  type="text" fname="Item Width" bname="item_width" icon="fa-solid fa-left-right" />
-      <x-form-input  type="text" fname="Item Hieght" bname="item_hieght" icon="fa-solid fa-up-down" />
-      <x-form-input  type="text" fname="Item outer Depth" bname="item_out_depth" icon="fa-solid fa-up-long" />
-      <x-form-input  type="text" fname="Item inner Depth" bname="item_inner_depth" icon="fa-solid fa-up-long" />
+      <x-form-input  type="text" fname="Item Width in CM" bname="item_width" icon="fa-solid fa-left-right" />
+      <x-form-input  type="text" fname="Item Hieght in CM " bname="item_hieght" icon="fa-solid fa-up-down" />
+      <x-form-input  type="text" fname="Item outer Depth in CM" bname="item_out_depth" icon="fa-solid fa-up-long" />
+      <x-form-input  type="text" fname="Item inner Depth in CM" bname="item_inner_depth" icon="fa-solid fa-up-long" />
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
       <x-form-input  type="text" fname="Factory Price" bname="original_price" icon="fa-solid fa-money-bill-wave" /> 
       <x-form-input  type="text" fname="Enduser price" bname="final_price" icon="fa-solid fa-money-bill-wave" />
@@ -31,10 +31,10 @@
       <x-form-select fname="component Name" display="name" bname="component_name" icon="fa-brands fa-buromobelexperte" :options="$componentNames" value="name" /> 
       <x-form-input  type="text" fname="Item Color" bname="item_color" icon="fa-solid fa-brush" />
       <x-form-input  type="text" fname="Quantity" bname="quantity" icon="fa-solid fa-boxes-stacked" />
-      <x-form-input  type="text" fname="Item Width" bname="item_width" icon="fa-solid fa-left-right" />
-      <x-form-input  type="text" fname="Item Hieght" bname="item_hieght" icon="fa-solid fa-up-down" />
-      <x-form-input  type="text" fname="Item outer Depth" bname="item_out_depth" icon="fa-solid fa-up-long" />
-      <x-form-input  type="text" fname="Item inner Depth" bname="item_inner_depth" icon="fa-solid fa-up-long" />
+      <x-form-input  type="text" fname="Item Width in CM" bname="item_width" icon="fa-solid fa-left-right" />
+      <x-form-input  type="text" fname="Item Hieght in CM" bname="item_hieght" icon="fa-solid fa-up-down" />
+      <x-form-input  type="text" fname="Item outer Depth in CM" bname="item_out_depth" icon="fa-solid fa-up-long" />
+      <x-form-input  type="text" fname="Item inner Depth in CM" bname="item_inner_depth" icon="fa-solid fa-up-long" />
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
       <x-form-input  type="text" fname="Factory Price" bname="original_price" icon="fa-solid fa-money-bill-wave" /> 
       <x-form-input  type="text" fname="Enduser price" bname="final_price" icon="fa-solid fa-money-bill-wave" />

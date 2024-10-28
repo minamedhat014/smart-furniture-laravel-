@@ -12,17 +12,19 @@ class formInput extends Component
     public $fname;
     public $icon;
     public $type;
+    public $status;
     public $class="";
     /**
      * Create a new component instance.
      */
     
-    public function __construct($bname,$fname,$icon,$type)
+    public function __construct($bname,$fname,$icon,$type,$status="")
     {
         $this->bname=$bname;
         $this->fname=$fname;
         $this->icon=$icon;
         $this->type=$type;
+        $this->status=$status;
     
 
     }

@@ -33,7 +33,6 @@ class Offers extends Component
         public $discount;
         public $offers;
         public $quantity;
-        public $discountable_products;
         public $discount_precent;
         protected $offerService;
         protected $write_permission="write offer";
@@ -209,9 +208,9 @@ public function __construct()
     
     public function render()
     {
-        $this->discountable_products = Product::with('items','type')->where('status',2)
+        $discountable_products = Product::with('items','type')->where('status',2)
         ->where('name', 'like', '%'.$this->check_search.'%')
         ->get();
-        return view('livewire.admin.products.offers');
+        return view('livewire.admin.products.offers',compact('discountable_products'));
     }
 }

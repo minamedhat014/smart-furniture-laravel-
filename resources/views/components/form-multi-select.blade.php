@@ -1,6 +1,6 @@
 @props(['fname', 'bname','icon','options','value'])
 
-<div class="col-lg-4 col-md-8 col-sm-12">
+<div class="col-lg-3 col-md-8 col-sm-12">
     <div class="feild-malti">
     <label for="{{$bname}}" class="muti-label" > {{ucfirst($fname)}}  <span {{ $attributes->merge(['class' => ''])}}> </span> </label>
     <i class="{{$icon}} muti-icon "></i>

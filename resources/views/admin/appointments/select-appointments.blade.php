@@ -10,66 +10,21 @@ select appointments
 @endsection
 
 @section('content')
+<div class="app-form">
 
-<form action="{{route('appointment.index')}}" autocomplete="off" method="POST"  enctype="multipart/form-data">
-    @csrf
- 
-    <div class="row justify-content-center col-12">
-
-        <div class="field col-lg-4 col-md-8 col-sm-12">
-            <label  class="page-header"  for="selected_type">Select Type</label>
-            <i class="fa-solid fa-filter"></i>
-            <select name="selected_type" id="selected_type" class="form-select" 
-                @if($errors->has('selected_type')) 
-                    style="box-shadow: 1px 3px 5px #f54747;" 
-                @endif >
-                
-                <option value="">Select</option>
-                @foreach($types as $type)
-                    <option value="{{ $type['name'] }}" {{ old('selected_type') == $type['name'] ? 'selected' : '' }}>
-                        {{$type['name']}}
-                    </option>
-                @endforeach
-            </select>
-        
-            @if($errors->has('selected_type'))
-                <span class="field-span text-danger">{{ $errors->first('selected_type') }}</span>
-            @endif
-        </div>
-    </div>
-        
-         
+    <form action="{{route('appointment.index')}}" autocomplete="off" method="POST"  enctype="multipart/form-data">
+        @csrf  
+           
         <div class="row justify-content-center col-12">
-            
-            <div class="field col-lg-4 col-md-8 col-sm-12">
-                <label  class="page-header" for="selected_zone">Select Zone</label>
-                <i class="fa-solid fa-filter"></i>
-                <select name="selected_zone" id="selected_zone" class="form-select"
-                    @if($errors->has('selected_zone')) 
-                        style="box-shadow: 1px 3px 5px #f54747;" 
-                    @endif 
-                    data-placeholder="Filter appointments by zone">
-                    
-                    <option value="">Select</option>
-                    @foreach($zones as $zone)
-                        <option value="{{ $zone->name }}" {{ old('selected_zone') == $zone->name ? 'selected' : '' }}>
-                            {{ $zone->name }}
-                        </option>
-                    @endforeach
-                </select>
-                
-                @if($errors->has('selected_zone'))
-                    <span class="field-span text-danger">{{ $errors->first('selected_zone') }}</span>
-                @endif
-            </div>  
-    </div>  
+            <x-form-select fname="Please select appointment type" bname="selected_type"  display="name" icon="fa-solid fa-filter" :options="$types" value="name" class="req" /> 
+            <x-form-select fname="Please select appointment Zone" bname="selected_zone"  display="name" icon="fa-solid fa-filter" :options="$zones" value="name" /> 
+        </div>
+        <div class="row justify-content-center col-12">
+         <button type="submit" class="btn btn-outline-success form-button col-lg-3 col-md-8 col-sm-12">proceed to view appointments </button>
+       </div>                     
+    </form>
 
-    <div class="row justify-content-center col-12 mt-5"> 
-     <button type="submit" class="btn btn-outline-success">proceed to view appointments </button>
-   </div>  
-                 
-</form>
-
+</div>
 @endsection
 
 

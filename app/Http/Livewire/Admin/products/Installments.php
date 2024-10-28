@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Products;
 
+use App\Models\Bank;
 use App\Models\banks;
 use Livewire\Component;
 use App\Traits\HasTable;
@@ -52,7 +53,7 @@ protected function rules()
 
 public function mount()
 {
- $this->banks= banks::all('id','name');
+ $this->banks= Bank::all('id','name');
 }
 
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalesTeamController;
 
+use App\Http\Controllers\CustomerOrderController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -19,43 +20,19 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 
-Route::group(
-    [
-        
-       
-    ], function(){ 
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+
+Route::get('/orderQoutation/{id}',[CustomerOrderController::class,'guestQoutation'])
+->middleware('signed')->name('guestOrderQoutation.print');
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
     
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-
-
-
-
-
-
-
-
-        
-
-    });
+   
     
     require __DIR__.'/auth.php';
     require __DIR__.'/admin.php';
     require __DIR__.'/sales.php';
 
-    });
+
 
 
 

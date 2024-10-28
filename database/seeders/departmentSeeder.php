@@ -17,8 +17,8 @@ class departmentSeeder extends Seeder
         DB::table('departments')->delete();
 
         $data = [
-          'Call center',
-          'Customer service',
+          'Call Center',
+          'Customer Service',
           'Sales',
           'Marketing',
           'IT',
@@ -30,15 +30,15 @@ class departmentSeeder extends Seeder
           'Supply Chain',
           'Procurement',
           'Quality Assurance',
-          'Research and Development',
-          'Training and Development',
+          'Research And Development',
+          'Training And Development',
           'Recruitment',
-          'Installation and Assembly',
+          'Installation And Assembly',
           'Public Relations PR',
           'Design',
           'Warehouse',
-          'Quality control',
-          'Quality of receivings',
+          'Quality Control',
+          'Quality Of Receivings',
           'Production',
 
       ];

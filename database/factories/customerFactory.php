@@ -17,12 +17,26 @@ class customerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->name(),     
-            'national_id' => $this->faker->numberBetween(1,14),
-            'type' =>  ['VIP','silver','golden'],
-            'remarks'=>fake()->text(),
-            'created_by'=> ['mina','dkkdssd','dsdsdsd'],
-           
+            'name' => fake()->unique()->name(),
+            'title' => fake()->randomElement(['accountant', 'mester', 'miss']),
+            'type' => fake()->randomElement(['old customer', 'potential', 'new customer']),
+            'remarks' => fake()->text(),
+            'created_by' => fake()->randomElement(['mina', 'alex', 'john']),
         ];
     }
+public function configure()
+{
+    return $this->afterCreating(function ($customer) {
+        $customer->phone()->create([
+            'number' => fake()->phoneNumber(), // Adjust fields as needed for the phone model
+            // Add other phone model fields here
+        ]);
+        $customer->address()->create([
+            'zone' => fake()->randomElement(['تجمع', 'شروق', 'اكتوبر ']),
+            'address' => fake()->randomElement(['تجمع', 'شروق', 'اكتوبر ']), // Adjust fields as needed for the phone model
+            // Add other phone model fields here
+        ]);
+    });
+}
+
 }

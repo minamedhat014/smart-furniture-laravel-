@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\City;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -19,7 +20,7 @@ class AppointmentController extends Controller
             ['name' => 'measuring assay']
         ];
 
-        $zones = City::all('name');
+        $zones = Zone::all('name');
         return view('admin.appointments.select-appointments',compact('types','zones'));
     }
 
@@ -35,11 +36,11 @@ class AppointmentController extends Controller
     }
 
 
-    public function viewAppointment($id){
-        $appointment = Appointment::findOrFail($id);
+    public function viewAppointment($id){ 
+        $appointment = Appointment::where('appointable_id',$id)->first();
         if($appointment->type == "delivery"){
-            return 
-            redirect()->route('customerOrders.show',$id);
+            return       
+            redirect()->route('orderQoutation.print',$id);
         }
       
     }

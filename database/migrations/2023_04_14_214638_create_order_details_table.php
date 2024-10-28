@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('customer_orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('item_id')->constrained('product_details')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity')->default(1);
+            $table->string('specifications')->nullable();
+            $table->integer('area')->nullable();
+            $table->integer('status')->default(1);
             $table->string('wharehouse');
             $table->decimal('unit_price');
             $table->decimal('branch_extra_discount')->nullable;

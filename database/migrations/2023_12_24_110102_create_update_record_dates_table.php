@@ -16,6 +16,7 @@ return new class extends Migration
             $table->morphs('updateable');
             $table->string('transaction_name');
             $table->string('remarks')->nullable();
+            $table->string('url')->nullable();
             $table->string('created_by')->nullable();
             $table->timestamps();
         });

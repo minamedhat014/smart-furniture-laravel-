@@ -2,9 +2,10 @@
 
 <x-app-modal id="addOrderModal" type="storeOrder" title="Add order related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
-      <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" />
-      <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
-      <x-form-select fname="Address" bname="delivery_address_id"  display="zone" display2="address" icon="fa-solid fa-location-dot" :options="$address" value="id" />      
+      <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" class="req" />
+      <x-form-select fname="type" bname="order_type"  display="name" icon="fa-solid fa-clipboard-check" :options="[['name' => 'standard'], ['name' => 'c&c non-standard'],['name' => 'living non-standard'],['name' => 'kitchen non-standard']]" value="name" class="req" />
+      <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" class="req" /> 
+      <x-form-select fname="Address" bname="delivery_address_id"  display="zone" display2="address" icon="fa-solid fa-location-dot" :options="$address" value="id" class="req" />      
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
     </x-slot>
   </x-app-modal>
@@ -12,9 +13,10 @@
 
   <x-app-modal id="editorderModal" type="updateOrder" title="Edit order  related to {{$customer->name ?? ''}}">
     <x-slot name="inputs">
-      <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" />
-      <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" /> 
-      <x-form-select fname="Address" bname="delivery_address_id"  display="city" icon="fa-solid fa-location-dot" :options="$address" value="id" />      
+      <x-form-select fname="Branch" bname="branch_id"  display="name" icon="fa-solid fa-store" :options="$branches" value="id" class="req" />
+      <x-form-select fname="type" bname="order_type"  display="name" icon="fa-solid fa-clipboard-check" :options="[['name' => 'standard'], ['name' => 'c&c non-standard'],['name' => 'living non-standard'],['name' => 'kitchen non-standard']]" value="name" class="req"/>
+      <x-form-select fname="Sales name" bname="sales_name"  display="sales_name" icon="fa-solid fa-user" :options="$sales" value="sales_name" class="req"/> 
+      <x-form-select fname="Address" bname="delivery_address_id"  display="zone" display2="address" icon="fa-solid fa-location-dot" :options="$address" value="id" class="req" />   
       <x-form-input  type="text" fname="Remarks" bname="remarks" icon="fa-solid fa-comment" />
     </x-slot>
   </x-app-modal>

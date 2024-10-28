@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class productLaunchNotification extends Notification implements ShouldQueue
+class productLaunchNotification extends Notification  implements ShouldQueue
 {
     use Queueable;
 
@@ -38,13 +38,19 @@ class productLaunchNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+  
         $url =route('productSHOW',$this->product->id);
+
             return (new MailMessage)
-            ->subject('launch of smart new product')
-            ->line('a new '.$this->product->type->name.' product has been launched called'.' '.$this->product->name,)
+            ->subject('smart Product Launch Notice')  // Custom subject line
+            ->greeting('Hello!')  // Add a greeting line
+            ->line('a new '.$this->product->type?->name.' product has been launched called '.' '.$this->product->name,)
             ->action('more details',$url)
-            ->line('Thanks');     
-    }
+            ->line('Thanks for using our application!')  // Closing line
+            ->salutation('Best regards, The SmartFurniture Team'); 
+       
+         }
+    
 
     public function toDatabase()
     {

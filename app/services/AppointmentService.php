@@ -12,12 +12,13 @@ class AppointmentService {
    public function store($validatedData,$order){
     try{
        DB::beginTransaction();
+       $order->appointments()->delete();
       $order->appointments()->create([
       'start_date'=>$validatedData['appointment_start'],
       'end_date'=>$validatedData['appointment_end'],
       'type'=>'delivery',
       'title'=> 'customer '.$order->customer?->name  . ' order no. '.$order->id . ' related to '.$order->store?->name . ' store ' , 
-      'zone'=>$order->address?->city,
+      'zone'=>$order->address?->zone,
       'importance'=>$validatedData['appointment_importence'],
       'company_id'=>authedCompany(),
       'remarks'=>$validatedData['remarks'],
@@ -28,6 +29,11 @@ class AppointmentService {
          'remarks' =>$validatedData['remarks'] ,
         'created_by'=>authName(),
      ]);
+     foreach($order->customer?->phone as $phone){
+      $number = '+2'. $phone->number;
+      $message = 'dear '.$order->customer?->name.' please note we have set delivery appointment '. $validatedData['appointment_start'].'  regarding order # '.$order->id . ' from smart funiture '; // Replace with your desired message
+      sendSms($message,$number);
+     }
       DB::commit(); 
       }catch (\Exception $e) {
           DB::rollBack();

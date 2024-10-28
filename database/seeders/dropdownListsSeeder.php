@@ -44,7 +44,7 @@ class dropdownListsSeeder extends Seeder
             ),array(
                 'id' => '6',
                 'name' => 'Departments',
-                'model_namespace' => 'App\Models\departments',
+                'model_namespace' => 'App\Models\Department',
             ),
             array(
                 'id' => '7',
@@ -54,7 +54,7 @@ class dropdownListsSeeder extends Seeder
             array(
                 'id' => '8',
                 'name' => 'Banks',
-                'model_namespace' => 'App\Models\banks',
+                'model_namespace' => 'App\Models\Bank',
             ),
             array(
                 'id' => '9',
@@ -68,8 +68,8 @@ class dropdownListsSeeder extends Seeder
             ),
             array(
                 'id' => '11',
-                'name' => 'cities',
-                'model_namespace' => 'App\Models\City',
+                'name' => 'zones',
+                'model_namespace' => 'App\Models\zone',
             ),
             array(
                 'id' => '12',

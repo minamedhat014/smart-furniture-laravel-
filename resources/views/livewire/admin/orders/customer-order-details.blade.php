@@ -1,4 +1,5 @@
 <div>
+
   @if($order_id)
     <x-app-table name="Details related to  order no. {{$order_id}} ">
         <x-slot name="header">
@@ -10,6 +11,9 @@
         <x-slot name="head">  
           <th class="col-1"> Serial </th>
           <th class="col-2"> Item Code </th>
+          @if($order_type == "living non-standard" || $order_type == "kitchen non-standard")
+          <th class="col-2"> Specifications</th>
+          @endif
           <th class="col-2"> Item description </th>
           <th class="col-1"> quantity </th>
           <th class="col-1"> Warhouse </th>
@@ -27,7 +31,7 @@
         @php
           $i=0;
         @endphp
-         @foreach($data as $key => $row)
+         @foreach($this->data as $key => $row)
         <tr>
          @php
          $i++;
@@ -35,6 +39,9 @@
 
          <td> {{$i}}</td>
          <td> {{$row->productDetails?->item_code}}</td>
+         @if($order_type == "living non-standard" || $order_type == "kitchen non-standard")
+         <td> {{$row->specifications}}</td>
+         @endif
          <td> {{$row->productDetails?->descripation}}</td>
          <td> {{$row->quantity}}</td>
          <td> {{$row->wharehouse}}</td>
@@ -46,7 +53,7 @@
          <td> {{$row->remarks}}</td> 
        
          <td>
-          @if($data->first()->order?->status?->name == 'open')
+          @if($this->data->first()->order?->status?->name == 'open')
             <div>
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
              Actions
@@ -68,14 +75,14 @@
         <th scope="row" colspan="8" > total price </th>
          <td colspan="3" style="text-align: center">
        
-          {{$data->sum('final_price')}}
+          {{$this->data->sum('final_price')}}
          </td>
          </tr>
    {{-- row   --}}
  
         </x-slot>
         <x-slot name="footer">  
-          {{$data->links()}}  
+          {{$this->data->links()}}  
         </x-slot>
         </x-app-table>   
 

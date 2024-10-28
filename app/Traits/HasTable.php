@@ -11,7 +11,7 @@ trait HasTable {
     protected $paginationTheme = 'bootstrap';
 
 
-    public $search;
+    public $search ='';
     public $perpage =20;
     public $sortfilter ='desc';
   

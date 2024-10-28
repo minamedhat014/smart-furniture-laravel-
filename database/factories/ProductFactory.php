@@ -21,11 +21,11 @@ class ProductFactory extends Factory
             'type_id' => 1,
             'source_id' => 1,
             'descripation'=>fake()->text(),
-            'item_material'=> ['pine','MDF','plywood'],
+            'sku'=>fake()->text(),
             'fabric'=> fake()->sentence(),
              'sponge'=> fake() -> sentence(),
              'sponge_thickness'=>fake()-> numberBetween(15,35),
-            'available_date'=> fake()->date(),
+             'warranty_years'=>fake()-> numberBetween(1,5),
             'divisablity'=> 1,
             'Standard_ability'=>1,
             'created_by'=> 'mina'

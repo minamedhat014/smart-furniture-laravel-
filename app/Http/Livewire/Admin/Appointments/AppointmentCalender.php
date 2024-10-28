@@ -12,9 +12,6 @@ class AppointmentCalender extends Component
 
     use HasTable;
 
-
-
-public $events=[];
 public $selected_type;
 public $selected_zone;
 protected $AppointmentService;
@@ -65,7 +62,7 @@ protected function rules()
 
     public function render()
     {
-        $this->events= $this->AppointmentService->index($this->selected_type,$this->selected_zone);
-        return view('livewire.admin.appointments.appointment-calender');
+        $events= $this->AppointmentService->index($this->selected_type,$this->selected_zone);
+        return view('livewire.admin.appointments.appointment-calender',compact('events'));
     }
 }

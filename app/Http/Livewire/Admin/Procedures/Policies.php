@@ -30,18 +30,15 @@ class Policies extends Component
   protected $PolicyService;
   public $titles;
   public $roles=[];
-
-
   protected $write_permission ="write policy";
   
-  
+
   public function __construct()
   {
       $this->PolicyService = app(PolicyService::class);
   }
   
-  
-  
+
   public function mount(){
     $this->check_permission("view policies");   
      $this->companies = Company::all(['id','name']);
@@ -68,7 +65,7 @@ class Policies extends Component
   
       public function closeModal()
       {
-        $this->reset(['company_id','policy_name','policy_description','file'
+        $this->reset(['company_id','policy_name','policy_description','department_id','files'
        ]); 
       }
   
@@ -135,10 +132,7 @@ class Policies extends Component
      } 
     
 
-     public function assign(){
-
-     }
-
+   
   
    public function delete(){
       try {
@@ -166,22 +160,6 @@ class Policies extends Component
    
    }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function render()
     {
         return view('livewire.admin.procedures.policies');

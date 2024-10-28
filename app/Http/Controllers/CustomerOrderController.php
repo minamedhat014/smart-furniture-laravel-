@@ -6,6 +6,7 @@ use App\Models\OrderDetail;
 use App\Models\customerOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 
 class CustomerOrderController extends Controller
@@ -52,7 +53,7 @@ class CustomerOrderController extends Controller
    
 
     public function qoutation($id){
-
+   
         $company_orders = customerOrder::with('store')
         ->whereRelation('store',function($query){
          $query->where('company_id','=', authedCompany());})
@@ -77,6 +78,13 @@ class CustomerOrderController extends Controller
           }
        
     }
+
+    
+    public function guestQoutation($id){
+      $order =customerOrder::FindOrFail($id);
+      $data= OrderDetail::where('order_id',$id)->get();
+      return view('admin.systemLayouts.orderQoutation',compact('order','data'));
+  }
 
     public function preview($id){
         $company_orders = customerOrder::with('store')

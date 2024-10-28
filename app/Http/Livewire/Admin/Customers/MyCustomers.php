@@ -4,8 +4,9 @@ namespace App\Http\Livewire\Admin\Customers;
 
 use App\http\Livewire\Admin\Customers\CustomerIndex;
 use App\Models\Customer;
+use App\Models\CustomerTitles;
 use App\Models\CustomerType;
-
+use App\Models\Zone;
 
 class MyCustomers extends CustomerIndex
 {
@@ -19,7 +20,10 @@ class MyCustomers extends CustomerIndex
         ->orwhereRelation('phone','number','like','%'. $this->search . '%');
         }) 
         ->orderBy('id',$this->sortfilter)->paginate($this->perpage);
+
         $types=CustomerType::all('name');
-        return view('livewire.admin.customers.my-customers',compact('data','types'));
+        $titles=CustomerTitles::all('name');
+        $zones=Zone::all('name');
+        return view('livewire.admin.customers.my-customers',compact('data','types','titles','zones'));
     }
 }

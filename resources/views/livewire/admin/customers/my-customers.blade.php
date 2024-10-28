@@ -10,6 +10,8 @@
     
     <th class="col-1">ID</th>
     <th class="col-1"> Created at</th>
+    <th> Date of birth </th>
+    <th> Date of marriage </th>
     <th class="col-1"> Customer Name </th>
     <th class="col-1"> Branches </th>
     <th class="col-1"> Phones </th>
@@ -26,7 +28,9 @@
     @foreach($data as $key => $row)
     <tr>
       <td> {{$row->id}}</td>
-      <td> {{$row->created_at}}</td>
+      <td> {{onlyDate($row->created_at)}}</td>
+      <td> {{onlyDate($row->date_of_birth)}}</td>
+      <td> {{onlyDate($row->date_of_marriage)}}</td>
       <td> {{$row->name}}</td>
       <td>
         @foreach($row->stores()->get() as $key => $ro)
@@ -69,9 +73,7 @@
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#editCustomerModel" wire:click="edit({{$row->id}})" type="button"  ><i class="fa-solid fa-pen-to-square"></i> Edit </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#addAddress" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-location-dot"></i> Add another address </a> </li>
                   <li><a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#DeleteCustomerModel" wire:click="gettingId({{$row->id}})" type="button"  ><i class="fa-solid fa-trash"></i> Remove </a> </li>
-                  <li><a class="dropdown-item"  href="{{route('customerOrder.index',['id'=>$row->id])}}" target="_blank" type="button"  ><i class="fa-solid fa-cart-shopping"></i> Orders </a> </li>
-
-              
+                
                 </div>
             </td> 
         @endcan

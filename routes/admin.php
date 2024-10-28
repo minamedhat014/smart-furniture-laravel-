@@ -1,44 +1,45 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\roleController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\offersController;
+use App\Http\Controllers\PolciyController;
 use App\Http\Controllers\showRoomProducts;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerOrderController;
-use App\Http\Controllers\InstallmentDetailsController;
-use App\Http\Controllers\InstallTechController;
-use App\Http\Controllers\offersController;
-use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SystemActivityLog;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\settingsController;
 use App\Http\Controllers\ShowRoomController;
 use App\Http\Controllers\permissionController;
-use App\Http\Controllers\PolciyController;
 use App\Http\Controllers\ProcessureController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\InstallTechController;
+use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\ShowRoomTeamController;
+use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\productUpdateController;
-use App\Http\Controllers\settingsController;
-use App\Http\Controllers\ShowRoomTeamController;
-use App\Http\Controllers\SystemActivityLog;
 use App\Http\Controllers\userPermissionController;
+use App\Http\Controllers\InstallmentDetailsController;
 
 
+
+// public routs 
+
+// login guest routes 
 Route::prefix('admin')->middleware('guest:admin')->group(function(){
-
     Route::get('/login',[AdminController::class,'index'])->name('admin.login_form');
-    Route::post('/login/owner',[AdminController::class,'login'])->name('admin.login');
+    Route::post('/login/owner',[AdminController::class,'login'])->name('admin.login');   
     });
 
 
    
     Route::prefix('admin')->middleware('auth:admin')->group(function(){
-
-
-
-            
+    
                 // general routes 
                 Route::get('/home/',[AdminController::class,'home'])->name('admin.home'); 
                 Route::post('/logout/',[AdminController::class,'adminLogout'])->name('admin.logout');       
@@ -84,7 +85,6 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
              Route::get('/installments/details/{id}/',[InstallmentDetailsController::class,'details'])->middleware('permission:view installments')->name('installmentDetails');
       
          //    customers
-
              route::get('/customers/',[CustomerController::class,'index'])->middleware('permission:view customers')->name('customers.index');
              route::get('/myCustomers/',[CustomerController::class,'myIndex'])->middleware('permission:view customers')->name('customers.myIndex');
              route::get('/customer/details',[CustomerController::class,'insight'])->name('customer.insight');
@@ -95,21 +95,14 @@ Route::prefix('admin')->middleware('guest:admin')->group(function(){
             route::get('/orders/',[CustomerOrderController::class,'delivered'])->name('customerOrder.delivered');
             Route::get('/order/Details/{id}/',[OrderDetailController::class,'index'])->name('orderDetails.index');
             Route::get('/order/{id}/',[CustomerOrderController::class,'qoutation'])->name('orderQoutation.print');
-
          // appointment
             Route::get('/Appointments/',[AppointmentController::class,'select'])->name('appointment.select');
             Route::get('/Appointment/{id}',[AppointmentController::class,'viewAppointment'])->name('appointment.view');
             Route::post('/Appointments/',[AppointmentController::class,'index'])->name('appointment.index');
-     // mail test 
 
 
-    // Route::get('/test/email', function () {
-    //     Mail::raw('This is a test ....', function ($message) {
-    //         $message->to('smart@test.com')->subject('Test Mail');
-    //     });
-    //     return 'Email has been sent!';
-    // });
 
+ 
        
         });
       

@@ -8,10 +8,11 @@ use App\Models\Warehouse;
 use App\Models\OrderDetail;
 use Livewire\Attributes\On;
 use App\Models\customerOrder;
+use App\Models\Price;
 use App\Models\productDetail;
 use App\services\CustomerOrderDetailsService;
 use Illuminate\Support\Facades\DB;
-
+use Livewire\Attributes\Computed;
 
 class CustomerOrderDetails extends Component
 {
@@ -21,7 +22,7 @@ class CustomerOrderDetails extends Component
     public $quantity =1;
     public $wharehouse= "WFG";
     public $remarks;
-    public $items;
+    public $items =[];
     public $customer_id;
     public $edit_id;
     public $delete_id;
@@ -32,6 +33,9 @@ class CustomerOrderDetails extends Component
     public $final_price;
     public $status;
     public $order_id;
+    public $order_type;
+    public $specifications;
+    public $area = 0;
     protected $customerOrderDetailsService;
     protected $write_permission ="write order details";
 
@@ -45,35 +49,42 @@ class CustomerOrderDetails extends Component
 
  
     public function mount(){
-        $this->check_permission('view orders');
-        $this->items=productDetail::all('id','item_code');
+        $this->check_permission('view orders');   
+        $this->order_type = customerOrder::findOrFail($this->order_id)->order_type;
+        $this->items= $this->customerOrderDetailsService->getItems($this->order_type); 
         $this->wharehouses= Warehouse::all(); 
             }
-
-
-
-      
- 
-protected function rules()
-   {
-        return [ 
-        'order_id'=>'required|numeric',
-        'item_id' => 'required|numeric',
-        'quantity' => 'required|numeric',
-        'unit_price' => 'required|numeric',
-        'wharehouse' => 'required',
-        'branch_extra_discount'=> 'numeric|required|between:0,0.85',
-        'unit_price_after_discount' =>'required|numeric',
-        'final_price'=>'required|numeric',
-        'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
-
-                    ];                   
-}
+            protected function rules()
+            {
+                $rules = [ 
+                    'order_id' => 'required|numeric',
+                    'item_id' => 'required|numeric',
+                    'quantity' => 'required|numeric',
+                    'unit_price' => 'required|numeric',
+                    'wharehouse' => 'required',
+                    'branch_extra_discount' => 'numeric|required|between:0,0.85',
+                    'unit_price_after_discount' => 'required|numeric',
+                    'final_price' => 'required|numeric',
+                    'specifications'=>'nullable',
+                    'area'=>'nullable',
+                    'order_type' => 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+                    'remarks' => 'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+                ];
+            
+                // Conditionally add rules for specifications and area based on order_type
+                if ($this->order_type === "kitchen non-standard" || $this->order_type === "living non-standard") {
+                    $rules['specifications'] = 'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-\,\.]+$/u';
+                    $rules['area'] = 'nullable|numeric';
+                }          
+                return $rules;                   
+            }
+            
 
 
 public function closeModal()
 {
- $this->reset(['item_id','quantity','wharehouse','remarks' ,'branch_extra_discount','unit_price_after_discount','final_price']);
+ $this->reset(['item_id','quantity','wharehouse','remarks','unit_price' ,'branch_extra_discount',
+ 'unit_price_after_discount','final_price','specifications','area']);
 }
 
 
@@ -111,6 +122,7 @@ $this->quantity=$edit->quantity;
 $this->wharehouse=$edit->wharehouse;
 $this->branch_extra_discount=$edit->branch_extra_discount;
 $this->unit_price=$edit->unit_price;
+$this->specifications=$edit->specifications;
 $this->remarks=$edit->remarks;
  }
 
@@ -149,20 +161,39 @@ $this->remarks=$edit->remarks;
  }
 }
 
-
+   #[Computed]
+   public function data(){
+    return
+    $this->customerOrderDetailsService->index($this->order_id,$this->search,$this->sortfilter,$this->perpage);
+   }
     public function render()
     {
-        $data= OrderDetail::with('order','productDetails')
-        ->where('order_id' ,$this->order_id)
-        ->orderBy('id',$this->sortfilter)->paginate($this->perpage);
-         $this->status = customerOrder::FindOrFail($this->order_id)->status->name;
-        if($this->item_id){
-        $this->unit_price = ProductDetail::with(['price' => function ($query) {
-            $query->where('pricable_id', $this->item_id);
-        }])->first()->price->final_price;
+        $this->status = customerOrder::FindOrFail($this->order_id)->status->name; 
+
+      
+         
+        
+        if($this->item_id && $this->order_type !=="kitchen non-standard"){
+        $this->unit_price = Price::where('pricable_id', $this->item_id)->first()->final_price;
         $this->unit_price_after_discount = $this->unit_price  - ($this->unit_price * $this->branch_extra_discount );
         $this->final_price = $this->unit_price_after_discount * $this->quantity;
     }
-        return view('livewire.admin.orders.customer-order-details' ,compact('data'));
+
+    if($this->item_id && $this->order_type == "kitchen non-standard"){
+        preg_match('/(\d+)\s*-\s*(\d+)/',$this->specifications, $matches);
+        if (count($matches) === 3) {
+            $num1 = intval($matches[1]);  
+            $num2 = intval($matches[2]); 
+            $this->area =  ($num1 * $num2/100);
+    }
+    }
+
+    if($this->item_id && $this->order_type == "kitchen non-standard" && $this->area > 0){
+        $this->unit_price =  ceil(Price::where('pricable_id', $this->item_id)->first()->final_price / $this->area);
+        $this->unit_price_after_discount = $this->unit_price  - ($this->unit_price * $this->branch_extra_discount );
+        $this->final_price = $this->unit_price_after_discount * $this->quantity;
+    }
+
+        return view('livewire.admin.orders.customer-order-details');
     }
 }

@@ -14,8 +14,8 @@ class productSeeder extends Seeder
      */
     public function run(): void
     {
-        $batchSize = 1000;
-        $totalRecords = 100000;
+        $batchSize = 2000;
+        $totalRecords = 1000000;
         $batches = ceil($totalRecords / $batchSize);
 
         for ($i = 0; $i < $batches; $i++) {

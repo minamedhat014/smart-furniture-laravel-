@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Models\Admin;
 use App\Models\offer;
+use Twilio\Rest\Client; 
 use Illuminate\Support\Facades\Auth;
 
 
@@ -12,22 +13,15 @@ function dateFormat($date,$format){
     return \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format($format);    
 }}
 
-////////////////////////////////////////////
 
-if (! function_exists('trimString')) {
-function trimString($string, $repl, $limit) 
-{
-  if(strlen($string) > $limit) 
-  {
-    return substr($string, 0, $limit) . $repl; 
-  }
-  else 
-  {
-    return $string;
-  }
-}}
 
-////////////////////////////////////////////////////
+if (! function_exists('onlyDate')) {
+  function onlyDate($date,$format = 'd-m-Y'){
+    return \Carbon\Carbon::parse($date)->format($format);   
+  }}
+  
+
+
 
 if(! function_exists('userFactory')){
   function userFactory(){
@@ -110,6 +104,29 @@ if (!function_exists('successMessage')) {
   }
 }
 
+if (!function_exists('sendSms')) { 
+  function sendSms($message ,$receiverNumber)
+  {
+    try {
+      $basic  = new \Vonage\Client\Credentials\Basic("a42de8be", "kMLbNQn3pW8PXN9N");
+       $client = new \Vonage\Client($basic);
+
+       $response = $client->sms()->send(
+        new \Vonage\SMS\Message\SMS($receiverNumber, 'Smart Funiture',$message)
+    );
+    
+    $message = $response->current();
+    
+    if ($message->getStatus() == 0) {
+      session()->flash('success','message sent successfully'); 
+    } else {
+      session()->flash('error',"The message failed with status: " . $message->getStatus() . "\n"); 
+    }
+        } catch (Exception $e) {     
+          session()->flash('error', $e->getMessage()); 
+        }
+    }
+}
 
 
 

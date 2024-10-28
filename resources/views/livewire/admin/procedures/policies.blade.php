@@ -15,22 +15,23 @@
         <th>Policy Name </th>
         <th>Polciy Description</th>
         <th>Created By </th>
-        @can('write policy')
         <th> Actions </th>
-        @endcan
+  
       </x-slot>
       
       <x-slot name="body">
        
                                
         @foreach($this->policies as $key => $row)
-        <tr >
+          @can('view '.$row->department?->name.' policy')  
+          <tr >
           <td>{{ $row->id }}</td>
           <td>{{$row->company?->name}} </td>
           <td>{{$row->department?->name}} </td>
           <td> {{$row->policy_name}}</td>
           <td> {{$row->policy_description}}</td>
           <td>{{displayCreatedBy($row->created_by)}}</td>
+    
                 <td>
                   <div>
                     <button type="button" class="btn btn-default dropdown-toggle custom-button" data-toggle="dropdown">
@@ -43,7 +44,8 @@
                       <li><a class="dropdown-item"  href="{{route('policy.preview',['id'=>$row->id])}}" target="_blank" type="button"  ><i class="fa-solid fa-eye"></i> Preview PDF</a> </li>
                     </div>
                 </td> 
-        </tr>
+              </tr>
+                @endcan  
         @endforeach
     
       </x-slot>

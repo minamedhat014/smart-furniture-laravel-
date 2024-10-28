@@ -3,10 +3,11 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class productCancelNotification extends Notification
+class productCancelNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -34,12 +35,17 @@ class productCancelNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url =route('productSHOW',$this->product->id);
+       // Generate the URL for the product details page
+    $url = route('productSHOW', $this->product->id);
 
-        return (new MailMessage)
-        ->line($this->product->name .' '.$this->product->type->name.' has been cancelled ')
-        ->action('more details', $url)
-        ->line('Thanks');
+    // Return a new mail message
+    return (new MailMessage)
+        ->subject('smart Product Cancellation Notice')  // Custom subject line
+        ->greeting('Hello!')  // Add a greeting line
+        ->line($this->product->name . ' (' . $this->product->type->name . ') has been cancelled.')
+        ->action('More Details', $url)  // Provide action with the URL to product details
+        ->line('Thanks for using our application!')  // Closing line
+        ->salutation('Best regards, The SmartFurniture Team'); 
    
      }
      

@@ -1,6 +1,6 @@
 @props(['fname', 'bname'])
 
-<div class="col-lg-4 col-md-8 col-sm-12">
+<div class="col-lg-3 col-md-8 col-sm-12">
   <div class="feild ">
     <a id="uploadPhoto" wire:click="save"> </a>
     <label >{{$fname}}  <span {{ $attributes->merge(['class' => ''])}}> </span> </label>

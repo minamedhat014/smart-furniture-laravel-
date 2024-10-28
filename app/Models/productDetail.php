@@ -16,19 +16,14 @@ class productDetail extends Model implements HasMedia
 {
   
     use HasFactory,InteractsWithMedia;
-    use FormatDate;
+   
 
 
     protected $table='product_details';
     protected $guarded =['id'];
 
 
-    
-public function getFormattedCreatedAtAttribute()
-{
-    return $this->formatDateOnly($this->created_at);
-}
-
+  
 
     public function product(): BelongsTo
     {

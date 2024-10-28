@@ -27,16 +27,14 @@ use HasFilesUpload;
      public $sourceFilter =null;
      public $statusFilter= null ;
      public $branches=[];
-     public $sales=[];
      public $branch_id = null;
      public $status_id =1;
      public $sales_name;
      public $delivery_address_id;
      public $edit_id;
-     public $address=[];
-     public $customer=[];
      public $customer_id;
      public $remarks;
+     public $order_type;
      public $order;
      public $appointment_start;
      public $appointment_end;
@@ -64,7 +62,7 @@ use HasFilesUpload;
        public function closeModal()
        {
         $this->reset(['status_id','sales_name','delivery_address_id','photos','remarks',
-        'trackedOrder','appointment_start','appointment_end','appointment_importence'
+        'trackedOrder','appointment_start','appointment_end','appointment_importence','order_type'
     ]);
        }
    
@@ -79,6 +77,7 @@ protected function rules()
         'sales_name'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
         'delivery_address_id'=>'required|numeric',
         'remarks'=>'nullable|regex:/^[\p{Arabic}a-zA-Z0-9\s\-]+$/u',
+        'order_type'=>'required|regex:/^[\p{Arabic}a-zA-Z0-9\s\-\&]+$/u',
                     ];                   
 }
 
@@ -138,6 +137,7 @@ $this->order= customerOrder::findOrFail($id);
 $this->branch_id=$edit->branch_id;
 $this->status_id=$edit->status_id;
 $this->sales_name=$edit->sales_name;
+$this->order_type=$edit->order_type;
 $this->delivery_address_id=$edit->delivery_address_id;
 $this->remarks=$edit->remarks;
  }
@@ -222,7 +222,7 @@ public function sendBack(){
 
      ]);
     $this->AppointmentService->store($validatedData,$order);
-    $this->success();
+    $this->success();      
     }catch (\Exception $e){
      DB::rollBack();
      errorMessage($e);
@@ -240,9 +240,9 @@ public function sendBack(){
 
     public function render()
     {
-           $this->sales= showRoomTeam::where('showRoom_id',$this->branch_id)->get();     
-            $this->customer=customer::with('stores','phone','address')->where('id',$this->customer_id)->first();
-            $this->address=customerAddress::where('customer_id',$this->customer_id)->get();     
-        return view('livewire.admin.orders.customer-orders'); 
+           $sales= showRoomTeam::where('showRoom_id',$this->branch_id)->get();     
+            $customer=customer::with('stores','phone','address')->where('id',$this->customer_id)->first();
+            $address=customerAddress::where('customer_id',$this->customer_id)->get(); 
+        return view('livewire.admin.orders.customer-orders',compact('sales','customer','address')); 
     }
 }

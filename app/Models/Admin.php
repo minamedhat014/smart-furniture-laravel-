@@ -92,9 +92,5 @@ class Admin extends Authenticatable implements HasMedia
     return $this->belongsTo(Company::class,'company_id');
    }
    
-   public function routeNotificationForMail($notification)
-   {
-
-    return $this->email_address;
-     }
+  
 }

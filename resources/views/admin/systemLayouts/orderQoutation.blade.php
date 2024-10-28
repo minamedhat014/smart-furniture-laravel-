@@ -28,7 +28,7 @@
        <div class="line"> <i class="fa-solid fa-calendar"></i>
          <span class="title"> order date </span>
          <span class="system-feedback">      
-            {{$order->created_at}}
+            {{onlyDate($order->created_at)}}
           </span>
       </div> 
       

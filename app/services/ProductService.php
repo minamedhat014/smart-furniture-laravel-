@@ -5,11 +5,12 @@ namespace App\services;
 use App\Models\Product;
 use App\Models\productDetail;
 use Illuminate\Support\Facades\DB;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Notification;
 use App\serviceContract\productServiceContract;
+
 use App\Notifications\productCancelNotification;
 use App\Notifications\productLaunchNotification;
-use GrahamCampbell\ResultType\Success;
 
 class ProductService  implements productServiceContract{
 
@@ -105,25 +106,24 @@ DB::beginTransaction();
 
 
     public function launch(int $id){ 
-
-        $items = productDetail::where('product_id',$id)->get('id')->toArray();
-        if($items){
-            try{
+        try{
+            $items = productDetail::where('product_id',$id)->get('id')->toArray();
+        if($items){  
                $product= Product::FindOrFail($id);
                $product->update([
                 'status'=> 2,
                 'updated_by'=>authName(),
                 ]);
-                Notification::send(FactorySalesRecipients(), new productLaunchNotification($product));    
-                 successMessage();
+                Notification::send(FactorySalesRecipients(), new productLaunchNotification($product));
+            }else{
+                session()->flash('error','there is no items for this product , please add item details firstly');
+            };
             }catch (\Exception $e) {
             DB::rollBack();
            errorMessage($e);
             } 
 
-        }else{
-            errorMessage('there is no items for this product , please add item details firstly');
-        };
+       
        
        }
 

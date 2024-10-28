@@ -21,9 +21,8 @@
      
 
              
-
+               @can('view settings')
                <li class="nav-item has-treeview menu-close">
-                @can('view settings')
                 <a class="nav-link active">
                   <i class="fa-solid fa-gear"></i>
                   <p>
@@ -32,38 +31,42 @@
                   </p>
                 </a>
                 @endcan
+
+            <ul class="nav nav-treeview"> 
               
-            <ul class="nav nav-treeview">           
+              @can('view activity log')
           <li>
-            @can('view activity log')
               <a href="{{route('systemActivity.index')}}" class="nav-link">
                 <i class="fa-solid fa-laptop-file"></i>
                 <p> System Activity Log </p>
               </a>
-              @endcan 
             </li>
+            @endcan 
 
+            @can('view import center')
             <li>
-              @can('view import center')
                 <a href="{{route('settings.importCenter')}}" class="nav-link">
                   <i class="fa-solid fa-cloud-arrow-up"></i>
                   <p> Data Import Center </p>
                 </a>
-                @endcan 
               </li>
+              @endcan 
 
-            <li>
               @can('view system list')
+            <li> 
                 <a href="{{route('dropdown.index')}}" class="nav-link">
                   <i class="fa-solid fa-circle-chevron-down"></i>
                   <p> Dropdown Lists</p>
                 </a>
-                @endcan 
               </li>
+              @endcan 
+
+              
  </ul>
 
- <li class="nav-item has-treeview menu-close">
+
   @can('view users')
+  <li class="nav-item has-treeview menu-close">
   <a class="nav-link active">
     <i class="fa-solid fa-users-gear"></i>
     <p>
@@ -100,9 +103,8 @@
             </ul>
           </li>
 
-
+          @can('view policies')
           <li class="nav-item has-treeview menu-close">
-            @can('view procedure|view policies')
             <a href="" class="nav-link active">
               <i class="fa-solid fa-gears"></i>
               <p>
@@ -110,22 +112,21 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            @endcan
+           
             <ul class="nav nav-treeview">
-              
+             
+              @can('view policies')
           <li>
-            @can('view policies')
               <a href="{{route('policy.index')}}" target="_blank"  class="nav-link">
                 <i class="fa-solid fa-laptop-file"></i>
                 <p> Policies List </p>
               </a>
-              @endcan 
             </li>
-
+            @endcan 
 
           </ul>
       </li>
-          
+        @endcan  
           <li class="nav-item has-treeview menu-close">
             @can('view products')
             <a href="" class="nav-link active">

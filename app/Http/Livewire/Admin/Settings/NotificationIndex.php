@@ -30,6 +30,7 @@ class NotificationIndex extends Component
         $readnotifications = $user->readNotifications()
             ->where('data', 'LIKE', '%' . $this->search . '%')
             ->orderBy('created_at', 'desc')
+            ->take(10)
             ->get();
         return view('livewire.admin.settings.notification-index',compact('readnotifications','unReadnotifications'));
     }

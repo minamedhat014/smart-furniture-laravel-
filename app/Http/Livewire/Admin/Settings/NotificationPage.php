@@ -15,8 +15,9 @@ use HasTable;
     public function render()
     {
    
-        $user = Auth::user();
-        $data = $user->readNotifications()
+       
+        $data = authedUser()->readNotifications()
+        ->with('notifiable')
       ->where('data', 'like', '%'.$this->search.'%')->orderBy('id',$this->sortfilter)->paginate($this->perpage);
         return view('livewire.admin.settings.notification-page',compact('data'));
     }

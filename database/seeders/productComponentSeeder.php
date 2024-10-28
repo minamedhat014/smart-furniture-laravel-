@@ -200,7 +200,10 @@ class productComponentSeeder extends Seeder
             'id' => '38',
             'name' => 'Puff',
             'type_id' => '1',
-        )    
+        )  ,array(
+            'id' => '39',
+            'name' => 'Panels and fronts',
+            'type_id' => '7',)   
        
     
 

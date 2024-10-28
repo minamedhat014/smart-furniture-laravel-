@@ -28,14 +28,10 @@ class products extends Component
     use HasPhotosUpload;
     use HasTable;
     
-  
-
-
     public $sourceFilter = null;
-    public $statusFilter = null ;
+    public $statusFilter =2;
     public $startDate ;
     public $endDate;  
-
     public $name
     ,$type_id
     ,$source_id,
@@ -49,18 +45,13 @@ class products extends Component
     #[Locked]
     public $product_id;
     public $Standard_ability;
-
     public $sku;
     public $item_material=[];
     public $fabric;
     public $sponge ;
     public $sponge_thickness;
-
-    public $types;
     public $warranty_years;
-    public $sources;
-    public $type_name;
-    public $Materials;  
+    public $type_name; 
     public $chair_added;   
     public $coshin_number;      
     public $coshin_color;
@@ -75,11 +66,6 @@ public function __construct()
     $this->ProductService = app(ProductService::class);
 }
    
-  
-  
-
-
-
        public function closeModal()
        {
         $this->reset(['name','type_id','source_id','descripation','item_material','warranty_years',
@@ -93,13 +79,10 @@ public function __construct()
    public function mount(){
     $this->check_permission('view products');
 
-    if(!authedCan($this->write_permission)){
-     $this->statusFilter = 2;
+    if(authedCan($this->write_permission)){
+     $this->statusFilter =1;
     }
 
-    $this->types =productType ::all(['id','name']);
-    $this->sources =productSource::all(['id','name']);
-    $this->Materials =Material::all();  
    }
 
 
@@ -268,8 +251,10 @@ public function data(){
 
 public function render()
     {
-        
-        return view('livewire.Admin.products.Products');
+        $types =productType ::all(['id','name']);
+        $sources =productSource::all(['id','name']);
+        $Materials =Material::all();  
+        return view('livewire.Admin.products.Products',compact('types','sources','Materials'));
      
     }
 }

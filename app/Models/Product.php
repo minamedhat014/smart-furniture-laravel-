@@ -18,16 +18,12 @@ class Product extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia,HasFactory;
     use LogsActivity;
-    use FormatDate;
+
 
 protected $table='products';
 protected $guarded =['id'];
 
 
-public function getFormattedCreatedAtAttribute()
-{
-    return $this->formatDateOnly($this->created_at);
-}
 
 public function getActivitylogOptions(): LogOptions
 {
@@ -36,7 +32,9 @@ public function getActivitylogOptions(): LogOptions
     // Chain fluent methods for configuration options
 }
 
+   
 
+ 
     public function items(): HasMany
     {
         return $this->HasMany(productDetail::class,'product_id');

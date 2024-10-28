@@ -21,10 +21,8 @@
 
     <x-form-select  value="id" display="name"  :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="Divisablity" bname="divisablity" icon="fa-solid fa-circle-check" class="req"  />
     <x-form-select  value="id"  display="name" :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="Standard ability" bname="Standard_ability" icon="fa-solid fa-circle-check" class="req" />
-
-      @if($Standard_ability ==1)
-      <x-form-input  type="text" fname="Warranty years" bname="warranty_years" icon="fa-solid fa-hash" /> 
-      @endif
+      <x-form-input  type="text" fname="Warranty years" bname="warranty_years" icon="fa-solid fa-bookmark" /> 
+    
    <x-form-photo fname="Images"  bname="photos">
   <x-slot name="preview">
     @if ($photos)
@@ -60,11 +58,7 @@
     @endif
     <x-form-select  value="id" display="name" :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="Divisablity" bname="divisablity" icon="fa-solid fa-circle-check" class="req"  />
     <x-form-select  value="id" display="name" :options="[['id' => 1, 'name' => 'Yes'],['id' => 0, 'name' => 'No']]" fname="Standard ability" bname="Standard_ability" icon="fa-solid fa-circle-check" class="req" />
-
-      @if($Standard_ability ==1)
-      <x-form-input  type="text" fname="Warranty years" bname="warranty_years" icon="fa-solid fa-hash" /> 
-      @endif
-      
+    <x-form-input  type="text" fname="Warranty years" bname="warranty_years" icon="fa-solid fa-bookmark" /> 
    <x-form-photo fname="Images"  bname="photos">
   <x-slot name="preview">
     @if ($photos)

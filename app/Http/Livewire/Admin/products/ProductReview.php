@@ -135,8 +135,8 @@ public function deleteID(int $delete_id){
 
     public function render()
     {
-        $this->data=ProductRate::where('product_id',$this->product_id)->where('created_by',authName())->get();
+        $data=ProductRate::where('product_id',$this->product_id)->where('created_by',authName())->get();
         $id = $this->product_id;
-        return view('livewire.admin.products.product-review');
+        return view('livewire.admin.products.product-review',compact('data'));
     }
 }

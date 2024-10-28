@@ -46,14 +46,14 @@ public $zone;
 public $date_of_birth;
 public $date_of_marriage;
 public $address;
-public $zones;
+
 
 #[Locked]
 public $edit_id;
 public $selected_id;
 public $editAddress;
 protected $customerService;
-public $titles;
+
 protected $write_permission ="write customer";
 
 
@@ -69,8 +69,6 @@ public function mount(){
  if($this->showList == false){
   $this->perpage = 1;
  }
-  $this-> zones = Zone::all('id','name');
-  $this->titles = CustomerTitles::all();
   if(userFactory()){
    $this->branches = showRoom::all('id','name');
   }else{
@@ -268,8 +266,9 @@ public function edit(int $id){
     public function render()
     {
         $types=CustomerType::all('name');
-     
+        $zones = Zone::all();
+        $titles = CustomerTitles::all();
 
-        return view('livewire.admin.customers.customer-index',compact('types'));
+        return view('livewire.admin.customers.customer-index',compact('types','zones','titles'));
     }
 }

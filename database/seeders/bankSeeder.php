@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\banks;
+use App\Models\Bank;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 
 class bankSeeder extends Seeder
 {
@@ -17,7 +17,7 @@ class bankSeeder extends Seeder
          DB::table('banks')->delete();
         $data=['ADIB','CIP','MISR ','MASHREQ ','BDC','NBE','FAB','NBD','NBK','AUB','HSBC','ai BANK','SAIB','VALUE','AMAN','CONTACT'];
         foreach ($data as $row) {
-            banks::create([
+            Bank::create([
                   'name'=> $row
                 ]);
     }

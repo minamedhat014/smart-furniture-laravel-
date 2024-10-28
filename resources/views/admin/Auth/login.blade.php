@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+  <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <style>
 body {
@@ -171,9 +172,9 @@ h2 {
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script> 
-    <lottie-player src="https://lottie.host/e04aedf7-cf39-450d-a971-4c6178e46e2e/xyPFjjL5at.json" background="transparent" speed="1" style="width: 350px; height: 350px;" loop autoplay></lottie-player>
+    <img src="{{asset('assets/dist/img/login.gif')}}" alt="login image" style="height:75%; ">
       </div>
+
       <div class="col-md-6 contents">
         <div class="row justify-content-center">
           <div class="col-md-8">
@@ -190,6 +191,7 @@ h2 {
          
           <form action="{{route('admin.login')}}" method="post">
             @csrf
+      
 
             <div class="form-group first">
               <label for="username">Email</label>
@@ -215,6 +217,8 @@ h2 {
 
       
             </div>
+            <div class="g-recaptcha mt-4" data-sitekey={{config('services.recaptcha.key')}}></div>
+            
           </form>
           </div>
         </div>

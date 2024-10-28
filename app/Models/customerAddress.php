@@ -25,7 +25,7 @@ class customerAddress extends Model
     protected $table ='customer_addresses';
     protected $guarded =['id'];
 
-    public function customerAddress ():BelongsTo
+    public function customer ():BelongsTo
     {
         return $this->belongsTo(Customer::class,'customer_id');
     }

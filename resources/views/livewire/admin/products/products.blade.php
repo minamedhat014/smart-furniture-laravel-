@@ -43,7 +43,7 @@
         @foreach ($this->data as $row)
         <tr>
         <td>{{$row->id}}</td>
-        <td>{{$row->formatted_created_at}}</td>
+        <td>{{onlyDate($row->created_at)}}</td>
         <td>{{$row->name}}</td>
         <td>{{$row->sku}}</td>
         <td>{{$row->type?->name}}</td>
